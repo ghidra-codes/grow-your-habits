@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
+		"types:db": "npx supabase gen types typescript --project-id kynxfwpeapqjvdbfpkus > src/types/supabase.ts",
 		"check": "npm run lint && npm run typecheck && npm run type-coverage",
 		"lint": "eslint . --ext .ts,.tsx",
 		"typecheck": "tsc --noEmit",
@@ -20,6 +21,7 @@
 		"react-icons": "^5.5.0",
 		"react-router": "^7.9.6",
 		"sass": "^1.94.1",
+		"supabase": "^2.58.5",
 		"type-coverage": "^2.29.7",
 		"zustand": "^5.0.8"
 	},

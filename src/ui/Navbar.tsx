@@ -1,6 +1,6 @@
 import { PiPlant } from "react-icons/pi";
 import { MdChecklist } from "react-icons/md";
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/utils/supabase-client";
 import { BiLogOut } from "react-icons/bi";
 
 const Navbar = () => {

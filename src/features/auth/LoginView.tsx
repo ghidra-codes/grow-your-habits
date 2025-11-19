@@ -1,7 +1,7 @@
+import { supabase } from "@/utils/supabase-client";
 import { useState } from "react";
-import { supabase } from "@/utils/supabase";
-import { useNavigate } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 interface LoginFormData {
 	email: string;
@@ -34,10 +34,10 @@ const LoginView = () => {
 	};
 
 	return (
-		<>
-			<form onSubmit={handleSubmit(onSubmit)}>
+		<div className="auth-container">
+			<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
 				<h2>Login</h2>
-				{error && <p style={{ color: "red" }}>{error}</p>}
+				{error && <p className="auth-message auth-message--error">{error}</p>}
 
 				<input
 					type="email"
@@ -45,7 +45,6 @@ const LoginView = () => {
 					{...register("email", { required: "Email is required" })}
 					required
 				/>
-
 				<input
 					type="password"
 					placeholder="Password"
@@ -54,12 +53,14 @@ const LoginView = () => {
 				/>
 
 				<button type="submit" disabled={loading}>
-					{loading ? "Loading..." : "Log In"}
+					{loading ? "Logging In..." : "Log In"}
 				</button>
-			</form>
 
-			<a href="/register">Register</a>
-		</>
+				<div className="auth-link">
+					Need an account? <a href="/register">Register here</a>
+				</div>
+			</form>
+		</div>
 	);
 };
 

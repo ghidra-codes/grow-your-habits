@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/utils/supabase-client";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
 
@@ -13,14 +13,11 @@ const RegisterView = () => {
 	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
 
-	const [message, setMessage] = useState<string | null>(null);
-
 	const { register, handleSubmit } = useForm<RegisterFormData>();
 
 	const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
 		setLoading(true);
 		setError(null);
-		setMessage(null);
 
 		const { error: authError } = await supabase.auth.signUp({
 			email: data.email,
@@ -37,29 +34,34 @@ const RegisterView = () => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<h2>Register</h2>
-			{error && <p style={{ color: "red" }}>{error}</p>}
-			{message && <p style={{ color: "green" }}>{message}</p>}
+		<div className="auth-container">
+			<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+				<h2>Register</h2>
 
-			<input
-				type="email"
-				placeholder="Email"
-				{...register("email", { required: "Email is required" })}
-				required
-			/>
+				{error && <p className="auth-message auth-message--error">{error}</p>}
 
-			<input
-				type="password"
-				placeholder="Password (min 6 characters)"
-				{...register("password", { required: "Password is required" })}
-				required
-			/>
+				<input
+					type="email"
+					placeholder="Email"
+					{...register("email", { required: "Email is required" })}
+					required
+				/>
+				<input
+					type="password"
+					placeholder="Password (min 6 characters)"
+					{...register("password", { required: "Password is required" })}
+					required
+				/>
 
-			<button type="submit" disabled={loading}>
-				{loading ? "Creating Account..." : "Register"}
-			</button>
-		</form>
+				<button type="submit" disabled={loading}>
+					{loading ? "Creating Account..." : "Register"}
+				</button>
+
+				<div className="auth-link">
+					Already have an account? <a href="/login">Log in</a>
+				</div>
+			</form>
+		</div>
 	);
 };
 
