@@ -1,0 +1,30 @@
+@use "../abstracts/index" as *;
+
+.vertical-navbar {
+	width: fit-content;
+	background-color: $rich-black-lightest;
+	height: 100vh;
+	padding: 1.25rem;
+
+	ul {
+		@include flex-center;
+		flex-direction: column;
+		gap: 1rem;
+
+		li {
+			@include flex-center;
+			padding: 0.5rem;
+			border-radius: 0.5rem;
+			border: 2px solid $green-olive;
+
+			svg {
+				width: 1.5rem;
+				height: 1.5rem;
+			}
+
+			a {
+				@include flex-center;
+			}
+		}
+	}
+}

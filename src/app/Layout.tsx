@@ -1,7 +1,14 @@
+import { useAuthStore } from "@/store/useAuthStore";
 import Navbar from "@/ui/Navbar";
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
 const Layout = () => {
+	const { session, loading } = useAuthStore();
+
+	if (loading) return <div>Loading app...</div>;
+
+	if (!session) return <Navigate to="/login" replace />;
+
 	return (
 		<div>
 			<Navbar />
