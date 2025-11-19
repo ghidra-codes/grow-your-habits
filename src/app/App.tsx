@@ -1,9 +1,13 @@
+import { BrowserRouter } from "react-router";
+import Routes from "./routes";
+import "../scss/main.scss";
+
 function App() {
-  return (
-    <>
-      <h1>App</h1>
-    </>
-  );
+	return (
+		<BrowserRouter>
+			<Routes />
+		</BrowserRouter>
+	);
 }
 
 export default App;

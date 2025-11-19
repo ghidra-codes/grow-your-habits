@@ -1,0 +1,32 @@
+@use "../abstracts/index" as *;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Oxanium&display=swap");
+
+h1 {
+	@include fluid-type(h1);
+}
+
+h2 {
+	@include fluid-type(h2);
+}
+
+h3 {
+	@include fluid-type(h3);
+	font-family: "Oxanium", sans-serif;
+}
+
+p {
+	@include fluid-type(p);
+	letter-spacing: 0.01em;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: 0.02em;
+}
+
+button {
+	font-family: inherit;
+	letter-spacing: 0.05em;
+	@include fluid-type(button-text);
+}

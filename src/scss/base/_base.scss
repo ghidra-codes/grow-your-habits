@@ -1,0 +1,58 @@
+@use "sass:map";
+@use "../abstracts/index" as *;
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	font-size: 1.25rem;
+	font-family: "Inter", sans-serif;
+	background-color: $rich-black;
+	line-height: 1.6;
+	color: $off-white;
+	color-scheme: dark;
+	overflow-x: hidden;
+}
+
+main {
+	max-width: 1525px;
+	margin: 0 auto;
+
+	padding: 0 map.get($spacing, sm);
+
+	@include respond(sm) {
+		padding: 0 map.get($spacing, md);
+	}
+
+	@include respond(md) {
+		padding: 0 map.get($spacing, lg);
+	}
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	cursor: pointer;
+	letter-spacing: 0.05em;
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	display: inline-block;
+	max-width: 100%;
+	height: auto;
+}

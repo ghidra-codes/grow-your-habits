@@ -1,0 +1,28 @@
+@use "sass:map";
+
+@use "./variables" as *;
+
+@mixin respond($breakpoint) {
+	@if map.has-key($breakpoints, $breakpoint) {
+		@media (min-width: map.get($breakpoints, $breakpoint)) {
+			@content;
+		}
+	} @else {
+		@warn "No value found for breakpoint: #{$breakpoint}";
+	}
+}
+
+@mixin fluid-type($element) {
+	@if map.has-key($font-sizes, $element) {
+		$size-map: map.get($font-sizes, $element);
+		font-size: clamp(map.get($size-map, min), map.get($size-map, fluid), map.get($size-map, max));
+	} @else {
+		@warn "No font-size defined for #{$element}";
+	}
+}
+
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
