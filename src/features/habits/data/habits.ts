@@ -8,7 +8,9 @@ import { supabase } from "@/utils/supabase-client";
 export const getHabits = async (userId: string): Promise<ServiceResponse<Habit[]>> => {
 	const { data, error } = await supabase
 		.from("habits")
-		.select("id, name, created_at, user_id, description, is_active")
+		.select(
+			"id, name, created_at, user_id, description, frequency_type, target_per_week, target_per_month"
+		)
 		.eq("user_id", userId);
 
 	if (error) console.error("Habits DB Error:", error);
@@ -24,9 +26,24 @@ export const addHabit = async (
 	userId: string,
 	description: string
 ): Promise<ServiceResponse<Habit>> => {
+	const frequency_type = "daily";
+
+	const defaults = {
+		daily: { target_per_week: null, target_per_month: null },
+		weekly: { target_per_week: 3, target_per_month: null },
+		monthly: { target_per_week: null, target_per_month: 10 },
+		custom: { target_per_week: null, target_per_month: null },
+	}[frequency_type];
+
 	const { data, error } = await supabase
 		.from("habits")
-		.insert({ name, user_id: userId, description })
+		.insert({
+			name,
+			user_id: userId,
+			description,
+			frequency_type,
+			...defaults,
+		})
 		.select()
 		.single();
 

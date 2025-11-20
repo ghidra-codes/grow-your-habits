@@ -6,6 +6,10 @@
 @use "./base/base";
 @use "./base/typography";
 
+@use "./layout/layout";
+
 @use "./ui/navbar";
+@use "./ui/modal";
 
 @use "./features/auth-views";
+@use "./features/habits-form";

@@ -11,6 +11,7 @@ interface LoginFormData {
 const LoginView = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+
 	const navigate = useNavigate();
 
 	const { register, handleSubmit } = useForm<LoginFormData>();

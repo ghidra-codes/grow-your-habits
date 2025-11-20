@@ -4,7 +4,8 @@
 	width: fit-content;
 	background-color: $rich-black-lightest;
 	height: 100vh;
-	padding: 1.25rem;
+	padding: 1rem;
+	margin-right: 5px;
 
 	ul {
 		@include flex-center;

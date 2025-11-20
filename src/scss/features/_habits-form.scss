@@ -1,0 +1,78 @@
+@use "../abstracts/index" as *;
+
+.habits-form {
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	input {
+		width: 100%;
+		padding: 0.75rem 1rem;
+
+		background: $jet-mid;
+		color: $off-white;
+
+		border: 1px solid $jet-brighter;
+		border-radius: 6px;
+
+		font-size: 1rem;
+
+		transition: border-color 0.15s ease, background-color 0.15s ease;
+
+		&::placeholder {
+			color: $jet-brighter;
+		}
+
+		&:focus {
+			border-color: $green-primary;
+			background: $rich-black-light;
+			outline: none;
+		}
+	}
+
+	// BUTTON GROUP
+	.form-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+	}
+
+	// BUTTON BASE
+	.form-btn {
+		padding: 0.6rem 1.2rem;
+		border-radius: 6px;
+		font-size: 0.95rem;
+		font-weight: 500;
+
+		cursor: pointer;
+		transition: background 0.15s ease, color 0.15s ease, border 0.15s ease;
+	}
+
+	// CANCEL BUTTON
+	.form-btn--cancel {
+		background: transparent;
+		border: 1px solid $jet-mid;
+		color: $jet-bright;
+
+		&:hover {
+			border-color: $jet-brighter;
+			color: $off-white;
+		}
+	}
+
+	// PRIMARY BUTTON
+	.form-btn--confirm {
+		background: $green-primary;
+		border: 1px solid $green-dark;
+		color: $rich-black;
+
+		&:hover {
+			background: $green-dark;
+			border-color: $green-primary;
+			color: $off-white;
+		}
+	}
+}

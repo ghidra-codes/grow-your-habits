@@ -6,13 +6,14 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
-		"types:db": "npx supabase gen types typescript --project-id kynxfwpeapqjvdbfpkus > src/types/supabase.ts",
+		"types:db": "npx supabase gen types typescript --project-id kynxfwpeapqjvdbfpkus > src/types/supabase.types.ts",
 		"check": "npm run lint && npm run typecheck && npm run type-coverage",
 		"lint": "eslint . --ext .ts,.tsx",
 		"typecheck": "tsc --noEmit",
 		"type-coverage": "type-coverage --strict --at-least 100 -p ./tsconfig.app.json"
 	},
 	"dependencies": {
+		"@radix-ui/react-dialog": "^1.1.15",
 		"@supabase/supabase-js": "^2.83.0",
 		"framer-motion": "^12.23.24",
 		"react": "^19.2.0",
@@ -36,7 +37,6 @@
 		"eslint-plugin-react-refresh": "^0.4.24",
 		"globals": "^16.5.0",
 		"typescript": "~5.9.3",
-		"typescript-eslint": "^8.46.3",
 		"vite": "^7.2.2"
 	}
 }
