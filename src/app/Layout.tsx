@@ -15,7 +15,9 @@ const Layout = () => {
 			<Navbar />
 
 			<main>
-				<Outlet />
+				<div className="content-wrapper">
+					<Outlet />
+				</div>
 			</main>
 		</div>
 	);

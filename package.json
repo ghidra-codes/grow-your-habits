@@ -13,8 +13,10 @@
 		"type-coverage": "type-coverage --strict --at-least 100 -p ./tsconfig.app.json"
 	},
 	"dependencies": {
+		"@radix-ui/react-checkbox": "^1.3.3",
 		"@radix-ui/react-dialog": "^1.1.15",
 		"@supabase/supabase-js": "^2.83.0",
+		"@tanstack/react-query": "^5.90.10",
 		"framer-motion": "^12.23.24",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",

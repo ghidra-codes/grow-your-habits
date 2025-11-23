@@ -29,10 +29,22 @@ $font-sizes: (
 		max: 1.5rem,
 	),
 
+	large-text: (
+		min: 1.05rem,
+		fluid: 2.1vw,
+		max: 1.3rem,
+	),
+
 	p: (
 		min: 1rem,
 		fluid: 2vw,
 		max: 1.25rem,
+	),
+
+	small-text: (
+		min: 0.875rem,
+		fluid: 1.5vw,
+		max: 1.1rem,
 	),
 
 	button-text: (

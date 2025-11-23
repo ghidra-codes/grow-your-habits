@@ -2,28 +2,27 @@ import { useState } from "react";
 
 interface HabitsFormProps {
 	onAddHabit: (name: string, description: string) => Promise<void>;
+	onUpdateHabit: (name: string, description: string) => Promise<void>;
 	onCancel: () => void;
+	isEditMode: boolean;
+	initialValues?: {
+		name: string;
+		description: string;
+	};
 }
 
-const HabitsForm = ({ onAddHabit, onCancel }: HabitsFormProps) => {
-	const [habitName, setHabitName] = useState("");
-	const [habitDescription, setHabitDescription] = useState("");
+const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialValues }: HabitsFormProps) => {
+	const [habitName, setHabitName] = useState(initialValues?.name || "");
+	const [habitDescription, setHabitDescription] = useState(initialValues?.description || "");
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
 		if (!habitName.trim()) return;
 
-		await onAddHabit(habitName.trim(), habitDescription.trim());
+		const actionFn = isEditMode ? onUpdateHabit : onAddHabit;
 
-		setHabitName("");
-		setHabitDescription("");
-	};
-
-	const handleClose = () => {
-		setHabitName("");
-		setHabitDescription("");
-		onCancel();
+		await actionFn(habitName.trim(), habitDescription.trim());
 	};
 
 	return (
@@ -43,7 +42,7 @@ const HabitsForm = ({ onAddHabit, onCancel }: HabitsFormProps) => {
 			/>
 
 			<div className="form-actions">
-				<button type="button" onClick={handleClose} className="form-btn form-btn--cancel">
+				<button type="button" onClick={onCancel} className="form-btn form-btn--cancel">
 					Cancel
 				</button>
 

@@ -54,3 +54,40 @@ export const addHabit = async (
 
 	return { data, error };
 };
+
+/*
+ * Updates an existing habit by its ID.
+ */
+export const updateHabit = async (
+	habitId: string,
+	name: string,
+	description: string
+): Promise<ServiceResponse<Habit>> => {
+	const { data, error } = await supabase
+		.from("habits")
+		.update({ name, description })
+		.eq("id", habitId)
+		.select()
+		.single();
+
+	if (error) {
+		console.error("Habits DB Update Error:", error);
+		return { data: null, error };
+	}
+
+	return { data, error };
+};
+
+/*
+ * Deletes a habit by its ID.
+ */
+export const deleteHabit = async (habitId: string): Promise<ServiceResponse<Habit[]>> => {
+	const { data, error } = await supabase.from("habits").delete().select().eq("id", habitId);
+
+	if (error) {
+		console.error("Habits DB Deletion Error:", error);
+		return { data: null, error };
+	}
+
+	return { data, error: null };
+};

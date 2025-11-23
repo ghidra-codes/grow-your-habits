@@ -1,0 +1,45 @@
+@use "../abstracts/index" as *;
+
+.habits-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	max-width: 32rem;
+	gap: 0.5rem;
+
+	.habits-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.habits-control-panel {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		border-bottom: 3px solid $off-white;
+		margin: 1rem 0 0.75rem 0;
+		padding-left: 0.75rem;
+		padding-bottom: 0.5rem;
+		height: 3rem;
+
+		button {
+			@include flex-center;
+			background: none;
+			border: none;
+			padding: 0;
+
+			&.add-habit-btn {
+				color: $green-primary;
+			}
+
+			&.edit-habit-btn {
+				color: $accent-gold;
+			}
+
+			&.delete-habit-btn {
+				color: $alert-red;
+			}
+		}
+	}
+}

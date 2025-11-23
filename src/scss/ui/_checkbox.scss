@@ -1,0 +1,28 @@
+@use "../abstracts/index" as *;
+
+.checkbox {
+	width: 22px;
+	height: 22px;
+	@include flex-center;
+	border: 2px solid $off-white;
+	border-radius: 0.35rem;
+	transition: all 0.2s ease;
+	background: none;
+
+	&[data-state="checked"] {
+		background: $green-primary;
+		border-color: $green-primary;
+	}
+}
+
+.checkbox-icon {
+	@include flex-center;
+	opacity: 0;
+	transform: scale(0.4);
+	transition: 0.2s ease;
+
+	[data-state="checked"] & {
+		opacity: 1;
+		transform: scale(1);
+	}
+}

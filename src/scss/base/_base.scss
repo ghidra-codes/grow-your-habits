@@ -5,6 +5,7 @@
 *::before,
 *::after {
 	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -24,9 +25,7 @@ body {
 }
 
 main {
-	max-width: 1525px;
-	margin: 0 auto;
-
+	flex: 1;
 	padding: 0 map.get($spacing, sm);
 
 	@include respond(sm) {

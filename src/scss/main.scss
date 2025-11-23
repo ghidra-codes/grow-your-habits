@@ -10,6 +10,9 @@
 
 @use "./ui/navbar";
 @use "./ui/modal";
+@use "./ui/checkbox";
 
 @use "./features/auth-views";
 @use "./features/habits-form";
+@use "./features/habits-view";
+@use "./features/habits-list-item";
