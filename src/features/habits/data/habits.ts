@@ -1,21 +1,38 @@
-import type { Habit } from "@/types/habit.types";
+import type { FrequencyType, Habit } from "@/types/habit.types";
 import type { ServiceResponse } from "@/types/service.types";
+import { normalizeHabit, normalizeHabitWithLogs } from "@/utils/helpers/normalizeHabit";
 import { supabase } from "@/utils/supabase-client";
 
 /**
- * Fetches all habits for a given user ID.
+ * Fetches all habits and their logs for the day for a given user ID.
  */
-export const getHabits = async (userId: string): Promise<ServiceResponse<Habit[]>> => {
+export const getHabits = async (userId: string) => {
 	const { data, error } = await supabase
 		.from("habits")
 		.select(
-			"id, name, created_at, user_id, description, frequency_type, target_per_week, target_per_month"
+			`
+			id,
+			name,
+			created_at,
+			user_id,
+			description,
+			frequency_type,
+			target_per_week,
+			target_per_month,
+			habit_logs!left (
+				id,
+				log_date
+			),
+			habit_schedule!left (
+				weekday
+			)
+		`
 		)
 		.eq("user_id", userId);
 
-	if (error) console.error("Habits DB Error:", error);
+	if (error) return { data: null, error };
 
-	return { data, error };
+	return { data: data?.map(normalizeHabitWithLogs), error: null };
 };
 
 /**
@@ -24,17 +41,11 @@ export const getHabits = async (userId: string): Promise<ServiceResponse<Habit[]
 export const addHabit = async (
 	name: string,
 	userId: string,
-	description: string
+	description: string,
+	frequency_type: "daily" | "weekly" | "monthly" | "custom",
+	target_per_week: number | null,
+	target_per_month: number | null
 ): Promise<ServiceResponse<Habit>> => {
-	const frequency_type = "daily";
-
-	const defaults = {
-		daily: { target_per_week: null, target_per_month: null },
-		weekly: { target_per_week: 3, target_per_month: null },
-		monthly: { target_per_week: null, target_per_month: 10 },
-		custom: { target_per_week: null, target_per_month: null },
-	}[frequency_type];
-
 	const { data, error } = await supabase
 		.from("habits")
 		.insert({
@@ -42,7 +53,8 @@ export const addHabit = async (
 			user_id: userId,
 			description,
 			frequency_type,
-			...defaults,
+			target_per_week,
+			target_per_month,
 		})
 		.select()
 		.single();
@@ -52,7 +64,7 @@ export const addHabit = async (
 		return { data: null, error };
 	}
 
-	return { data, error };
+	return { data: normalizeHabit(data), error };
 };
 
 /*
@@ -61,21 +73,27 @@ export const addHabit = async (
 export const updateHabit = async (
 	habitId: string,
 	name: string,
-	description: string
+	description: string,
+	frequency_type: FrequencyType,
+	target_per_week: number | null,
+	target_per_month: number | null
 ): Promise<ServiceResponse<Habit>> => {
 	const { data, error } = await supabase
 		.from("habits")
-		.update({ name, description })
+		.update({
+			name,
+			description,
+			frequency_type,
+			target_per_week,
+			target_per_month,
+		})
 		.eq("id", habitId)
 		.select()
 		.single();
 
-	if (error) {
-		console.error("Habits DB Update Error:", error);
-		return { data: null, error };
-	}
+	if (error) return { data: null, error };
 
-	return { data, error };
+	return { data: normalizeHabit(data), error: null };
 };
 
 /*
@@ -89,5 +107,5 @@ export const deleteHabit = async (habitId: string): Promise<ServiceResponse<Habi
 		return { data: null, error };
 	}
 
-	return { data, error: null };
+	return { data: (data ?? []).map(normalizeHabit), error: null };
 };

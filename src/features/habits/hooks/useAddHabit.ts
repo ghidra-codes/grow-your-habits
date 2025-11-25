@@ -1,34 +1,41 @@
 import { addHabit } from "@/features/habits/data/habits";
-import type { Habit } from "@/types/habit.types";
+import type { Habit, HabitPayload } from "@/types/habit.types";
+import { habitsKey } from "@/utils/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { habitsKey } from "./useHabitsQuery";
 
 export const useAddHabit = (userId: string) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: async ({ name, description }: { name: string; description: string }) => {
-			const { data, error } = await addHabit(name, userId, description);
+		mutationFn: async (payload: HabitPayload) => {
+			const { data, error } = await addHabit(
+				payload.name,
+				userId,
+				payload.description,
+				payload.frequency_type,
+				payload.target_per_week,
+				payload.target_per_month
+			);
 
 			if (error) throw new Error(error.message);
 
 			return data;
 		},
 
-		onMutate: async (vars) => {
+		onMutate: async (data) => {
 			await queryClient.cancelQueries({ queryKey: habitsKey(userId) });
 
 			const prev = queryClient.getQueryData<Habit[]>(habitsKey(userId)) || [];
 
 			const tempHabit: Habit = {
 				id: `temp-${Date.now()}`,
-				name: vars.name,
-				description: vars.description,
+				name: data.name,
+				description: data.description,
 				user_id: userId,
 				created_at: new Date().toISOString(),
-				frequency_type: "daily",
-				target_per_week: null,
-				target_per_month: null,
+				frequency_type: data.frequency_type,
+				target_per_week: data.target_per_week,
+				target_per_month: data.target_per_month,
 			};
 
 			queryClient.setQueryData(habitsKey(userId), [tempHabit, ...prev]);

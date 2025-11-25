@@ -7,6 +7,7 @@
 		gap: 1rem;
 	}
 
+	select,
 	input {
 		width: 100%;
 		padding: 0.75rem 1rem;
@@ -19,7 +20,7 @@
 
 		font-size: 1rem;
 
-		transition: border-color 0.15s ease, background-color 0.15s ease;
+		transition: all 0.15s ease;
 
 		&::placeholder {
 			color: $jet-brighter;
@@ -30,6 +31,28 @@
 			background: $rich-black-light;
 			outline: none;
 		}
+	}
+
+	.frequency-wrapper {
+		position: relative;
+
+		select {
+			appearance: none;
+		}
+
+		.select-icon {
+			position: absolute;
+			top: 50%;
+			right: 0.5rem;
+			transform: translateY(-50%);
+			pointer-events: none;
+		}
+	}
+
+	.form-error-text {
+		color: $accent-gold;
+		margin: 0;
+		font-size: 0.9rem;
 	}
 
 	// BUTTON GROUP

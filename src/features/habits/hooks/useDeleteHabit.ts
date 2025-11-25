@@ -1,7 +1,7 @@
 import { deleteHabit } from "@/features/habits/data/habits";
 import type { Habit } from "@/types/habit.types";
+import { habitsKey } from "@/utils/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { habitsKey } from "./useHabitsQuery";
 
 export const useDeleteHabit = (userId: string) => {
 	const queryClient = useQueryClient();

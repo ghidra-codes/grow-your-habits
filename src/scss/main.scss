@@ -11,6 +11,7 @@
 @use "./ui/navbar";
 @use "./ui/modal";
 @use "./ui/checkbox";
+@use "./ui/loading-spinner";
 
 @use "./features/auth-views";
 @use "./features/habits-form";
