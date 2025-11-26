@@ -1,4 +1,4 @@
-import { differenceInDays, differenceInMonths } from "date-fns";
+import { differenceInDays, differenceInMonths, startOfDay } from "date-fns";
 import type { FrequencyType, HabitAdherence, HabitWithRelations } from "@/types/habit.types";
 
 export const calculateHabitAdherence = (
@@ -6,26 +6,26 @@ export const calculateHabitAdherence = (
 	logCount: number,
 	scheduleWeekdays: number[]
 ): HabitAdherence => {
-	const today = new Date();
-	const createdAt = new Date(habit.created_at);
+	const today = startOfDay(new Date());
+	const createdAt = startOfDay(new Date(habit.created_at));
 
 	let expected = 0;
 
 	switch (habit.frequency_type) {
 		case "daily": {
-			expected = Math.max(1, differenceInDays(today, createdAt) + 1);
+			expected = differenceInDays(today, createdAt) + 1;
 			break;
 		}
 
 		case "weekly": {
-			const days = differenceInDays(today, createdAt) + 1;
-			const weeks = Math.ceil(days / 7);
+			const totalDays = differenceInDays(today, createdAt) + 1;
+			const weeks = Math.ceil(totalDays / 7);
 			expected = weeks * (habit.target_per_week || 0);
 			break;
 		}
 
 		case "monthly": {
-			const months = Math.max(1, differenceInMonths(today, createdAt) + 1);
+			const months = differenceInMonths(today, createdAt) + 1;
 			expected = months * (habit.target_per_month || 0);
 			break;
 		}
@@ -52,7 +52,9 @@ const countScheduledDays = (from: Date, to: Date, scheduledWeekdays: number[]) =
 	const current = new Date(from);
 
 	while (current <= to) {
-		if (scheduledWeekdays.includes(current.getDay())) count++;
+		if (scheduledWeekdays.includes(current.getDay())) {
+			count++;
+		}
 		current.setDate(current.getDate() + 1);
 	}
 

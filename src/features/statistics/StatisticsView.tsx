@@ -2,6 +2,7 @@ import { useHabitsQuery } from "@/features/habits/hooks/useHabitsQuery";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import { useHabitAdherence } from "../habits/hooks/habit-adherence/useHabitAdherence";
+import AdherenceCircle from "@/ui/AdherenceCircle";
 
 const StatisticsView = () => {
 	const userId = useUserIdRequired();
@@ -19,7 +20,12 @@ const StatisticsView = () => {
 				return (
 					<div key={habit.id} className="habit-stats-card">
 						<h3>{habit.name}</h3>
-						<p>Adherence: {adherence.percentage.toFixed(0)}%</p>
+						<AdherenceCircle
+							percentage={adherence.percentage}
+							className="habit-card-circle"
+							textSize="28px"
+						/>
+						<p>Adherence: {adherence.percentage.toFixed(1)}%</p>
 						<p>Completed: {adherence.logCount}</p>
 						<p>Expected: {adherence.expected}</p>
 						<p>Missed: {adherence.missed}</p>

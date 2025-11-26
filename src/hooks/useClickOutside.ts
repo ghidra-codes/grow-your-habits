@@ -1,37 +1,38 @@
 import { useEffect } from "react";
 
-type Selector = string | HTMLElement | null;
-type SelectorList = Selector[];
+type Target = string | React.RefObject<HTMLElement | null>;
 
-/**
- * Triggers a callback when the user clicks anywhere outside the given element(s).
- * Accepts CSS selectors, refs, HTMLElements, or arrays of them.
- */
-export const useClickOutside = (targets: Selector | SelectorList, onOutsideClick: () => void) => {
+export function useClickOutside(targets: Target | Target[], onOutsideClick: () => void) {
 	useEffect(() => {
-		const targetList = Array.isArray(targets) ? targets : [targets];
+		const list = Array.isArray(targets) ? targets : [targets];
 
-		const isInsideTarget = (el: HTMLElement) => {
-			return targetList.some((target) => {
-				if (!target) return false;
+		const resolve = (target: Target): HTMLElement | null => {
+			if (!target) return null;
 
-				// CSS Selector
-				if (typeof target === "string") return el.closest(target) !== null;
+			// React ref
+			if (typeof target === "object" && "current" in target) return target.current;
 
-				// HTMLElement
-				const node = target instanceof HTMLElement ? target : null;
-				return node && (el === node || node.contains(el));
-			});
+			// Selector
+			if (typeof target === "string") return document.querySelector(target);
+
+			return null;
 		};
 
 		const handleClick = (e: MouseEvent) => {
-			const clickedEl = e.target as HTMLElement;
-			if (isInsideTarget(clickedEl)) return;
+			const el = e.target;
 
-			onOutsideClick();
+			if (!(el instanceof HTMLElement)) return;
+
+			const isInside = list.some((t) => {
+				const node = resolve(t);
+				return node && (el === node || node.contains(el));
+			});
+
+			console.log("Click outside:", !isInside);
+			if (!isInside) onOutsideClick();
 		};
 
-		document.addEventListener("click", handleClick);
-		return () => document.removeEventListener("click", handleClick);
+		document.addEventListener("mousedown", handleClick);
+		return () => document.removeEventListener("mousedown", handleClick);
 	}, [targets, onOutsideClick]);
-};
+}

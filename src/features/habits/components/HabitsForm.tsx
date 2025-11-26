@@ -25,12 +25,13 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 		formState: { errors },
 		watch,
 	} = useForm<FormValues>({
-		defaultValues: {
-			name: initialValues?.name || "",
-			description: initialValues?.description || "",
-			frequency_type: initialValues?.frequency_type || "daily",
-			target_per_week: initialValues?.target_per_week ?? null,
-			target_per_month: initialValues?.target_per_month ?? null,
+		shouldUnregister: false,
+		defaultValues: initialValues || {
+			name: "",
+			description: "",
+			frequency_type: "daily",
+			target_per_week: null,
+			target_per_month: null,
 		},
 	});
 

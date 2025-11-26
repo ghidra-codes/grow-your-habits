@@ -52,3 +52,5 @@ export type HabitAdherence = {
 	percentage: number;
 	missed: number;
 };
+
+export type AdherenceMap = Record<string, HabitAdherence>;

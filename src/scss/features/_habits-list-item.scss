@@ -2,9 +2,7 @@
 
 .habit-item {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 1rem;
+	flex-direction: column;
 	padding: 0.5rem 0.75rem;
 	border-radius: 0.5rem;
 	background-color: $rich-black-lighter;
@@ -15,17 +13,44 @@
 		border: 2px solid rgba($accent-gold, 0.8);
 	}
 
-	.habit-item-content {
-		@include flex-center;
-		flex-direction: column;
+	.habit-item-content-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1.25rem;
 
-		strong {
-			@include fluid-type(large-text);
-		}
+		.habit-item-content {
+			display: grid;
+			grid-template-columns: 50px 1fr;
+			align-items: center;
+			gap: 1rem;
 
-		p {
-			margin: 0;
-			@include fluid-type(small-text);
+			.habit-item-text {
+				display: flex;
+				flex-direction: column;
+				text-transform: capitalize;
+				min-width: 0;
+
+				strong,
+				p {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				strong {
+					@include fluid-type(large-text);
+				}
+
+				p {
+					@include fluid-type(small-text);
+					margin: 0;
+				}
+			}
 		}
+	}
+
+	.habit-item-info {
+		overflow: hidden;
 	}
 }

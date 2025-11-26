@@ -15,8 +15,7 @@ export const useHabitsQuery = (userId: string) =>
 			return data ?? [];
 		},
 
-		staleTime: Infinity,
-		gcTime: 1000 * 60 * 5,
-		retry: 1,
+		refetchOnMount: false,
 		refetchOnWindowFocus: false,
+		retry: 1,
 	});

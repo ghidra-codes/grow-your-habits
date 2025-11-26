@@ -8,6 +8,7 @@ import { useState } from "react";
 import { FaRegEdit, FaRegPlusSquare, FaRegTrashAlt } from "react-icons/fa";
 import HabitsForm from "./components/HabitsForm";
 import HabitsListItem from "./components/HabitsListItem";
+import { useHabitAdherence } from "./hooks/habit-adherence/useHabitAdherence";
 import { useDeleteHabitLog } from "./hooks/habit-logs/useDeleteHabitLog";
 import { useLogHabit } from "./hooks/habit-logs/useLogHabit";
 import { useAddHabit } from "./hooks/useAddHabit";
@@ -22,15 +23,19 @@ const HabitsView = () => {
 
 	const userId = useUserIdRequired();
 
-	const { data: habits, isFetching, isError, error } = useHabitsQuery(userId);
+	const { data: habits, isLoading, isError, error } = useHabitsQuery(userId);
 	const { mutateAsync: addHabit } = useAddHabit(userId);
 	const { mutateAsync: deleteHabit } = useDeleteHabit(userId);
-	const { mutateAsync: updateHabit } = useUpdateHabit(userId);
+	const { mutateAsync: updateHabit } = useUpdateHabit(userId, (updated) => {
+		setSelectedHabit(updated);
+		setIsOpen(false);
+	});
 
 	const { mutateAsync: logHabit, isPending: isLogging } = useLogHabit(userId);
 	const { mutateAsync: deleteHabitLog, isPending: isDeletingLog } = useDeleteHabitLog(userId);
+	const { adherenceMap } = useHabitAdherence(habits || []);
 
-	useClickOutside([".habit-item", ".habits-control-panel", ".habits-form", ".modal"], () =>
+	useClickOutside([".habits-list", ".habits-control-panel", ".modal-content-container"], () =>
 		setSelectedHabit(null)
 	);
 
@@ -44,7 +49,6 @@ const HabitsView = () => {
 		if (!selectedHabit) return;
 
 		await updateHabit({ habitId: selectedHabit.id, ...payload });
-		setIsOpen(false);
 	};
 
 	const handleToggleHabit = async (habit: HabitWithRelations) => {
@@ -75,7 +79,7 @@ const HabitsView = () => {
 			  }
 			: null;
 
-	if (isFetching) return <LoadingSpinner />;
+	if (!habits && isLoading) return <LoadingSpinner />;
 
 	if (isError) return <p>{error?.message}</p>;
 
@@ -128,6 +132,7 @@ const HabitsView = () => {
 							selectedHabit={selectedHabit}
 							onToggleHabit={handleToggleHabit}
 							isMutating={isMutating}
+							adherenceMap={adherenceMap}
 						/>
 					</ul>
 				)}
