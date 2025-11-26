@@ -1,4 +1,6 @@
-import type { Database } from "./supabase.types";
+import type { Database, Tables } from "./supabase.types";
+
+// HABIT
 
 export type FrequencyType = "daily" | "weekly" | "monthly" | "custom";
 
@@ -6,12 +8,15 @@ export type Habit = Omit<Database["public"]["Tables"]["habits"]["Row"], "frequen
 	frequency_type: FrequencyType;
 };
 
-export type HabitInsert = Omit<Database["public"]["Tables"]["habits"]["Insert"], "frequency_type"> & {
-	frequency_type: FrequencyType;
+export type HabitRelations = {
+	logs: Pick<Tables<"habit_logs">, "id" | "log_date">[];
+	schedules: Pick<Tables<"habit_schedule">, "weekday">[];
 };
 
-export type HabitWithLogs = Habit & {
-	habit_logs: { id: string; log_date: string }[] | null;
+export type HabitWithRelations = Habit & HabitRelations;
+
+export type HabitInsert = Omit<Database["public"]["Tables"]["habits"]["Insert"], "frequency_type"> & {
+	frequency_type: FrequencyType;
 };
 
 export type HabitPayload = {
@@ -24,21 +29,24 @@ export type HabitPayload = {
 
 export type UpdateHabitPayload = HabitPayload & { habitId: string };
 
-// LOGS
+// LOG
 
 export type HabitLog = Database["public"]["Tables"]["habit_logs"]["Row"];
 
 export type HabitLogInsert = Database["public"]["Tables"]["habit_logs"]["Insert"];
 
-export type HabitLogState = {
-	hasLoggedToday: boolean;
-	logDate?: string;
-};
+// SCHEDULE
+
+export type HabitSchedule = Database["public"]["Tables"]["habit_schedule"]["Row"];
+
+export type HabitScheduleInsert = Database["public"]["Tables"]["habit_schedule"]["Insert"];
+
+// ADHERENCE
 
 export type HabitAdherence = {
 	habitId: string;
 	expected: number;
-	actual: number;
+	logCount: number;
 	period: "day" | "week" | "month";
 	onTrack: boolean;
 	percentage: number;

@@ -1,6 +1,6 @@
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
-import type { Habit, HabitPayload, HabitWithLogs } from "@/types/habit.types";
+import type { Habit, HabitPayload, HabitWithRelations } from "@/types/habit.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
 import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
@@ -47,7 +47,7 @@ const HabitsView = () => {
 		setIsOpen(false);
 	};
 
-	const handleToggleHabit = async (habit: HabitWithLogs) => {
+	const handleToggleHabit = async (habit: HabitWithRelations) => {
 		const isDone = hasLoggedToday(habit);
 
 		const mutateFn = isDone ? deleteHabitLog : logHabit;

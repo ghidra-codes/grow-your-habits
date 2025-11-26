@@ -1,5 +1,5 @@
-import type { HabitLogState, HabitWithLogs } from "@/types/habit.types";
-import { habitLogsKey, habitsKey } from "@/utils/helpers/queryKeys";
+import type { HabitWithRelations } from "@/types/habit.types";
+import { habitsKey } from "@/utils/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteHabitLog } from "../../data/habit-logs";
 
@@ -16,35 +16,26 @@ export const useDeleteHabitLog = (userId: string) => {
 		},
 
 		onMutate: async (habitId: string) => {
-			const key = habitLogsKey(userId, habitId);
+			const key = habitsKey(userId);
 
-			await queryClient.cancelQueries({ queryKey: habitsKey(userId) });
+			await queryClient.cancelQueries({ queryKey: key });
 
-			const prevHabits = queryClient.getQueryData<HabitWithLogs[]>(habitsKey(userId));
-			const prev = queryClient.getQueryData<HabitLogState>(key);
+			const prevHabits = queryClient.getQueryData<HabitWithRelations[]>(key);
 
-			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (old = []) =>
-				old.map((habit) => (habit.id === habitId ? { ...habit, habit_logs: [] } : habit))
+			queryClient.setQueryData<HabitWithRelations[]>(key, (old = []) =>
+				old.map((habit) => (habit.id === habitId ? { ...habit, logs: [] } : habit))
 			);
 
-			queryClient.setQueryData<HabitLogState>(key, {
-				hasLoggedToday: false,
-				logDate: undefined,
-			});
-
-			return { prev, prevHabits, habitId };
+			return { prevHabits };
 		},
 
 		onError: (_err, _vars, ctx) => {
-			if (!ctx) return;
-
-			if (ctx.prev) queryClient.setQueryData(habitLogsKey(userId, ctx.habitId), ctx.prev);
-			if (ctx.prevHabits) queryClient.setQueryData(habitsKey(userId), ctx.prevHabits);
+			if (ctx?.prevHabits) queryClient.setQueryData(habitsKey(userId), ctx.prevHabits);
 		},
 
 		onSuccess: (_result, habitId) => {
-			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (old = []) =>
-				old.map((habit) => (habit.id === habitId ? { ...habit, habit_logs: [] } : habit))
+			queryClient.setQueryData<HabitWithRelations[]>(habitsKey(userId), (old = []) =>
+				old.map((habit) => (habit.id === habitId ? { ...habit, logs: [] } : habit))
 			);
 		},
 	});

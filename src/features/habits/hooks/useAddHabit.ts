@@ -23,9 +23,11 @@ export const useAddHabit = (userId: string) => {
 		},
 
 		onMutate: async (data) => {
-			await queryClient.cancelQueries({ queryKey: habitsKey(userId) });
+			const key = habitsKey(userId);
 
-			const prev = queryClient.getQueryData<Habit[]>(habitsKey(userId)) || [];
+			await queryClient.cancelQueries({ queryKey: key });
+
+			const prev = queryClient.getQueryData<Habit[]>(key) || [];
 
 			const tempHabit: Habit = {
 				id: `temp-${Date.now()}`,
@@ -38,7 +40,7 @@ export const useAddHabit = (userId: string) => {
 				target_per_month: data.target_per_month,
 			};
 
-			queryClient.setQueryData(habitsKey(userId), [tempHabit, ...prev]);
+			queryClient.setQueryData(key, [tempHabit, ...prev]);
 
 			return { prev };
 		},

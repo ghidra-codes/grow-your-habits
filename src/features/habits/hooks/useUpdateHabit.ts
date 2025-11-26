@@ -24,6 +24,7 @@ export const useUpdateHabit = (userId: string) => {
 
 		onMutate: async ({ habitId, ...payload }) => {
 			const key = habitsKey(userId);
+
 			await queryClient.cancelQueries({ queryKey: key });
 
 			const prev = queryClient.getQueryData<Habit[]>(key) || [];

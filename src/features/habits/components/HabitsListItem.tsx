@@ -1,14 +1,14 @@
-import type { Habit, HabitWithLogs } from "@/types/habit.types";
+import type { Habit, HabitWithRelations } from "@/types/habit.types";
 import Checkbox from "@/ui/Checkbox";
 import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
 import confetti from "canvas-confetti";
 import { useRef, useState } from "react";
 
 interface HabitsListItemProps {
-	habits: HabitWithLogs[];
+	habits: HabitWithRelations[];
 	onSelect: (habit: Habit) => void;
 	selectedHabit: Habit | null;
-	onToggleHabit: (habit: HabitWithLogs) => void;
+	onToggleHabit: (habit: HabitWithRelations) => void;
 	isMutating: boolean;
 }
 
@@ -44,7 +44,7 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 		setTimeout(() => setConfettiLock(false), 400);
 	};
 
-	const handleChecked = (habit: HabitWithLogs, isDone: boolean, checkboxEl: HTMLElement) => {
+	const handleChecked = (habit: HabitWithRelations, isDone: boolean, checkboxEl: HTMLElement) => {
 		if (!isDone) playConfetti(checkboxEl);
 
 		onToggleHabit(habit);

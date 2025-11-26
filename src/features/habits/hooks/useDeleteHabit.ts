@@ -16,12 +16,13 @@ export const useDeleteHabit = (userId: string) => {
 		},
 
 		onMutate: async (habitId) => {
-			await queryClient.cancelQueries({ queryKey: habitsKey(userId) });
+			const key = habitsKey(userId);
 
-			const prev = queryClient.getQueryData<Habit[]>(habitsKey(userId)) || [];
+			await queryClient.cancelQueries({ queryKey: key });
 
+			const prev = queryClient.getQueryData<Habit[]>(key) || [];
 			queryClient.setQueryData(
-				habitsKey(userId),
+				key,
 				prev.filter((h) => h.id !== habitId)
 			);
 

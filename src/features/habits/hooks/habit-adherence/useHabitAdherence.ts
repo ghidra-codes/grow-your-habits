@@ -1,29 +1,17 @@
-import type { HabitWithLogs, HabitAdherence } from "@/types/habit.types";
+import type { HabitAdherence, HabitWithRelations } from "@/types/habit.types";
 import { calculateHabitAdherence } from "@/utils/calculateHabitAdherence";
-import { useAllHabitSchedules } from "../habit-schedule/useAllHabitSchedules";
 
-export const useHabitAdherence = (habitsData: HabitWithLogs[], userId: string) => {
-	const { data: schedules, isLoading, isError, error } = useAllHabitSchedules(userId);
+type AdherenceMap = Record<string, HabitAdherence>;
 
-	let adherenceByHabitId: Record<string, HabitAdherence> = {};
+export const useHabitAdherence = (habits: HabitWithRelations[]): { adherenceMap: AdherenceMap } => {
+	const adherenceMap: AdherenceMap = {};
 
-	if (!isLoading && !isError) {
-		const habits = habitsData ?? [];
-		const schedulesData = schedules ?? [];
+	for (const habit of habits) {
+		const logCount = habit.logs.length;
+		const schedule = habit.schedules.map((schedule) => schedule.weekday);
 
-		for (const habit of habits) {
-			const habitLogs = habit.habit_logs ?? [];
-			const habitSchedule = schedulesData
-				.filter((schedule) => schedule.habit_id === habit.id)
-				.map((schedule) => schedule.weekday);
-
-			adherenceByHabitId[habit.id] = calculateHabitAdherence(habit, habitLogs, habitSchedule);
-		}
+		adherenceMap[habit.id] = calculateHabitAdherence(habit, logCount, schedule);
 	}
 
-	return {
-		adherenceByHabitId,
-		isLoading,
-		error,
-	};
+	return { adherenceMap };
 };

@@ -1,11 +1,12 @@
-import type { Tables } from "@/types/supabase.types";
+import type { HabitLog } from "@/types/habit.types";
 import { habitLogsKey } from "@/utils/helpers/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import { getHabitLogs } from "../../data/habit-logs";
 
 export const useHabitLogsQuery = (habitId: string, userId: string) =>
-	useQuery<Tables<"habit_logs">[]>({
+	useQuery<HabitLog[]>({
 		queryKey: habitLogsKey(habitId, userId),
+
 		queryFn: async () => {
 			const { data, error } = await getHabitLogs(habitId, userId);
 
@@ -13,6 +14,7 @@ export const useHabitLogsQuery = (habitId: string, userId: string) =>
 
 			return data ?? [];
 		},
+
 		staleTime: Infinity,
 		gcTime: 1000 * 60 * 5,
 		retry: 1,

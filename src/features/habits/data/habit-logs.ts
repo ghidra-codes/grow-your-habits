@@ -4,15 +4,6 @@ import getTodayDate from "@/utils/helpers/getTodayDate";
 import { supabase } from "@/utils/supabase-client";
 
 /*
- * Fetches all habit logs for a specific user.
- */
-export const getAllHabitLogs = async (userId: string): Promise<ServiceResponse<HabitLog[]>> => {
-	const { data, error } = await supabase.from("habit_logs").select("*").eq("user_id", userId);
-
-	return { data, error };
-};
-
-/*
  * Fetches habit logs for a specific habit and user.
  */
 export const getHabitLogs = async (habitId: string, userId: string): Promise<ServiceResponse<HabitLog[]>> => {
