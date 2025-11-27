@@ -47,12 +47,41 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 		});
 	};
 
-	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<input type="text" placeholder="Habit name" {...register("name", { required: true })} />
-			{errors.name && <p className="form-error-text">Name is required</p>}
+	const frequency = watch("frequency_type");
+	const isRangeType = frequency === "weekly" || frequency === "monthly";
 
-			<input type="text" placeholder="Description (optional)" {...register("description")} />
+	return (
+		<form onSubmit={handleSubmit(onSubmit)} noValidate>
+			<div className="input-group">
+				<input
+					type="text"
+					placeholder="Habit name"
+					{...register("name", {
+						required: "Name is required",
+						maxLength: {
+							value: 30,
+							message: "Max 30 characters",
+						},
+					})}
+				/>
+				<p className={`form-error-text ${!errors.name ? "hidden" : ""}`}>{errors.name?.message}</p>
+			</div>
+
+			<div className="input-group">
+				<textarea
+					placeholder="Description (optional)"
+					{...register("description", {
+						maxLength: {
+							value: 120,
+							message: "Max 120 characters",
+						},
+					})}
+					rows={3}
+				/>
+				<p className={`form-error-text ${!errors.description ? "hidden" : ""}`}>
+					{errors.description?.message}
+				</p>
+			</div>
 
 			<div className="frequency-wrapper">
 				<select {...register("frequency_type")}>
@@ -65,28 +94,56 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 				<FaAngleDown className="select-icon" color="#f3f8f4" />
 			</div>
 
-			{watch("frequency_type") === "weekly" && (
-				<input
-					type="number"
-					placeholder="Times per week"
-					{...register("target_per_week", { valueAsNumber: true })}
-				/>
+			{frequency === "weekly" && (
+				<div className="input-group">
+					<input
+						type="number"
+						placeholder="Times per week"
+						className="frequency-input"
+						min={1}
+						max={7}
+						{...register("target_per_week", {
+							valueAsNumber: true,
+							required: "Times per week is required",
+							min: { value: 1, message: "Min is 1" },
+							max: { value: 7, message: "Max is 7" },
+						})}
+					/>
+
+					<p className={`form-error-text ${!errors.target_per_week ? "hidden" : ""}`}>
+						{errors.target_per_week?.message}
+					</p>
+				</div>
 			)}
 
-			{watch("frequency_type") === "monthly" && (
-				<input
-					type="number"
-					placeholder="Times per month"
-					{...register("target_per_month", { valueAsNumber: true })}
-				/>
+			{frequency === "monthly" && (
+				<div className="input-group">
+					<input
+						type="number"
+						placeholder="Times per month"
+						className="frequency-input"
+						min={1}
+						max={30}
+						{...register("target_per_month", {
+							valueAsNumber: true,
+							required: "Times per month is required",
+							min: { value: 1, message: "Min is 1" },
+							max: { value: 30, message: "Max is 30" },
+						})}
+					/>
+
+					<p className={`form-error-text ${!errors.target_per_month ? "hidden" : ""}`}>
+						{errors.target_per_month?.message}
+					</p>
+				</div>
 			)}
 
-			<div className="form-actions">
-				<button type="button" onClick={onCancel} className="form-btn form-btn--cancel">
+			<div className={`form-actions ${isRangeType ? "form-actions-shifted" : ""}`}>
+				<button type="button" onClick={onCancel} className="form-btn-cancel">
 					Cancel
 				</button>
 
-				<button type="submit" className="form-btn form-btn--confirm">
+				<button type="submit" className="form-btn-confirm">
 					Save
 				</button>
 			</div>

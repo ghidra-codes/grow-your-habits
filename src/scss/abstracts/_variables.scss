@@ -47,9 +47,21 @@ $font-sizes: (
 		max: 1.1rem,
 	),
 
+	caption: (
+		min: 0.95rem,
+		fluid: 1.8vw,
+		max: 1.15rem,
+	),
+
 	button-text: (
 		min: 0.95rem,
 		fluid: 1.75vw,
 		max: 1.1rem,
+	),
+
+	large-button-text: (
+		min: 1rem,
+		fluid: 1.9vw,
+		max: 1.18rem,
 	),
 );

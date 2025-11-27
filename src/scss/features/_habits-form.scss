@@ -1,35 +1,95 @@
 @use "../abstracts/index" as *;
 
-.habits-form {
+.habits-form-container {
+	padding: 2rem 1.5rem;
+	background-color: $rich-black-light;
+	border-radius: 0.8rem;
+	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
+
+	h2 {
+		text-align: center;
+		color: $green-light;
+		margin-bottom: 0.5rem;
+		font-family: "Oxanium", sans-serif;
+		font-weight: 700;
+	}
+
 	form {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-	}
+		margin-top: 1rem;
 
-	select,
-	input {
-		width: 100%;
-		padding: 0.75rem 1rem;
+		select,
+		input {
+			width: 100%;
+			padding: 1rem;
+			background-color: $rich-black-input;
+			border: 1px solid $rich-black-input-light;
+			border-radius: 0.5rem;
+			color: $off-white;
+			transition: all 0.2s ease;
 
-		background: $jet-mid;
-		color: $off-white;
+			&::placeholder {
+				color: rgba($off-white, 0.5);
+			}
 
-		border: 1px solid $jet-brighter;
-		border-radius: 6px;
-
-		font-size: 1rem;
-
-		transition: all 0.15s ease;
-
-		&::placeholder {
-			color: $jet-brighter;
+			&:focus {
+				outline: none;
+				border-color: $green-primary;
+				background-color: $rich-black-input-light;
+			}
 		}
 
-		&:focus {
-			border-color: $green-primary;
-			background: $rich-black-light;
-			outline: none;
+		textarea {
+			width: 100%;
+			padding: 1rem;
+			background-color: $rich-black-input;
+			border: 1px solid $rich-black-input-light;
+			border-radius: 0.5rem;
+			color: $off-white;
+			min-height: 4rem;
+			max-height: 6.5rem;
+			overflow-y: auto;
+			resize: none;
+			transition: all 0.2s ease;
+
+			&::placeholder {
+				color: rgba($off-white, 0.5);
+			}
+
+			&:focus {
+				outline: none;
+				border-color: $green-primary;
+				background-color: $rich-black-input-light;
+			}
+		}
+
+		.input-group {
+			display: flex;
+			flex-direction: column;
+
+			.form-error-text {
+				display: flex;
+				align-items: center;
+				@include fluid-type(small-text);
+				padding-left: 0.25rem;
+				min-height: 2.05rem;
+				color: $accent-gold;
+				margin: 0;
+
+				opacity: 1;
+				visibility: visible;
+				transition: all 0.2s ease;
+
+				&.hidden {
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
+		}
+
+		.frequency-input {
+			margin-top: 2.05rem;
 		}
 	}
 
@@ -43,59 +103,51 @@
 		.select-icon {
 			position: absolute;
 			top: 50%;
-			right: 0.5rem;
+			right: 0.75rem;
 			transform: translateY(-50%);
 			pointer-events: none;
+			color: rgba($off-white, 0.65);
 		}
 	}
 
-	.form-error-text {
-		color: $accent-gold;
-		margin: 0;
-		font-size: 0.9rem;
-	}
-
-	// BUTTON GROUP
 	.form-actions {
 		display: flex;
-		justify-content: flex-end;
 		gap: 0.75rem;
-		margin-top: 0.5rem;
-	}
+		margin-top: 2.5rem;
 
-	// BUTTON BASE
-	.form-btn {
-		padding: 0.6rem 1.2rem;
-		border-radius: 6px;
-		font-size: 0.95rem;
-		font-weight: 500;
-
-		cursor: pointer;
-		transition: background 0.15s ease, color 0.15s ease, border 0.15s ease;
-	}
-
-	// CANCEL BUTTON
-	.form-btn--cancel {
-		background: transparent;
-		border: 1px solid $jet-mid;
-		color: $jet-bright;
-
-		&:hover {
-			border-color: $jet-brighter;
-			color: $off-white;
+		button {
+			padding: 0.85rem 1.4rem;
+			border-radius: 0.5rem;
+			border: none;
+			@include fluid-type(button-text);
+			transition: all 0.25s ease;
+			flex: 1;
 		}
-	}
 
-	// PRIMARY BUTTON
-	.form-btn--confirm {
-		background: $green-primary;
-		border: 1px solid $green-dark;
-		color: $rich-black;
+		.form-btn-cancel {
+			background: transparent;
+			border: 2px solid $rich-black-input;
+			color: $jet-brighter;
 
-		&:hover {
-			background: $green-dark;
-			border-color: $green-primary;
-			color: $off-white;
+			&:hover {
+				border-color: $rich-black-input-light;
+				background: $rich-black-input;
+				color: $off-white;
+			}
+		}
+
+		.form-btn-confirm {
+			background: $green-primary;
+			color: $rich-black;
+			border: 1px solid $green-dark;
+
+			&:hover {
+				background: $green-secondary;
+			}
+		}
+
+		&.form-actions-shifted {
+			margin-top: 0.45rem;
 		}
 	}
 }

@@ -28,8 +28,9 @@ export function useClickOutside(targets: Target | Target[], onOutsideClick: () =
 				return node && (el === node || node.contains(el));
 			});
 
-			console.log("Click outside:", !isInside);
-			if (!isInside) onOutsideClick();
+			if (isInside) return;
+
+			onOutsideClick();
 		};
 
 		document.addEventListener("mousedown", handleClick);

@@ -37,8 +37,7 @@ const LoginView = () => {
 	return (
 		<div className="auth-container">
 			<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-				<h2>Login</h2>
-				{error && <p className="auth-message auth-message--error">{error}</p>}
+				<h2>LOGIN</h2>
 
 				<input
 					type="email"
@@ -52,6 +51,8 @@ const LoginView = () => {
 					{...register("password", { required: "Password is required" })}
 					required
 				/>
+
+				<p className={`auth-error ${!error && "hidden"}`}>{error}</p>
 
 				<button type="submit" disabled={loading}>
 					{loading ? "Logging In..." : "Log In"}

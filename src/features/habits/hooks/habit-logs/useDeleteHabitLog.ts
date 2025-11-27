@@ -1,4 +1,5 @@
 import type { HabitWithRelations } from "@/types/habit.types";
+import getTodayDate from "@/utils/helpers/getTodayDate";
 import { habitsKey } from "@/utils/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteHabitLog } from "../../data/habit-logs";
@@ -23,7 +24,14 @@ export const useDeleteHabitLog = (userId: string) => {
 			const prevHabits = queryClient.getQueryData<HabitWithRelations[]>(key);
 
 			queryClient.setQueryData<HabitWithRelations[]>(key, (old = []) =>
-				old.map((habit) => (habit.id === habitId ? { ...habit, logs: [] } : habit))
+				old.map((habit) => {
+					if (habit.id !== habitId) return habit;
+
+					return {
+						...habit,
+						logs: (habit.logs ?? []).filter((log) => log.log_date !== getTodayDate()),
+					};
+				})
 			);
 
 			return { prevHabits };
@@ -35,7 +43,14 @@ export const useDeleteHabitLog = (userId: string) => {
 
 		onSuccess: (_result, habitId) => {
 			queryClient.setQueryData<HabitWithRelations[]>(habitsKey(userId), (old = []) =>
-				old.map((habit) => (habit.id === habitId ? { ...habit, logs: [] } : habit))
+				old.map((habit) => {
+					if (habit.id !== habitId) return habit;
+
+					return {
+						...habit,
+						logs: (habit.logs ?? []).filter((log) => log.log_date !== getTodayDate()),
+					};
+				})
 			);
 		},
 	});

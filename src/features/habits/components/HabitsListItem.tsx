@@ -3,14 +3,20 @@ import AdherenceCircle from "@/ui/AdherenceCircle";
 import Checkbox from "@/ui/Checkbox";
 import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
 import confetti from "canvas-confetti";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { MdDoneOutline } from "react-icons/md";
+import { GoGoal } from "react-icons/go";
+import { TbClockX } from "react-icons/tb";
+import { FaCaretDown } from "react-icons/fa";
 
 interface HabitsListItemProps {
 	habits: HabitWithRelations[];
 	onSelect: (habit: Habit) => void;
 	selectedHabit: Habit | null;
 	onToggleHabit: (habit: HabitWithRelations) => void;
+	expandedIds: Set<string>;
+	setExpandedIds: React.Dispatch<React.SetStateAction<Set<string>>>;
 	isMutating: boolean;
 	adherenceMap: AdherenceMap;
 }
@@ -20,12 +26,12 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 	onSelect,
 	selectedHabit,
 	onToggleHabit,
+	expandedIds,
+	setExpandedIds,
 	isMutating,
 	adherenceMap,
 }) => {
 	const [confettiLock, setConfettiLock] = useState(false);
-	const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-	const checkboxRef = useRef<HTMLButtonElement>(null);
 
 	const playConfetti = (checkboxEl: HTMLElement) => {
 		setConfettiLock(true);
@@ -74,6 +80,7 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 				const isExpanded = expandedIds.has(habit.id);
 				const isDone = hasLoggedToday(habit);
 				const disabled = isMutating || confettiLock;
+				const { logCount, expected, missed, onTrack, percentage } = adherenceMap[habit.id] || {};
 
 				return (
 					<li
@@ -85,17 +92,24 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 						}}
 					>
 						<div className="habit-item-content-wrapper">
-							<div
-								className="habit-item-content"
-								onClick={(e) => {
-									e.stopPropagation();
-									toggleExpand(habit.id);
-								}}
-							>
-								<AdherenceCircle
-									percentage={adherenceMap[habit.id].percentage || 0}
-									className="habit-item-circle"
-								/>
+							<div className="habit-item-content">
+								<div
+									className="item-circle-wrapper"
+									onClick={(e) => {
+										e.stopPropagation();
+										toggleExpand(habit.id);
+									}}
+								>
+									<FaCaretDown
+										size={18}
+										className={isExpanded ? "caret rotated" : "caret"}
+									/>
+
+									<AdherenceCircle
+										percentage={percentage || 0}
+										className="habit-item-circle"
+									/>
+								</div>
 
 								<div className="habit-item-text">
 									<strong>{habit.name}</strong>
@@ -105,13 +119,10 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 
 							<div className="checkbox-wrapper" onClick={(e) => e.stopPropagation()}>
 								<Checkbox
-									ref={checkboxRef}
 									checked={isDone}
 									disabled={disabled}
-									onCheckedChange={() => {
-										if (!checkboxRef.current) return;
-
-										handleChecked(habit, isDone, checkboxRef.current);
+									onClick={(e) => {
+										handleChecked(habit, isDone, e.currentTarget);
 									}}
 								/>
 							</div>
@@ -123,15 +134,41 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 									initial={{ height: 0 }}
 									animate={{ height: "auto" }}
 									exit={{ height: 0 }}
-									transition={{ duration: 0.3 }}
+									transition={{ duration: 0.3, ease: [0.42, 0.0, 0.2, 1] }}
+									layout
 								>
-									{habit.description && <p>{habit.description}</p>}
+									{habit.description && (
+										<p>
+											<span>Description: </span>
+											{habit.description}
+										</p>
+									)}
+
+									<div className="divider-line"></div>
 
 									<ul>
-										<li>Completed: {adherenceMap[habit.id]?.logCount}</li>
-										<li>Expected: {adherenceMap[habit.id]?.expected}</li>
-										<li>Missed: {adherenceMap[habit.id]?.missed}</li>
-										<li>{adherenceMap[habit.id]?.onTrack ? "On Track" : "Behind"}</li>
+										<li>
+											<MdDoneOutline size={22} className="done-icon" />
+											<span>Done so far: </span>
+											{logCount}
+										</li>
+										<li>
+											<GoGoal size={22} className="goal-icon" />
+											<span>Goal until today: </span>
+											{expected}
+										</li>
+										<li>
+											<TbClockX size={24} className="missed-icon" />
+											<div className="offset">
+												<span>Missed days: </span>
+												{missed}
+											</div>
+										</li>
+										<li>
+											{onTrack
+												? "You're on track. Nice work!"
+												: "You're a bit behind. Keep going!"}
+										</li>
 									</ul>
 								</motion.div>
 							)}

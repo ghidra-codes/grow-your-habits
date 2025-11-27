@@ -6,6 +6,7 @@
 	flex-direction: column;
 	max-width: 32rem;
 	gap: 0.5rem;
+	overflow-y: scroll;
 
 	.habits-list {
 		display: flex;

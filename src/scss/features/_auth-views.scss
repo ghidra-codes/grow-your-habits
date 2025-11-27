@@ -6,35 +6,35 @@
 	min-height: 100vh;
 	padding: 1rem;
 	background-color: $rich-black;
-	color: $off-white;
 }
 
 .auth-form {
 	width: 100%;
 	max-width: 400px;
-	padding: 2.5rem 1.5rem;
+	padding: 2rem 1.5rem;
 	background-color: $rich-black-light;
-	border-radius: 12px;
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+	border-radius: 0.8rem;
+	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
 
 	h2 {
-		font-size: 1.8rem;
-		font-weight: 700;
+		@include fluid-type(h1);
+		font-family: "Oxanium", sans-serif;
 		color: $green-light;
-		margin-bottom: 2rem;
+		font-weight: 700;
 		text-align: center;
+		margin-bottom: 2rem;
 	}
 
 	input {
 		width: 100%;
 		padding: 1rem;
 		margin-bottom: 1.25rem;
-		background-color: $rich-black-lighter;
-		border: 1px solid $rich-black-lightest;
-		border-radius: 8px;
-		color: $off-white;
+		background-color: $rich-black-input;
+		border: 1px solid $rich-black-input-light;
+		border-radius: 0.5rem;
 		font-size: 1rem;
-		transition: border-color 0.2s, background-color 0.2s;
+		color: $off-white;
+		transition: all 0.2s;
 
 		&::placeholder {
 			color: rgba($off-white, 0.5);
@@ -43,52 +43,51 @@
 		&:focus {
 			outline: none;
 			border-color: $green-primary;
-			background-color: $rich-black-lightest;
+			background-color: $rich-black-input-light;
 		}
 	}
 
-	button[type="submit"] {
+	input:last-of-type {
+		margin-bottom: 0.75rem;
+	}
+
+	button {
 		width: 100%;
+		margin-top: 0.75rem;
 		padding: 1rem;
 		background-color: $green-primary;
-		color: $rich-black-darker;
-		font-size: 1rem;
-		font-weight: 700;
+		color: $rich-black;
+		@include fluid-type(large-button-text);
 		border: none;
-		border-radius: 8px;
-		cursor: pointer;
-		transition: background-color 0.2s, transform 0.1s;
-		margin-top: 0.5rem;
+		border-radius: 0.5rem;
+		transition: all 0.25s ease;
 
 		&:hover:not(:disabled) {
-			background-color: $green-light;
+			background-color: $green-secondary;
 		}
 
 		&:disabled {
-			background-color: $green-dark;
 			cursor: not-allowed;
-			opacity: 0.6;
+			opacity: 0.8;
 		}
 	}
 }
 
-.auth-message {
-	text-align: center;
-	padding: 0.75rem 1rem;
-	margin-bottom: 1rem;
-	border-radius: 8px;
-	font-size: 0.95rem;
+.auth-error {
+	@include flex-center;
+	margin: 0;
+	height: 2.5rem;
+	padding: 0.5rem 0;
+	border-radius: 0.5rem;
+	@include fluid-type(small-text);
+	background-color: rgba($alert-red, 0.2);
+	color: $alert-red;
+	border: 1px solid $alert-red;
+	transition: opacity 0.3s ease;
 
-	&--error {
-		background-color: rgba($alert-red, 0.2);
-		color: $alert-red;
-		border: 1px solid $alert-red;
-	}
-
-	&--success {
-		background-color: rgba($green-primary, 0.2);
-		color: $green-light;
-		border: 1px solid $green-dark;
+	&.hidden {
+		visibility: hidden;
+		opacity: 0;
 	}
 }
 

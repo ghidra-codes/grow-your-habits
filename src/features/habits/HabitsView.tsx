@@ -19,6 +19,7 @@ import { useUpdateHabit } from "./hooks/useUpdateHabit";
 const HabitsView = () => {
 	const [selectedHabit, setSelectedHabit] = useState<Habit | null>(null);
 	const [modalMode, setModalMode] = useState<"add" | "edit">("add");
+	const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 	const [isOpen, setIsOpen] = useState(false);
 
 	const userId = useUserIdRequired();
@@ -58,6 +59,12 @@ const HabitsView = () => {
 		await mutateFn(habit.id);
 	};
 
+	const handleOpenModal = (mode: "add" | "edit") => {
+		setModalMode(mode);
+		setExpandedIds(new Set());
+		setIsOpen(true);
+	};
+
 	const isEditMode = modalMode === "edit";
 	const isMutating = isLogging || isDeletingLog;
 
@@ -88,13 +95,7 @@ const HabitsView = () => {
 			<div className="habits-container">
 				<div className="habits-control-panel" onClick={(e) => e.stopPropagation()}>
 					{!selectedHabit && (
-						<button
-							className="add-habit-btn"
-							onClick={() => {
-								setModalMode("add");
-								setIsOpen(true);
-							}}
-						>
+						<button className="add-habit-btn" onClick={() => handleOpenModal("add")}>
 							<FaRegPlusSquare size={26} />
 						</button>
 					)}
@@ -110,13 +111,7 @@ const HabitsView = () => {
 							>
 								<FaRegTrashAlt size={25} />
 							</button>
-							<button
-								className="edit-habit-btn"
-								onClick={() => {
-									setModalMode("edit");
-									setIsOpen(true);
-								}}
-							>
+							<button className="edit-habit-btn" onClick={() => handleOpenModal("edit")}>
 								<FaRegEdit size={27} />
 							</button>
 						</>
@@ -133,6 +128,8 @@ const HabitsView = () => {
 							onToggleHabit={handleToggleHabit}
 							isMutating={isMutating}
 							adherenceMap={adherenceMap}
+							expandedIds={expandedIds}
+							setExpandedIds={setExpandedIds}
 						/>
 					</ul>
 				)}
@@ -143,7 +140,7 @@ const HabitsView = () => {
 				handleClose={() => setIsOpen(false)}
 				title={modalInfo.title}
 				description={modalInfo.description}
-				contentClass="habits-form"
+				containerClass="habits-form-container"
 			>
 				<HabitsForm
 					isEditMode={isEditMode}

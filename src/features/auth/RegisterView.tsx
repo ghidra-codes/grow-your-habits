@@ -36,9 +36,7 @@ const RegisterView = () => {
 	return (
 		<div className="auth-container">
 			<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-				<h2>Register</h2>
-
-				{error && <p className="auth-message auth-message--error">{error}</p>}
+				<h2>REGISTER</h2>
 
 				<input
 					type="email"
@@ -52,6 +50,8 @@ const RegisterView = () => {
 					{...register("password", { required: "Password is required" })}
 					required
 				/>
+
+				<p className={`auth-error ${!error && "hidden"}`}>{error}</p>
 
 				<button type="submit" disabled={loading}>
 					{loading ? "Creating Account..." : "Register"}

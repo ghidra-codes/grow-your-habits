@@ -25,9 +25,14 @@ export const useLogHabit = (userId: string) => {
 			const prevHabits = queryClient.getQueryData<HabitWithRelations[]>(key);
 
 			queryClient.setQueryData<HabitWithRelations[]>(key, (old = []) =>
-				old.map((habit) =>
-					habit.id === habitId ? { ...habit, logs: [{ id: "temp", log_date: today }] } : habit
-				)
+				old.map((habit) => {
+					if (habit.id !== habitId) return habit;
+
+					return {
+						...habit,
+						logs: [...(habit.logs ?? []), { id: "temp", log_date: today }],
+					};
+				})
 			);
 
 			return { prevHabits };
@@ -39,9 +44,16 @@ export const useLogHabit = (userId: string) => {
 
 		onSuccess: (result, habitId) => {
 			queryClient.setQueryData<HabitWithRelations[]>(habitsKey(userId), (old = []) =>
-				old.map((habit) =>
-					habit.id === habitId ? { ...habit, logs: result.data ? [result.data] : [] } : habit
-				)
+				old.map((habit) => {
+					if (habit.id !== habitId) return habit;
+
+					const filtered = (habit.logs ?? []).filter((log) => log.log_date !== getTodayDate());
+
+					return {
+						...habit,
+						logs: result.data ? [...filtered, result.data] : filtered,
+					};
+				})
 			);
 		},
 	});

@@ -26,6 +26,14 @@ h3 {
 	letter-spacing: 0.02em;
 }
 
+select,
+textarea,
+input {
+	font-family: inherit;
+	letter-spacing: 0.01em;
+	@include fluid-type(p);
+}
+
 button {
 	font-family: inherit;
 	letter-spacing: 0.05em;

@@ -8,20 +8,22 @@ interface ModalProps {
 	title: string;
 	description: string;
 	children: React.ReactNode;
-	contentClass?: string;
+	containerClass?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, title, description, children, contentClass }) => (
+const Modal: React.FC<ModalProps> = ({
+	isOpen,
+	handleClose,
+	title,
+	description,
+	children,
+	containerClass,
+}) => (
 	<Dialog.Root open={isOpen} onOpenChange={(open) => !open && handleClose()}>
 		<Dialog.Portal>
 			<Dialog.Overlay className="modal-overlay" />
 
-			<Dialog.Content
-				className="modal-content-container"
-				onOpenAutoFocus={(e) => e.preventDefault()}
-				onCloseAutoFocus={(e) => e.preventDefault()}
-				onInteractOutside={(e) => e.preventDefault()}
-			>
+			<Dialog.Content className={`modal-content-container ${containerClass || ""}`}>
 				<div className="modal-header">
 					<Dialog.Title className="modal-title">{title}</Dialog.Title>
 					<Dialog.Close className="modal-close-btn">
@@ -31,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, title, description, 
 
 				<Dialog.Description className="modal-description">{description}</Dialog.Description>
 
-				<div className={contentClass}>{children}</div>
+				<div>{children}</div>
 			</Dialog.Content>
 		</Dialog.Portal>
 	</Dialog.Root>
