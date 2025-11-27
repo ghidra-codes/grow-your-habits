@@ -1,6 +1,6 @@
 import type { FrequencyType, HabitPayload } from "@/types/habit.types";
-import { useForm } from "react-hook-form";
-import { FaAngleDown } from "react-icons/fa";
+import Select from "@/ui/Select";
+import { Controller, useForm } from "react-hook-form";
 
 type FormValues = {
 	name: string;
@@ -24,6 +24,7 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 		handleSubmit,
 		formState: { errors },
 		watch,
+		control,
 	} = useForm<FormValues>({
 		shouldUnregister: false,
 		defaultValues: initialValues || {
@@ -84,14 +85,22 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 			</div>
 
 			<div className="frequency-wrapper">
-				<select {...register("frequency_type")}>
-					<option value="daily">Daily</option>
-					<option value="weekly">Weekly</option>
-					<option value="monthly">Monthly</option>
-					<option value="custom">Custom</option>
-				</select>
-
-				<FaAngleDown className="select-icon" color="#f3f8f4" />
+				<Controller
+					name="frequency_type"
+					control={control}
+					render={({ field }) => (
+						<Select
+							value={field.value}
+							onChange={field.onChange}
+							options={[
+								{ label: "Daily", value: "daily" },
+								{ label: "Weekly", value: "weekly" },
+								{ label: "Monthly", value: "monthly" },
+								{ label: "Custom", value: "custom" },
+							]}
+						/>
+					)}
+				/>
 			</div>
 
 			{frequency === "weekly" && (

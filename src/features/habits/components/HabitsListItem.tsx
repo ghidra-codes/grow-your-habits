@@ -160,8 +160,7 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 										<li>
 											<TbClockX size={24} className="missed-icon" />
 											<div className="offset">
-												<span>Missed days: </span>
-												{missed}
+												<span>Missed days: </span> {missed}
 											</div>
 										</li>
 										<li>

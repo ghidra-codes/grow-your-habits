@@ -1,0 +1,85 @@
+@use "../abstracts/index" as *;
+
+.select {
+	position: relative;
+	width: 100%;
+
+	.select-trigger {
+		width: 100%;
+		padding: 1rem;
+		background: $rich-black-input;
+		border: 1px solid $rich-black-input-light;
+		border-radius: 0.5rem;
+		color: $off-white;
+		text-align: left;
+		cursor: pointer;
+		transition: 0.15s ease;
+
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-weight: 500;
+
+		.chevron {
+			transition: transform 0.25s ease;
+		}
+
+		&:hover,
+		&.open {
+			border-color: $green-primary;
+			background: $rich-black-input-light;
+		}
+
+		&.open .chevron {
+			transform: rotate(180deg);
+		}
+	}
+
+	.select-options {
+		position: absolute;
+		top: calc(100% + 0.35rem);
+		left: 0;
+		width: 100%;
+		background: $rich-black-input;
+		border: 1px solid $rich-black-input-light;
+		border-radius: 0.5rem;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+		list-style: none;
+		z-index: 10;
+
+		display: none;
+		opacity: 0;
+		transform: translateY(-6px);
+		transition: 0.15s ease;
+		@include fluid-type(button-text);
+		font-weight: 500;
+		letter-spacing: 0.05em;
+
+		&.open {
+			display: block;
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		li {
+			padding: 0.8rem 1rem;
+			cursor: pointer;
+			transition: background 0.15s ease;
+			color: $off-white;
+
+			&:hover {
+				background: $rich-black-input-light;
+			}
+		}
+
+		li:first-of-type {
+			border-top-left-radius: 0.5rem;
+			border-top-right-radius: 0.5rem;
+		}
+
+		li:last-of-type {
+			border-bottom-left-radius: 0.5rem;
+			border-bottom-right-radius: 0.5rem;
+		}
+	}
+}

@@ -40,6 +40,12 @@
 			}
 		}
 
+		select option {
+			background-color: $rich-black-input;
+			color: $off-white;
+			border-radius: 1rem;
+		}
+
 		textarea {
 			width: 100%;
 			padding: 1rem;
