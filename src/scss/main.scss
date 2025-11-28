@@ -15,7 +15,8 @@
 @use "./ui/adherence-circle";
 @use "./ui/select";
 
-@use "./features/auth-views";
-@use "./features/habits-form";
-@use "./features/habits-view";
-@use "./features/habits-list-item";
+@use "./features/auth/auth-views";
+@use "./features/habits/habits-form";
+@use "./features/habits/habits-view";
+@use "./features/habits/habits-list-item";
+@use "./features/statistics/timeline-carousel";

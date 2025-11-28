@@ -1,4 +1,4 @@
-@use "../abstracts/index" as *;
+@use "../../abstracts/index" as *;
 
 .auth-container {
 	@include flex-center;

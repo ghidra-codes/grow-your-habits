@@ -11,5 +11,8 @@ export const useHabitAdherence = (habits: HabitWithRelations[]): { adherenceMap:
 		adherenceMap[habit.id] = calculateHabitAdherence(habit, logCount, schedule);
 	}
 
+	console.log("habits:", habits);
+	console.log("adherenceMap:", adherenceMap);
+
 	return { adherenceMap };
 };

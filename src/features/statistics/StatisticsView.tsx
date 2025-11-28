@@ -4,11 +4,20 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 import { useHabitAdherence } from "../habits/hooks/habit-adherence/useHabitAdherence";
 import AdherenceCircle from "@/ui/AdherenceCircle";
 
+import { TimelineCarousel } from "./components/timeline/TimelineCarousel";
+import { useTimelineStats } from "./hooks/useTimelineStats";
+import { useStreakStats } from "./hooks/useStreakStats";
+
 const StatisticsView = () => {
 	const userId = useUserIdRequired();
 
 	const { data: habits = [], isLoading } = useHabitsQuery(userId);
 	const { adherenceMap } = useHabitAdherence(habits);
+	const { streakMap } = useStreakStats(habits);
+	const { timelineMap } = useTimelineStats(habits, "daily");
+
+	console.log("timelineMap:", timelineMap);
+	console.log("streakMap:", streakMap);
 
 	if (isLoading) return <LoadingSpinner />;
 
@@ -20,6 +29,9 @@ const StatisticsView = () => {
 				return (
 					<div key={habit.id} className="habit-stats-card">
 						<h3>{habit.name}</h3>
+
+						<TimelineCarousel data={timelineMap[habit.id]} />
+
 						<AdherenceCircle
 							percentage={adherence.percentage}
 							className="habit-card-circle"

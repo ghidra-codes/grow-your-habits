@@ -1,0 +1,62 @@
+.timeline-embla {
+	overflow: hidden;
+	width: 100%;
+}
+
+.timeline-embla__container {
+	display: flex;
+}
+
+.timeline-embla__slide {
+	flex: 0 0 100%;
+	padding: 12px 0;
+}
+
+/* WEEK ROW */
+.week-row {
+	width: 100%;
+	display: flex;
+	padding: 8px 0;
+	justify-content: space-evenly;
+}
+
+/* DAY CELL */
+.week-day {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+	max-width: 48px;
+}
+
+.week-day__weekday {
+	font-size: 12px;
+	color: #9aa3a5;
+	margin-bottom: 2px;
+}
+
+.week-day__date {
+	font-size: 11px;
+	color: #ced5d7;
+	margin-bottom: 6px;
+}
+
+/* DOT STATES */
+.week-day__dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+.week-day__dot--unavailable {
+	background-color: #ffffff;
+	border: 1px solid #d0d0d0;
+}
+
+.week-day__dot--completed {
+	background-color: #3fbf6b;
+}
+
+.week-day__dot--missed {
+	background-color: #ff4d4d;
+}
