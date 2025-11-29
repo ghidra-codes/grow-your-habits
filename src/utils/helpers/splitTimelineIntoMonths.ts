@@ -8,27 +8,20 @@ export const splitTimelineIntoMonths = (timeline: TimelineEntry[]): PeriodTimeli
 	let currentMonthNumber = parseISO(timeline[0].date).getMonth();
 
 	for (let i = 0; i < timeline.length; i++) {
-		const day = timeline[i];
-		const month = parseISO(day.date).getMonth();
+		const entry = timeline[i];
+		const month = parseISO(entry.date).getMonth();
 
 		if (month !== currentMonthNumber) {
-			const hasActivity = currentMonth.some(
-				(day) => day.status === "completed" || day.status === "missed"
-			);
-
-			if (hasActivity) months.push(currentMonth);
-
+			months.push(currentMonth);
 			currentMonth = [];
 			currentMonthNumber = month;
 		}
 
-		currentMonth.push(day);
+		currentMonth.push(entry);
 	}
 
 	if (currentMonth.length > 0) {
-		const hasActivity = currentMonth.some((day) => day.status === "completed" || day.status === "missed");
-
-		if (hasActivity) months.push(currentMonth);
+		months.push(currentMonth);
 	}
 
 	return months;

@@ -6,73 +6,34 @@
 	border-radius: 0.8rem;
 	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
 
-	h2 {
-		text-align: center;
-		color: $green-light;
-		margin-bottom: 0.5rem;
-		font-family: "Oxanium", sans-serif;
-		font-weight: 700;
-	}
-
 	form {
 		display: flex;
 		flex-direction: column;
 		margin-top: 1rem;
 
-		select,
-		input {
-			width: 100%;
-			padding: 1rem;
-			background-color: $rich-black-input;
-			border: 1px solid $rich-black-input-light;
-			border-radius: 0.5rem;
-			color: $off-white;
-			transition: all 0.2s ease;
-
-			&::placeholder {
-				color: rgba($off-white, 0.5);
-			}
-
-			&:focus {
-				outline: none;
-				border-color: $green-primary;
-				background-color: $rich-black-input-light;
-			}
-		}
-
-		select option {
-			background-color: $rich-black-input;
-			color: $off-white;
-			border-radius: 1rem;
-		}
-
-		textarea {
-			width: 100%;
-			padding: 1rem;
-			background-color: $rich-black-input;
-			border: 1px solid $rich-black-input-light;
-			border-radius: 0.5rem;
-			color: $off-white;
-			min-height: 4rem;
-			max-height: 6.5rem;
-			overflow-y: auto;
-			resize: none;
-			transition: all 0.2s ease;
-
-			&::placeholder {
-				color: rgba($off-white, 0.5);
-			}
-
-			&:focus {
-				outline: none;
-				border-color: $green-primary;
-				background-color: $rich-black-input-light;
-			}
-		}
-
 		.input-group {
 			display: flex;
 			flex-direction: column;
+
+			input {
+				width: 100%;
+				padding: 1rem;
+				background-color: $rich-black-surface;
+				border: 1px solid $rich-black-surface-light;
+				border-radius: 0.5rem;
+				color: $off-white;
+				transition: all 0.2s ease;
+
+				&::placeholder {
+					color: rgba($off-white, 0.5);
+				}
+
+				&:focus {
+					outline: none;
+					border-color: $green-primary;
+					background-color: $rich-black-surface-light;
+				}
+			}
 
 			.form-error-text {
 				display: flex;
@@ -94,66 +55,73 @@
 			}
 		}
 
+		textarea {
+			width: 100%;
+			padding: 1rem;
+			background-color: $rich-black-surface;
+			border: 1px solid $rich-black-surface-light;
+			border-radius: 0.5rem;
+			color: $off-white;
+			min-height: 4rem;
+			max-height: 6.5rem;
+			overflow-y: auto;
+			resize: none;
+			transition: all 0.2s ease;
+
+			&::placeholder {
+				color: rgba($off-white, 0.5);
+			}
+
+			&:focus {
+				outline: none;
+				border-color: $green-primary;
+				background-color: $rich-black-surface-light;
+			}
+		}
+
 		.frequency-input {
 			margin-top: 2.05rem;
 		}
-	}
 
-	.frequency-wrapper {
-		position: relative;
+		.form-actions {
+			display: flex;
+			gap: 0.75rem;
+			margin-top: 2.5rem;
 
-		select {
-			appearance: none;
-		}
-
-		.select-icon {
-			position: absolute;
-			top: 50%;
-			right: 0.75rem;
-			transform: translateY(-50%);
-			pointer-events: none;
-			color: rgba($off-white, 0.65);
-		}
-	}
-
-	.form-actions {
-		display: flex;
-		gap: 0.75rem;
-		margin-top: 2.5rem;
-
-		button {
-			padding: 0.85rem 1.4rem;
-			border-radius: 0.5rem;
-			border: none;
-			@include fluid-type(button-text);
-			transition: all 0.25s ease;
-			flex: 1;
-		}
-
-		.form-btn-cancel {
-			background: transparent;
-			border: 2px solid $rich-black-input;
-			color: $jet-brighter;
-
-			&:hover {
-				border-color: $rich-black-input-light;
-				background: $rich-black-input;
-				color: $off-white;
+			button {
+				padding: 0.85rem 1.4rem;
+				border-radius: 0.5rem;
+				border: none;
+				@include fluid-type(button-text);
+				transition: all 0.25s ease;
+				flex: 1;
 			}
-		}
 
-		.form-btn-confirm {
-			background: $green-primary;
-			color: $rich-black;
-			border: 1px solid $green-dark;
+			.form-btn-cancel {
+				background: transparent;
+				border: 2px solid $rich-black-surface;
+				color: $jet-brighter;
 
-			&:hover {
-				background: $green-secondary;
+				&:hover {
+					border-color: $rich-black-surface-light;
+					background: $rich-black-surface;
+					color: $off-white;
+				}
 			}
-		}
 
-		&.form-actions-shifted {
-			margin-top: 0.45rem;
+			.form-btn-confirm {
+				background: $green-primary;
+				color: $rich-black;
+				border: 1px solid $green-dark;
+
+				&:hover {
+					background: $green-secondary;
+				}
+			}
+
+			&.form-actions-shifted {
+				margin-top: 0.45rem;
+			}
 		}
 	}
 }

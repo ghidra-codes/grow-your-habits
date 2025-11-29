@@ -29,8 +29,8 @@
 		width: 100%;
 		padding: 1rem;
 		margin-bottom: 1.25rem;
-		background-color: $rich-black-input;
-		border: 1px solid $rich-black-input-light;
+		background-color: $rich-black-surface;
+		border: 1px solid $rich-black-surface-light;
 		border-radius: 0.5rem;
 		font-size: 1rem;
 		color: $off-white;
@@ -43,7 +43,7 @@
 		&:focus {
 			outline: none;
 			border-color: $green-primary;
-			background-color: $rich-black-input-light;
+			background-color: $rich-black-surface-light;
 		}
 	}
 

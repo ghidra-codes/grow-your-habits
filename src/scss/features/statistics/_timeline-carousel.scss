@@ -1,3 +1,5 @@
+@use "../../abstracts/index" as *;
+
 .timeline-embla {
 	overflow: hidden;
 	width: 100%;
@@ -10,38 +12,99 @@
 .timeline-embla__slide {
 	flex: 0 0 100%;
 	padding: 12px 0;
+
+	// WEEK ROW
+
+	.week-row {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		justify-items: center;
+		padding: 8px 0;
+	}
+
+	// DAY CELL
+
+	.week-day {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		max-width: 48px;
+	}
+
+	.week-day__weekday {
+		font-size: 12px;
+		color: $jet-brighter;
+		margin-bottom: 2px;
+	}
+
+	.week-day__date {
+		font-size: 11px;
+		color: rgba($off-white, 0.8);
+		margin-bottom: 6px;
+	}
+
+	.timeline-embla__slide-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin: 0 0.5rem 0.35rem 0.5rem;
+
+		.period-label {
+			text-align: center;
+			color: rgba($off-white, 0.85);
+			font-weight: 600;
+			@include fluid-type(small-text);
+			letter-spacing: 0.01em;
+			opacity: 0.8;
+			padding: 0.05rem 0.35rem;
+			border-radius: 0.3rem;
+			background-color: $jet;
+		}
+
+		.slide-arrow {
+			@include flex-center;
+			color: rgba($off-white, 0.8);
+		}
+
+		.slide-arrow.rotated {
+			transform: rotate(180deg);
+		}
+	}
 }
 
-/* WEEK ROW */
-.week-row {
-	width: 100%;
-	display: flex;
-	padding: 8px 0;
-	justify-content: space-evenly;
+// COMPACT
+.timeline-embla__slide.compact {
+	.week-row {
+		padding: 5px 0;
+	}
+
+	.period-label {
+		margin-bottom: 0.2rem;
+	}
+
+	.week-day {
+		max-width: 32px;
+
+		.week-day__weekday {
+			font-size: 10px;
+			margin-bottom: 1px;
+		}
+
+		.week-day__date {
+			font-size: 10px;
+			margin-bottom: 4px;
+		}
+
+		.week-day__dot {
+			width: 8px;
+			height: 8px;
+		}
+	}
 }
 
-/* DAY CELL */
-.week-day {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	flex: 1;
-	max-width: 48px;
-}
+// DOTS
 
-.week-day__weekday {
-	font-size: 12px;
-	color: #9aa3a5;
-	margin-bottom: 2px;
-}
-
-.week-day__date {
-	font-size: 11px;
-	color: #ced5d7;
-	margin-bottom: 6px;
-}
-
-/* DOT STATES */
 .week-day__dot {
 	width: 10px;
 	height: 10px;
@@ -49,14 +112,34 @@
 }
 
 .week-day__dot--unavailable {
-	background-color: #ffffff;
-	border: 1px solid #d0d0d0;
+	background-color: rgba($off-white, 0.8);
+	border: 1px solid $jet-bright;
 }
 
 .week-day__dot--completed {
-	background-color: #3fbf6b;
+	background-color: $green-primary;
 }
 
 .week-day__dot--missed {
-	background-color: #ff4d4d;
+	background-color: rgba($alert-red, 0.9);
+}
+
+.week-day--placeholder {
+	opacity: 0.45;
+
+	.week-day__weekday {
+		color: $jet-bright;
+	}
+
+	.week-day__date {
+		color: $jet-bright;
+	}
+
+	.week-day__dot--placeholder {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background-color: transparent;
+		border: 1px solid $jet-bright;
+	}
 }

@@ -105,10 +105,7 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 										className={isExpanded ? "caret rotated" : "caret"}
 									/>
 
-									<AdherenceCircle
-										percentage={percentage || 0}
-										className="habit-item-circle"
-									/>
+									<AdherenceCircle percentage={percentage || 0} />
 								</div>
 
 								<div className="habit-item-text">

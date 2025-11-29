@@ -1,23 +1,32 @@
+import { parseISO, getISOWeek, getISOWeekYear } from "date-fns";
 import type { TimelineEntry, PeriodTimeline } from "@/types/statistics.types";
 
 export const splitTimelineIntoWeeks = (timeline: TimelineEntry[]): PeriodTimeline => {
 	const weeks: PeriodTimeline = [];
 	let currentWeek: TimelineEntry[] = [];
 
+	let currentWeekNumber = getISOWeek(parseISO(timeline[0].date));
+	let currentWeekYear = getISOWeekYear(parseISO(timeline[0].date));
+
 	for (let i = 0; i < timeline.length; i++) {
-		currentWeek.push(timeline[i]);
+		const entry = timeline[i];
+		const date = parseISO(entry.date);
 
-		if (currentWeek.length === 7) {
-			// Only push weeks that contain at least one completed or missed day
-			const hasActivity = currentWeek.some(
-				(day) => day.status === "completed" || day.status === "missed"
-			);
+		const week = getISOWeek(date);
+		const weekYear = getISOWeekYear(date);
 
-			if (hasActivity) weeks.push(currentWeek);
+		if (week !== currentWeekNumber || weekYear !== currentWeekYear) {
+			weeks.push(currentWeek);
 
 			currentWeek = [];
+			currentWeekNumber = week;
+			currentWeekYear = weekYear;
 		}
+
+		currentWeek.push(entry);
 	}
+
+	if (currentWeek.length > 0) weeks.push(currentWeek);
 
 	return weeks;
 };

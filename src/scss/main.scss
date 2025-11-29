@@ -13,10 +13,15 @@
 @use "./ui/checkbox";
 @use "./ui/loading-spinner";
 @use "./ui/adherence-circle";
+@use "./ui/progress-bar";
 @use "./ui/select";
 
 @use "./features/auth/auth-views";
+
 @use "./features/habits/habits-form";
 @use "./features/habits/habits-view";
 @use "./features/habits/habits-list-item";
+
 @use "./features/statistics/timeline-carousel";
+@use "./features/statistics/statistics-modal-view";
+@use "./features/statistics/streak-bar";

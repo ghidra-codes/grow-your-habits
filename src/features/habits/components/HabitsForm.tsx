@@ -84,24 +84,22 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 				</p>
 			</div>
 
-			<div className="frequency-wrapper">
-				<Controller
-					name="frequency_type"
-					control={control}
-					render={({ field }) => (
-						<Select
-							value={field.value}
-							onChange={field.onChange}
-							options={[
-								{ label: "Daily", value: "daily" },
-								{ label: "Weekly", value: "weekly" },
-								{ label: "Monthly", value: "monthly" },
-								{ label: "Custom", value: "custom" },
-							]}
-						/>
-					)}
-				/>
-			</div>
+			<Controller
+				name="frequency_type"
+				control={control}
+				render={({ field }) => (
+					<Select<FrequencyType>
+						value={field.value}
+						onChange={field.onChange}
+						options={[
+							{ label: "Daily", value: "daily" },
+							{ label: "Weekly", value: "weekly" },
+							{ label: "Monthly", value: "monthly" },
+							{ label: "Custom", value: "custom" },
+						]}
+					/>
+				)}
+			/>
 
 			{frequency === "weekly" && (
 				<div className="input-group">

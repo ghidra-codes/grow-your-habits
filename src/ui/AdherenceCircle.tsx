@@ -4,13 +4,11 @@ import "react-circular-progressbar/dist/styles.css";
 
 interface AdherenceCircleProps {
 	percentage: number;
-	textSize?: string;
-	className?: string;
 }
 
-const AdherenceCircle: React.FC<AdherenceCircleProps> = ({ percentage, textSize = "22px", className }) => {
+const AdherenceCircle: React.FC<AdherenceCircleProps> = ({ percentage }) => {
 	return (
-		<div className={`adherence-circle ${className}`}>
+		<div className="adherence-circle">
 			<CircularProgressbar
 				value={percentage}
 				text={`${Math.round(percentage)}%`}
@@ -19,7 +17,7 @@ const AdherenceCircle: React.FC<AdherenceCircleProps> = ({ percentage, textSize 
 					trailColor: "#062b3a",
 					textColor: "#f3f8f4",
 					strokeLinecap: "round",
-					textSize,
+					textSize: "24px",
 				})}
 			/>
 		</div>

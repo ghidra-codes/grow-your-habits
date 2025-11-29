@@ -1,31 +1,39 @@
 import { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
-interface Option {
+interface Option<T extends string> {
 	label: string;
-	value: string;
+	value: T;
 }
 
-interface SelectProps {
-	value: string;
-	onChange: (value: string) => void;
-	options: Option[];
+interface SelectProps<T extends string> {
+	value: T;
+	onChange: (value: T) => void;
+	options: Option<T>[];
+	chevronSize?: number;
+	className?: string;
 }
 
-const Select = ({ value, onChange, options }: SelectProps) => {
+const Select = <T extends string>({
+	value,
+	onChange,
+	options,
+	chevronSize = 18,
+	className,
+}: SelectProps<T>) => {
 	const [open, setOpen] = useState(false);
 
 	const selectedLabel = options.find((opt) => opt.value === value)?.label ?? "Select";
 
 	return (
-		<div className="select">
+		<div className={`select ${className ?? ""}`}>
 			<button
 				type="button"
 				className={`select-trigger ${open ? "open" : ""}`}
 				onClick={() => setOpen((p) => !p)}
 			>
 				{selectedLabel}
-				<FaAngleDown className="chevron" size={18} />
+				<FaAngleDown className="chevron" size={chevronSize} />
 			</button>
 
 			<ul className={`select-options ${open ? "open" : ""}`}>

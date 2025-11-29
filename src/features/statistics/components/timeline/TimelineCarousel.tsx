@@ -1,52 +1,52 @@
-import type { PeriodTimeline, TimelineEntry } from "@/types/statistics.types";
-import { format, parseISO } from "date-fns";
+import type { PeriodTimeline, TimelineEntry, TimelineViewMode } from "@/types/statistics.types";
 import useEmblaCarousel from "embla-carousel-react";
-
-type TimelineData = TimelineEntry[] | PeriodTimeline;
+import type React from "react";
+import PeriodView from "./PeriodView";
+import { format, getISOWeek, parseISO } from "date-fns";
+import { FaAngleDoubleRight } from "react-icons/fa";
 
 interface TimelineCarouselProps {
-	data: TimelineData;
+	data: PeriodTimeline;
+	compact?: boolean;
+	mode: TimelineViewMode;
 }
 
-export const TimelineCarousel = ({ data }: TimelineCarouselProps) => {
-	const [emblaRef] = useEmblaCarousel({ dragFree: false, loop: false });
+export const TimelineCarousel: React.FC<TimelineCarouselProps> = ({ data, compact, mode }) => {
+	const isMultiplePeriods = data.length > 1;
 
-	const slides = Array.isArray(data[0]) ? (data as PeriodTimeline) : ([data] as PeriodTimeline);
+	const [emblaRef] = useEmblaCarousel({
+		active: isMultiplePeriods,
+		containScroll: "keepSnaps",
+		align: "start",
+	});
+
+	const getLabel = (period: TimelineEntry[]) => {
+		const firstDate = parseISO(period[0].date);
+
+		if (mode === "weekly") {
+			return `v${getISOWeek(firstDate)}`;
+		}
+
+		return format(firstDate, "LLLL");
+	};
 
 	return (
 		<div className="timeline-embla" ref={emblaRef}>
 			<div className="timeline-embla__container">
-				{slides.map((period, i) => (
-					<div key={i} className="timeline-embla__slide">
-						<PeriodRow period={period} />
+				{data.map((period, i) => (
+					<div key={i} className={`timeline-embla__slide ${compact ? "compact" : ""}`}>
+						<div className="timeline-embla__slide-header">
+							<span className="period-label">{getLabel(period)}</span>
+							{isMultiplePeriods && (
+								<div className={`slide-arrow ${i === data.length - 1 ? "rotated" : ""}`}>
+									<FaAngleDoubleRight size={22} />
+								</div>
+							)}
+						</div>
+						<PeriodView period={period} />
 					</div>
 				))}
 			</div>
 		</div>
 	);
 };
-
-const PeriodRow = ({ period }: { period: TimelineEntry[] }) => (
-	<div className="week-row">
-		{period.map((day) => (
-			<div key={day.date} className="week-day">
-				<span className="week-day__weekday">{formatWeekday(day.date)}</span>
-				<span className="week-day__date">{formatShortDate(day.date)}</span>
-
-				<div
-					className={`week-day__dot ${
-						day.status === "completed"
-							? "week-day__dot--completed"
-							: day.status === "missed"
-							? "week-day__dot--missed"
-							: "week-day__dot--unavailable"
-					}`}
-				/>
-			</div>
-		))}
-	</div>
-);
-
-const formatWeekday = (dateStr: string) => format(parseISO(dateStr), "EEE");
-
-const formatShortDate = (dateStr: string) => format(parseISO(dateStr), "dd/MM");

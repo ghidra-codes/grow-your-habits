@@ -26,8 +26,7 @@
 			gap: 0.75rem;
 
 			.item-circle-wrapper {
-				display: flex;
-				align-items: center;
+				@include flex-center;
 				gap: 0.3rem;
 
 				.caret {
