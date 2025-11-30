@@ -10,7 +10,7 @@ export type Habit = Omit<Database["public"]["Tables"]["habits"]["Row"], "frequen
 
 export type HabitRelations = {
 	logs: Pick<Tables<"habit_logs">, "id" | "log_date">[];
-	schedules: Pick<Tables<"habit_schedule">, "weekday">[];
+	schedules: number[];
 };
 
 export type HabitWithRelations = Habit & HabitRelations;

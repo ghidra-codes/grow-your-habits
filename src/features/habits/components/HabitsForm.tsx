@@ -37,6 +37,7 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 	});
 
 	const onSubmit = async (data: FormValues) => {
+		console.log("data:", data);
 		const actionFn = isEditMode ? onUpdateHabit : onAddHabit;
 
 		await actionFn({

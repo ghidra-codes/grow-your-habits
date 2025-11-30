@@ -1,52 +1,50 @@
-import type { PeriodTimeline, TimelineEntry, TimelineViewMode } from "@/types/statistics.types";
+import type { TimelineCarouselProps } from "@/types/carousel.types";
+import { EmblaWrapper } from "@/ui/EmblaWrapper";
 import useEmblaCarousel from "embla-carousel-react";
-import type React from "react";
-import PeriodView from "./PeriodView";
-import { format, getISOWeek, parseISO } from "date-fns";
-import { FaAngleDoubleRight } from "react-icons/fa";
+import DailyCarouselContent from "./daily/DailyCarouselContent";
+import MonthlyCarouselContent from "./monthly/MonthlyCarouselContent";
+import WeeklyCarouselContent from "./weekly/WeeklyCarouselContent";
 
-interface TimelineCarouselProps {
-	data: PeriodTimeline;
-	compact?: boolean;
-	mode: TimelineViewMode;
-}
+export const TimelineCarousel: React.FC<TimelineCarouselProps> = (props) => {
+	const { data, frequency } = props;
 
-export const TimelineCarousel: React.FC<TimelineCarouselProps> = ({ data, compact, mode }) => {
-	const isMultiplePeriods = data.length > 1;
+	const multipleSlides = data.length > 1;
 
 	const [emblaRef] = useEmblaCarousel({
-		active: isMultiplePeriods,
+		loop: false,
+		active: multipleSlides,
 		containScroll: "keepSnaps",
 		align: "start",
 	});
 
-	const getLabel = (period: TimelineEntry[]) => {
-		const firstDate = parseISO(period[0].date);
+	switch (frequency) {
+		case "daily":
+			return (
+				<EmblaWrapper emblaRef={emblaRef}>
+					<DailyCarouselContent periods={data} compact={props.compact} mode={props.mode} />
+				</EmblaWrapper>
+			);
 
-		if (mode === "weekly") {
-			return `v${getISOWeek(firstDate)}`;
-		}
+		case "weekly":
+			return (
+				<EmblaWrapper emblaRef={emblaRef}>
+					<WeeklyCarouselContent weeks={data} />
+				</EmblaWrapper>
+			);
 
-		return format(firstDate, "LLLL");
-	};
+		case "monthly":
+			return (
+				<EmblaWrapper emblaRef={emblaRef}>
+					<MonthlyCarouselContent months={data} />
+				</EmblaWrapper>
+			);
 
-	return (
-		<div className="timeline-embla" ref={emblaRef}>
-			<div className="timeline-embla__container">
-				{data.map((period, i) => (
-					<div key={i} className={`timeline-embla__slide ${compact ? "compact" : ""}`}>
-						<div className="timeline-embla__slide-header">
-							<span className="period-label">{getLabel(period)}</span>
-							{isMultiplePeriods && (
-								<div className={`slide-arrow ${i === data.length - 1 ? "rotated" : ""}`}>
-									<FaAngleDoubleRight size={22} />
-								</div>
-							)}
-						</div>
-						<PeriodView period={period} />
-					</div>
-				))}
-			</div>
-		</div>
-	);
+		case "custom":
+			// temporary placeholder — will extend later
+			return (
+				<EmblaWrapper emblaRef={emblaRef}>
+					<div className="summary-slide">Custom habits coming soon…</div>
+				</EmblaWrapper>
+			);
+	}
 };

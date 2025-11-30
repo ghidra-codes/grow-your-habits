@@ -8,7 +8,6 @@ interface StreakBarProps {
 
 const StreakBar: React.FC<StreakBarProps> = ({ streak, maxSegments = 12 }) => {
 	const segments = Math.min(streak, maxSegments);
-	console.log(streak);
 
 	return (
 		<div className={`streakbar glow-${segments}`}>

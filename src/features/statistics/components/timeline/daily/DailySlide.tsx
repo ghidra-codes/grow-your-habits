@@ -1,13 +1,13 @@
-import { getISOWeek, getISOWeekYear, parseISO } from "date-fns";
-import PeriodRow from "./PeriodRow";
 import type { TimelineEntry } from "@/types/statistics.types";
+import { getISOWeek, getISOWeekYear, parseISO } from "date-fns";
 import type React from "react";
+import DailyRow from "./DailyRow";
 
-interface PeriodViewProps {
+interface DailySlideProps {
 	period: TimelineEntry[];
 }
 
-const PeriodView: React.FC<PeriodViewProps> = ({ period }) => {
+const DailySlide: React.FC<DailySlideProps> = ({ period }) => {
 	const weeks: TimelineEntry[][] = [];
 	let current: TimelineEntry[] = [];
 
@@ -34,10 +34,10 @@ const PeriodView: React.FC<PeriodViewProps> = ({ period }) => {
 	return (
 		<>
 			{weeks.map((week, i) => (
-				<PeriodRow key={i} period={week} />
+				<DailyRow key={i} period={week} />
 			))}
 		</>
 	);
 };
 
-export default PeriodView;
+export default DailySlide;

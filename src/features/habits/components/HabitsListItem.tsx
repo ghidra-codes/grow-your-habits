@@ -3,16 +3,16 @@ import AdherenceCircle from "@/ui/AdherenceCircle";
 import Checkbox from "@/ui/Checkbox";
 import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
 import confetti from "canvas-confetti";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { MdDoneOutline } from "react-icons/md";
-import { GoGoal } from "react-icons/go";
-import { TbClockX } from "react-icons/tb";
 import { FaCaretDown } from "react-icons/fa";
+import { GoGoal } from "react-icons/go";
+import { MdDoneOutline } from "react-icons/md";
+import { TbClockX } from "react-icons/tb";
 
 interface HabitsListItemProps {
 	habits: HabitWithRelations[];
-	onSelect: (habit: Habit) => void;
+	onSelect: (habit: Habit | null) => void;
 	selectedHabit: Habit | null;
 	onToggleHabit: (habit: HabitWithRelations) => void;
 	expandedIds: Set<string>;
@@ -62,6 +62,12 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 		onToggleHabit(habit);
 	};
 
+	const handleToggleExpand = (habitId: string) => {
+		toggleExpand(habitId);
+
+		if (selectedHabit && selectedHabit.id !== habitId) onSelect(null);
+	};
+
 	const toggleExpand = (habitId: string) => {
 		setExpandedIds((prev) => {
 			const next = new Set(prev);
@@ -97,7 +103,7 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 									className="item-circle-wrapper"
 									onClick={(e) => {
 										e.stopPropagation();
-										toggleExpand(habit.id);
+										handleToggleExpand(habit.id);
 									}}
 								>
 									<FaCaretDown

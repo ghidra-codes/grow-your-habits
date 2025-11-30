@@ -1,40 +1,54 @@
-import { useHabitsQuery } from "@/features/habits/hooks/useHabitsQuery";
+import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
-import type { TimelineViewMode } from "@/types/statistics.types";
+import type { TimelineModesMap, TimelineViewMode } from "@/types/statistics.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import ProgressBar from "@/ui/ProgressBar";
 import Select from "@/ui/Select";
+import { getHabitStats } from "@/utils/helpers/getHabitStats";
+import { getCarouselProps } from "@/utils/helpers/timeline/getCarouselProps";
 import { useState } from "react";
-import { useHabitAdherence } from "../habits/hooks/habit-adherence/useHabitAdherence";
-import { TimelineCarousel } from "./components/timeline/TimelineCarousel";
-import { useStatsSteak } from "./hooks/useStatsStreak";
-import { useStatsTimeline } from "./hooks/useStatsTimeline";
+import { useHabitAdherence } from "../habits/hooks/derived/useHabitAdherence";
 import StreakBar from "./components/StreakBar";
+import { TimelineCarousel } from "./components/timeline/TimelineCarousel";
+import { useStatsTimeline } from "./hooks/timeline/useStatsTimeline";
+import { useStatsStreak } from "./hooks/useStatsStreak";
 
 const StatsModalView = () => {
-	const [timelineModes, setTimelineModes] = useState<Record<string, TimelineViewMode>>({});
+	const [timelineModes, setTimelineModes] = useState<TimelineModesMap>({});
 
 	const userId = useUserIdRequired();
 
 	const { data: habits = [], isLoading } = useHabitsQuery(userId);
-	const { adherenceMap } = useHabitAdherence(habits);
-	const { streakMap } = useStatsSteak(habits);
-	const { timelineMap } = useStatsTimeline(habits, timelineModes);
-
-	console.log("timelineMap:", timelineMap);
-	console.log("streakMap:", streakMap);
+	const adherenceMap = useHabitAdherence(habits);
+	const streakMap = useStatsStreak(habits);
+	const timelineMap = useStatsTimeline(habits, timelineModes);
 
 	if (isLoading) return <LoadingSpinner />;
 
 	return (
 		<div className="stats-list">
 			{habits.map((habit) => {
-				const adherence = adherenceMap[habit.id];
-				const currentStreak = streakMap[habit.id].currentStreak + 2;
-				const longestStreak = streakMap[habit.id].longestStreak;
-				const mode = timelineModes[habit.id] ?? "weekly";
-				const isSinglePeriod = timelineMap[habit.id]?.length === 1;
-				const isCompact = isSinglePeriod && timelineMap[habit.id][0].length > 7 && mode === "monthly";
+				const stats = getHabitStats({
+					habitId: habit.id,
+					adherenceMap,
+					streakMap,
+					timelineMap,
+					timelineModes,
+					habitFrequency: habit.frequency_type,
+				});
+
+				const props = getCarouselProps(habit, timelineMap, stats.mode, stats.isCompact);
+				const hasCarouselViewMode =
+					habit.frequency_type === "daily" || habit.frequency_type === "custom";
+
+				const isWeeklyFrequency = habit.frequency_type === "weekly";
+				const isMonthlyFrequency = habit.frequency_type === "monthly";
+
+				const frequencyLabel = isWeeklyFrequency
+					? "week(s)"
+					: isMonthlyFrequency
+					? "month(s)"
+					: "day(s)";
 
 				return (
 					<div key={habit.id} className="habit-stats-card">
@@ -46,20 +60,28 @@ const StatsModalView = () => {
 							<div className="current-streak">
 								<div className="streak-info">
 									<h3>
-										Current streak: <span>{currentStreak || 0} days</span>
+										Current streak:{" "}
+										<span>
+											{stats.currentStreak || 0} {frequencyLabel}
+										</span>
 									</h3>
 
-									{currentStreak > 12 && (
-										<span className="streak-overflow-label">+{currentStreak - 12}</span>
+									{stats.currentStreak > 12 && (
+										<span className="streak-overflow-label">
+											+{stats.currentStreak - 12}
+										</span>
 									)}
 								</div>
 
-								<StreakBar streak={currentStreak || 0} />
+								<StreakBar streak={stats.currentStreak || 0} />
 							</div>
 
 							<div className="longest-streak">
 								<h3>
-									Longest streak: <span>{longestStreak || 0} days</span>
+									Longest streak:{" "}
+									<span>
+										{stats.longestStreak || 0} {frequencyLabel}
+									</span>
 								</h3>
 							</div>
 						</div>
@@ -68,28 +90,30 @@ const StatsModalView = () => {
 							<div className="timeline-info">
 								<h3>Timeline:</h3>
 
-								<Select<TimelineViewMode>
-									value={mode}
-									className="timeline-mode-select"
-									onChange={(value) =>
-										setTimelineModes((prev) => ({
-											...prev,
-											[habit.id]: value,
-										}))
-									}
-									options={[
-										{ value: "monthly", label: "Monthly" },
-										{ value: "weekly", label: "Weekly" },
-									]}
-								/>
+								{hasCarouselViewMode && (
+									<Select<TimelineViewMode>
+										value={stats.mode}
+										className="timeline-mode-select"
+										onChange={(value) =>
+											setTimelineModes((prev) => ({
+												...prev,
+												[habit.id]: value,
+											}))
+										}
+										options={[
+											{ value: "monthly", label: "Monthly" },
+											{ value: "weekly", label: "Weekly" },
+										]}
+									/>
+								)}
 							</div>
 
-							<TimelineCarousel data={timelineMap[habit.id]} compact={isCompact} mode={mode} />
+							<TimelineCarousel {...props} />
 						</div>
 
 						<div className="progressbar-container">
 							<h3>Adherence:</h3>
-							<ProgressBar value={adherence?.percentage || 0} />
+							<ProgressBar value={stats.adherence.percentage || 0} />
 						</div>
 					</div>
 				);

@@ -1,15 +1,30 @@
 import type { HabitWithRelations } from "@/types/habit.types";
 import type { TimelineEntry } from "@/types/statistics.types";
-import { addDays, differenceInCalendarDays, endOfWeek, format, startOfDay } from "date-fns";
-import { getEarliestAllowedStart } from "./helpers/getEarliestAllowedStart";
-import { parseLocalDate } from "./helpers/parseLocalDate";
+import {
+	addDays,
+	startOfMonth,
+	endOfMonth,
+	differenceInCalendarDays,
+	format,
+	startOfDay,
+	isBefore,
+} from "date-fns";
+import { getEarliestAllowedStart } from "../helpers/timeline/getEarliestAllowedStart";
+import { parseLocalDate } from "../helpers/parseLocalDate";
 
-export const generateWeeklyTimeline = (habit: HabitWithRelations): TimelineEntry[] => {
+export const generateMonthlyTimeline = (habit: HabitWithRelations): TimelineEntry[] => {
 	const today = startOfDay(new Date());
 	const createdAt = parseLocalDate(habit.created_at.slice(0, 10));
 
-	const startBoundary = getEarliestAllowedStart(createdAt, today);
-	const endBoundary = endOfWeek(today, { weekStartsOn: 1 });
+	const earliestAllowed = getEarliestAllowedStart(createdAt, today);
+
+	let startBoundary = startOfMonth(createdAt);
+
+	if (isBefore(startBoundary, earliestAllowed)) {
+		startBoundary = earliestAllowed;
+	}
+
+	const endBoundary = endOfMonth(today);
 
 	const completedDates = new Set(
 		(habit.logs ?? []).map((log) => startOfDay(parseLocalDate(log.log_date.slice(0, 10))).toISOString())
@@ -28,6 +43,10 @@ export const generateWeeklyTimeline = (habit: HabitWithRelations): TimelineEntry
 			status = "unavailable";
 		} else if (completedDates.has(key)) {
 			status = "completed";
+		} else if (differenceInCalendarDays(today, day) === 0) {
+			status = "pending";
+		} else if (day < createdAt) {
+			status = "unavailable";
 		} else {
 			status = "missed";
 		}

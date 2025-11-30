@@ -111,17 +111,22 @@
 	border-radius: 50%;
 }
 
-.week-day__dot--unavailable {
-	background-color: rgba($off-white, 0.8);
-	border: 1px solid $jet-bright;
-}
-
 .week-day__dot--completed {
 	background-color: $green-primary;
 }
 
 .week-day__dot--missed {
 	background-color: rgba($alert-red, 0.9);
+}
+
+.week-day__dot--pending {
+	background-color: rgba($off-white, 0.85);
+	border: 1px solid $jet-bright;
+}
+
+.week-day__dot--unavailable {
+	background-color: rgba($off-white, 0.75);
+	border: 1px solid $jet-bright;
 }
 
 .week-day--placeholder {
