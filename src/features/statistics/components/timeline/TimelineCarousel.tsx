@@ -1,9 +1,9 @@
 import type { TimelineCarouselProps } from "@/types/carousel.types";
 import { EmblaWrapper } from "@/ui/EmblaWrapper";
 import useEmblaCarousel from "embla-carousel-react";
-import DailyCarouselContent from "./daily/DailyCarouselContent";
-import MonthlyCarouselContent from "./monthly/MonthlyCarouselContent";
-import WeeklyCarouselContent from "./weekly/WeeklyCarouselContent";
+import DailyCarouselContent from "./carousel-content/DailyCarouselContent";
+import MonthlyCarouselContent from "./carousel-content/MonthlyCarouselContent";
+import WeeklyCarouselContent from "./carousel-content/WeeklyCarouselContent";
 
 export const TimelineCarousel: React.FC<TimelineCarouselProps> = (props) => {
 	const { data, frequency } = props;

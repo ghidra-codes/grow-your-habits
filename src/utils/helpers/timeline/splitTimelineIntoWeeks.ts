@@ -1,8 +1,8 @@
 import { parseISO, getISOWeek, getISOWeekYear } from "date-fns";
-import type { TimelineEntry, PeriodTimeline } from "@/types/statistics.types";
+import type { TimelineEntry, DailyPeriodTimeline } from "@/types/statistics.types";
 
-export const splitTimelineIntoWeeks = (timeline: TimelineEntry[]): PeriodTimeline => {
-	const weeks: PeriodTimeline = [];
+export const splitTimelineIntoWeeks = (timeline: TimelineEntry[]): DailyPeriodTimeline => {
+	const weeks: DailyPeriodTimeline = [];
 	let currentWeek: TimelineEntry[] = [];
 
 	let currentWeekNumber = getISOWeek(parseISO(timeline[0].date));

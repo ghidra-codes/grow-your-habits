@@ -12,7 +12,8 @@ export interface TimelineEntry {
 }
 
 // DAILY timeline (split into weeks or months)
-export type DailyPeriodTimeline = TimelineEntry[][];
+export type DailyPeriod = TimelineEntry[];
+export type DailyPeriodTimeline = DailyPeriod[];
 
 // WEEKLY summary
 export interface WeeklySummary {

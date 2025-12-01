@@ -1,5 +1,4 @@
 import type { Habit, HabitPayload, HabitWithRelations } from "@/types/habit.types";
-import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
 import { useDeleteHabitLog } from "./mutations/useDeleteHabitLog";
 import { useLogHabit } from "./mutations/useLogHabit";
 import { useAddHabit } from "./mutations/useAddHabit";
@@ -43,10 +42,11 @@ export function useHabitActions(
 		setSelectedHabit(null);
 	};
 
-	const handleToggleHabit = async (habit: HabitWithRelations) => {
-		const isDone = hasLoggedToday(habit);
-		const mutateFn = isDone ? deleteHabitLog : logHabit;
-		await mutateFn(habit.id);
+	const handleToggleHabit = async (habit: HabitWithRelations, date: string) => {
+		const alreadyLogged = habit.logs.some((log) => log.log_date === date);
+
+		if (alreadyLogged) await deleteHabitLog({ habitId: habit.id, date });
+		else await logHabit({ habitId: habit.id, date });
 	};
 
 	return {

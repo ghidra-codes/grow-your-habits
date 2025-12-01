@@ -63,7 +63,7 @@
 		}
 	}
 
-	.habit-item-info {
+	.habit-info-drawer {
 		overflow: hidden;
 		padding-left: 0.5rem;
 
@@ -118,6 +118,62 @@
 				color: rgba($off-white, 0.85);
 				@include fluid-type(caption);
 				font-weight: 500;
+			}
+		}
+	}
+
+	.habit-log-drawer {
+		overflow: hidden;
+		padding-left: 0.5rem;
+
+		p {
+			margin-top: 1rem;
+			@include fluid-type(caption);
+			text-align: center;
+			color: rgba($off-white, 0.85);
+		}
+
+		.log-options {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+			margin-top: 0.5rem;
+
+			.radio-option {
+				position: relative;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				cursor: pointer;
+
+				input[type="radio"] {
+					position: absolute;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				.radio-circle {
+					width: 1rem;
+					height: 1rem;
+					border-radius: 50%;
+					border: 2px solid rgba($off-white, 0.4);
+					flex-shrink: 0;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					transition: border-color 0.2s ease, background-color 0.2s ease;
+				}
+
+				input[type="radio"]:checked + .radio-circle {
+					border-color: $accent-gold;
+					background: radial-gradient(circle, $accent-gold 45%, transparent 47%);
+				}
+
+				span {
+					font-weight: 500;
+					@include fluid-type(caption);
+					transform: translateY(1px);
+				}
 			}
 		}
 	}

@@ -10,7 +10,7 @@ type FormValues = {
 	target_per_month?: number | null;
 };
 
-interface HabitsFormProps {
+interface HabitFormProps {
 	onAddHabit: (payload: HabitPayload) => Promise<void>;
 	onUpdateHabit: (payload: HabitPayload) => Promise<void>;
 	onCancel: () => void;
@@ -18,7 +18,7 @@ interface HabitsFormProps {
 	initialValues: FormValues | null;
 }
 
-const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialValues }: HabitsFormProps) => {
+const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialValues }: HabitFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -159,4 +159,4 @@ const HabitsForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVa
 	);
 };
 
-export default HabitsForm;
+export default HabitForm;

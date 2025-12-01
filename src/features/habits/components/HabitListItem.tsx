@@ -1,6 +1,7 @@
 import type { AdherenceMap, Habit, HabitWithRelations } from "@/types/habit.types";
 import AdherenceCircle from "@/ui/AdherenceCircle";
 import Checkbox from "@/ui/Checkbox";
+import getTodayDate from "@/utils/helpers/getTodayDate";
 import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
 import confetti from "canvas-confetti";
 import { AnimatePresence, motion } from "motion/react";
@@ -10,18 +11,19 @@ import { GoGoal } from "react-icons/go";
 import { MdDoneOutline } from "react-icons/md";
 import { TbClockX } from "react-icons/tb";
 
-interface HabitsListItemProps {
+interface HabitListItemProps {
 	habits: HabitWithRelations[];
 	onSelect: (habit: Habit | null) => void;
 	selectedHabit: Habit | null;
-	onToggleHabit: (habit: HabitWithRelations) => void;
+	onToggleHabit: (habit: HabitWithRelations, date: string) => void;
 	expandedIds: Set<string>;
 	setExpandedIds: React.Dispatch<React.SetStateAction<Set<string>>>;
 	isMutating: boolean;
 	adherenceMap: AdherenceMap;
+	onOpenLogModal: (habit: HabitWithRelations) => void;
 }
 
-const HabitsListItem: React.FC<HabitsListItemProps> = ({
+const HabitListItem: React.FC<HabitListItemProps> = ({
 	habits,
 	onSelect,
 	selectedHabit,
@@ -30,6 +32,7 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 	setExpandedIds,
 	isMutating,
 	adherenceMap,
+	onOpenLogModal,
 }) => {
 	const [confettiLock, setConfettiLock] = useState(false);
 
@@ -56,10 +59,22 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 		setTimeout(() => setConfettiLock(false), 400);
 	};
 
-	const handleChecked = (habit: HabitWithRelations, isDone: boolean, checkboxEl: HTMLElement) => {
-		if (!isDone) playConfetti(checkboxEl);
+	// HANDLERS
+	const handleChecked = (habit: HabitWithRelations, isDoneDaily: boolean, checkboxEl: HTMLElement) => {
+		if (habit.frequency_type === "daily") {
+			if (!isDoneDaily) playConfetti(checkboxEl);
+			onToggleHabit(habit, getTodayDate());
 
-		onToggleHabit(habit);
+			return;
+		}
+
+		setExpandedIds((prev) => {
+			const next = new Set(prev);
+			next.delete(habit.id);
+			return next;
+		});
+
+		onOpenLogModal(habit);
 	};
 
 	const handleToggleExpand = (habitId: string) => {
@@ -84,8 +99,9 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 			{habits.map((habit) => {
 				const isSelected = selectedHabit?.id === habit.id;
 				const isExpanded = expandedIds.has(habit.id);
-				const isDone = hasLoggedToday(habit);
+				const isDoneDaily = habit.frequency_type === "daily" ? hasLoggedToday(habit) : false;
 				const disabled = isMutating || confettiLock;
+
 				const { logCount, expected, missed, onTrack, percentage } = adherenceMap[habit.id] || {};
 
 				return (
@@ -97,6 +113,7 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 							onSelect(habit);
 						}}
 					>
+						{/* HEADER ROW */}
 						<div className="habit-item-content-wrapper">
 							<div className="habit-item-content">
 								<div
@@ -110,7 +127,6 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 										size={18}
 										className={isExpanded ? "caret rotated" : "caret"}
 									/>
-
 									<AdherenceCircle percentage={percentage || 0} />
 								</div>
 
@@ -122,18 +138,18 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 
 							<div className="checkbox-wrapper" onClick={(e) => e.stopPropagation()}>
 								<Checkbox
-									checked={isDone}
+									checked={isDoneDaily}
 									disabled={disabled}
-									onClick={(e) => {
-										handleChecked(habit, isDone, e.currentTarget);
-									}}
+									onClick={(e) => handleChecked(habit, isDoneDaily, e.currentTarget)}
 								/>
 							</div>
 						</div>
+
+						{/* EXPANDED INFO PANEL */}
 						<AnimatePresence mode="wait">
 							{isExpanded && (
 								<motion.div
-									className="habit-item-info"
+									className="habit-info-drawer"
 									initial={{ height: 0 }}
 									animate={{ height: "auto" }}
 									exit={{ height: 0 }}
@@ -182,4 +198,4 @@ const HabitsListItem: React.FC<HabitsListItemProps> = ({
 	);
 };
 
-export default HabitsListItem;
+export default HabitListItem;

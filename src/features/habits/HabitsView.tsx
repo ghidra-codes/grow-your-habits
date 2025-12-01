@@ -1,17 +1,18 @@
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import type { Habit, HabitWithRelations } from "@/types/habit.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
-import HabitsForm from "./components/HabitsForm";
-import HabitsListItem from "./components/HabitsListItem";
+import { useState } from "react";
+import HabitForm from "./components/HabitForm";
+import HabitListItem from "./components/HabitListItem";
+import HabitsControlPanel from "./components/HabitsControlPanel";
 import { modalModeConfig } from "./config/modalModeConfig";
 import { useHabitAdherence } from "./hooks/derived/useHabitAdherence";
+import { useHabitsQuery } from "./hooks/queries/useHabitsQuery";
 import { useHabitActions } from "./hooks/useHabitActions";
 import { useHabitModal } from "./hooks/useHabitModal";
-import { useHabitsQuery } from "./hooks/queries/useHabitsQuery";
-import HabitsControlPanel from "./components/HabitsControlPanel";
-import { useState } from "react";
-import type { Habit } from "@/types/habit.types";
+import HabitLogOptions from "./components/HabitLogOptions";
 
 const HabitsView = () => {
 	const [selectedHabit, setSelectedHabit] = useState<Habit | null>(null);
@@ -25,6 +26,19 @@ const HabitsView = () => {
 
 	// Modal management
 	const { isOpen, modalMode, openModal, closeModal, initialFormValues } = useHabitModal(selectedHabit);
+
+	const [logOptionsHabit, setLogOptionsHabit] = useState<HabitWithRelations | null>(null);
+	const [isLogModalOpen, setIsLogModalOpen] = useState(false);
+
+	const openLogModal = (habit: HabitWithRelations) => {
+		setLogOptionsHabit(habit);
+		setIsLogModalOpen(true);
+	};
+
+	const closeLogModal = () => {
+		setIsLogModalOpen(false);
+		setLogOptionsHabit(null);
+	};
 
 	// Habit actions
 	const { handleAddHabit, handleUpdateHabit, handleDeleteHabit, handleToggleHabit, isMutating } =
@@ -50,7 +64,7 @@ const HabitsView = () => {
 
 				{habits && habits.length > 0 && (
 					<ul className="habits-list">
-						<HabitsListItem
+						<HabitListItem
 							habits={habits}
 							selectedHabit={selectedHabit}
 							onSelect={setSelectedHabit}
@@ -59,6 +73,7 @@ const HabitsView = () => {
 							adherenceMap={adherenceMap}
 							expandedIds={expandedIds}
 							setExpandedIds={setExpandedIds}
+							onOpenLogModal={openLogModal}
 						/>
 					</ul>
 				)}
@@ -71,13 +86,30 @@ const HabitsView = () => {
 				description={modalModeConfig[modalMode].description}
 				containerClass="habits-form-container"
 			>
-				<HabitsForm
+				<HabitForm
 					isEditMode={modalMode === "edit"}
 					initialValues={initialFormValues}
 					onUpdateHabit={handleUpdateHabit}
 					onAddHabit={handleAddHabit}
 					onCancel={closeModal}
 				/>
+			</Modal>
+
+			<Modal
+				isOpen={isLogModalOpen}
+				handleClose={closeLogModal}
+				title="Log Habit"
+				description="Choose when to log your habit"
+			>
+				{logOptionsHabit && (
+					<HabitLogOptions
+						habit={logOptionsHabit}
+						onToggleHabit={(habit, date) => {
+							handleToggleHabit(habit, date);
+							closeLogModal();
+						}}
+					/>
+				)}
 			</Modal>
 		</>
 	);

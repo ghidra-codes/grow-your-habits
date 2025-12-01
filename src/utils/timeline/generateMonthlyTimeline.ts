@@ -1,14 +1,6 @@
 import type { HabitWithRelations } from "@/types/habit.types";
 import type { TimelineEntry } from "@/types/statistics.types";
-import {
-	addDays,
-	startOfMonth,
-	endOfMonth,
-	differenceInCalendarDays,
-	format,
-	startOfDay,
-	isBefore,
-} from "date-fns";
+import { addDays, startOfMonth, differenceInCalendarDays, format, startOfDay, isBefore } from "date-fns";
 import { getEarliestAllowedStart } from "../helpers/timeline/getEarliestAllowedStart";
 import { parseLocalDate } from "../helpers/parseLocalDate";
 
@@ -19,18 +11,15 @@ export const generateMonthlyTimeline = (habit: HabitWithRelations): TimelineEntr
 	const earliestAllowed = getEarliestAllowedStart(createdAt, today);
 
 	let startBoundary = startOfMonth(createdAt);
-
 	if (isBefore(startBoundary, earliestAllowed)) {
 		startBoundary = earliestAllowed;
 	}
-
-	const endBoundary = endOfMonth(today);
 
 	const completedDates = new Set(
 		(habit.logs ?? []).map((log) => startOfDay(parseLocalDate(log.log_date.slice(0, 10))).toISOString())
 	);
 
-	const totalDays = differenceInCalendarDays(endBoundary, startBoundary) + 1;
+	const totalDays = differenceInCalendarDays(today, startBoundary) + 1;
 	const timeline: TimelineEntry[] = [];
 
 	for (let i = 0; i < totalDays; i++) {

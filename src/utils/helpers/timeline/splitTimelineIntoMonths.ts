@@ -1,8 +1,8 @@
 import { parseISO } from "date-fns";
-import type { TimelineEntry, PeriodTimeline } from "@/types/statistics.types";
+import type { TimelineEntry, DailyPeriodTimeline } from "@/types/statistics.types";
 
-export const splitTimelineIntoMonths = (timeline: TimelineEntry[]): PeriodTimeline => {
-	const months: PeriodTimeline = [];
+export const splitTimelineIntoMonths = (timeline: TimelineEntry[]): DailyPeriodTimeline => {
+	const months: DailyPeriodTimeline = [];
 	let currentMonth: TimelineEntry[] = [];
 
 	let currentMonthNumber = parseISO(timeline[0].date).getMonth();

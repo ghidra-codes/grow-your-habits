@@ -1,57 +1,54 @@
-import type { HabitWithRelations } from "@/types/habit.types";
-import getTodayDate from "@/utils/helpers/getTodayDate";
+import type { HabitLog, HabitWithRelations } from "@/types/habit.types";
 import { habitsKey } from "@/utils/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createHabitLog } from "../../data/habit-logs";
+import type { LogCtx, LogVars, ServiceResponse } from "@/types/service.types";
 
 export const useLogHabit = (userId: string) => {
 	const queryClient = useQueryClient();
 
-	return useMutation({
-		mutationFn: async (habitId: string) => {
-			const { data, error } = await createHabitLog(habitId, userId);
-
-			if (error) throw new Error(error.message);
-
-			return { data, habitId };
+	return useMutation<ServiceResponse<HabitLog | null>, Error, LogVars, LogCtx>({
+		mutationFn: async ({ habitId, date }) => {
+			return await createHabitLog(habitId, userId, date);
 		},
 
-		onMutate: async (habitId: string) => {
+		onMutate: async ({ habitId, date }) => {
 			const key = habitsKey(userId);
-			const today = getTodayDate();
-
 			await queryClient.cancelQueries({ queryKey: key });
 
 			const prevHabits = queryClient.getQueryData<HabitWithRelations[]>(key);
 
 			queryClient.setQueryData<HabitWithRelations[]>(key, (old = []) =>
-				old.map((habit) => {
-					if (habit.id !== habitId) return habit;
-
-					return {
-						...habit,
-						logs: [...(habit.logs ?? []), { id: "temp", log_date: today }],
-					};
-				})
+				old.map((habit) =>
+					habit.id !== habitId
+						? habit
+						: {
+								...habit,
+								logs: [...(habit.logs ?? []), { id: "temp", log_date: date }],
+						  }
+				)
 			);
 
 			return { prevHabits };
 		},
 
 		onError: (_err, _vars, ctx) => {
-			if (ctx?.prevHabits) queryClient.setQueryData(habitsKey(userId), ctx.prevHabits);
+			if (ctx?.prevHabits) {
+				queryClient.setQueryData(habitsKey(userId), ctx.prevHabits);
+			}
 		},
 
-		onSuccess: (result, habitId) => {
+		onSuccess: ({ data }, { habitId, date }) => {
 			queryClient.setQueryData<HabitWithRelations[]>(habitsKey(userId), (old = []) =>
 				old.map((habit) => {
 					if (habit.id !== habitId) return habit;
 
-					const filtered = (habit.logs ?? []).filter((log) => log.log_date !== getTodayDate());
+					// Remove optimistic log for this date
+					const filtered = (habit.logs ?? []).filter((log) => log.log_date !== date);
 
 					return {
 						...habit,
-						logs: result.data ? [...filtered, result.data] : filtered,
+						logs: data ? [...filtered, data] : filtered,
 					};
 				})
 			);

@@ -1,4 +1,5 @@
 import { type PostgrestError } from "@supabase/supabase-js";
+import type { HabitWithRelations } from "./habit.types";
 
 /**
  * Standardized response structure for all data service functions (DB/API).
@@ -8,3 +9,7 @@ export interface ServiceResponse<T> {
 	data: T | null;
 	error: PostgrestError | null;
 }
+
+// Habit logs
+export type LogVars = { habitId: string; date: string };
+export type LogCtx = { prevHabits?: HabitWithRelations[] };
