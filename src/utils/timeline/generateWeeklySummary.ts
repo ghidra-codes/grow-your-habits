@@ -1,6 +1,6 @@
 import type { HabitWithRelations } from "@/types/habit.types";
-import type { WeeklySummary } from "@/types/statistics.types";
-import { addWeeks, endOfWeek, getISOWeek, getYear, isAfter, startOfWeek } from "date-fns";
+import type { SummaryStatus, WeeklySummary } from "@/types/statistics.types";
+import { addWeeks, endOfWeek, getISOWeek, isAfter, startOfWeek } from "date-fns";
 
 export const generateWeeklySummary = (habit: HabitWithRelations): WeeklySummary[] => {
 	if (habit.frequency_type !== "weekly") return [];
@@ -20,14 +20,20 @@ export const generateWeeklySummary = (habit: HabitWithRelations): WeeklySummary[
 
 		const completed = logs.filter((l) => l >= start && l <= end).length;
 
+		const isPastWeek = today > end;
+
+		let status: SummaryStatus;
+		if (completed >= target) status = "completed";
+		else if (isPastWeek) status = "missed";
+		else status = "pending";
+
 		result.push({
-			weekNumber: getISOWeek(start),
-			year: getYear(start),
+			number: getISOWeek(start),
 			start: start.toISOString().slice(0, 10),
 			end: end.toISOString().slice(0, 10),
 			completed,
 			target,
-			status: completed >= target ? "completed" : completed > 0 ? "on-track" : "behind",
+			status,
 		});
 
 		cursor = addWeeks(cursor, 1);

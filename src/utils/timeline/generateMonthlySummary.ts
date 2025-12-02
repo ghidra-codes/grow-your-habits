@@ -20,14 +20,19 @@ export const generateMonthlySummary = (habit: HabitWithRelations): MonthlySummar
 
 		const completed = logs.filter((l) => l >= start && l <= end).length;
 
+		const isPastMonth = today > end;
+
+		let status: "completed" | "missed" | "pending";
+		if (completed >= target) status = "completed";
+		else if (isPastMonth) status = "missed";
+		else status = "pending";
+
 		result.push({
+			month: getMonth(start) + 1,
 			year: getYear(start),
-			month: getMonth(start),
-			start: start.toISOString().slice(0, 10),
-			end: end.toISOString().slice(0, 10),
 			completed,
 			target,
-			status: completed >= target ? "completed" : completed > 0 ? "on-track" : "behind",
+			status,
 		});
 
 		cursor = addMonths(cursor, 1);

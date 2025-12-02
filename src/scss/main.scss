@@ -18,10 +18,11 @@
 
 @use "./features/auth/auth-views";
 
-@use "./features/habits/habits-form";
 @use "./features/habits/habits-view";
-@use "./features/habits/habits-list-item";
-@use "./features/habits/habits-date-picker";
+@use "./features/habits/habit-form";
+@use "./features/habits/habit-list-item";
+@use "./features/habits/habit-log-options";
+@use "./features/habits/habit-date-picker";
 
 @use "./features/statistics/timeline-carousel";
 @use "./features/statistics/statistics-modal-view";

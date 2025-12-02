@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 type Target = string | React.RefObject<HTMLElement | null>;
 
-export function useClickOutside(targets: Target | Target[], onOutsideClick: () => void) {
+export const useClickOutside = (targets: Target | Target[], onOutsideClick: () => void) => {
 	useEffect(() => {
 		const list = Array.isArray(targets) ? targets : [targets];
 
@@ -36,4 +36,4 @@ export function useClickOutside(targets: Target | Target[], onOutsideClick: () =
 		document.addEventListener("mousedown", handleClick);
 		return () => document.removeEventListener("mousedown", handleClick);
 	}, [targets, onOutsideClick]);
-}
+};

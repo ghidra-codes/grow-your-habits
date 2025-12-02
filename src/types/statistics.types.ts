@@ -6,44 +6,48 @@ export type TimelineModesMap = Record<string, TimelineViewMode>;
 
 export type TimelineStatus = "completed" | "missed" | "pending" | "unavailable";
 
+// DAILY TIMELINE
 export interface TimelineEntry {
 	date: string;
 	status: TimelineStatus;
 }
 
-// DAILY timeline (split into weeks or months)
 export type DailyPeriod = TimelineEntry[];
 export type DailyPeriodTimeline = DailyPeriod[];
 
-// WEEKLY summary
+// SUMMARY TIMELINE
+
+export type SummaryStatus = "completed" | "missed" | "pending";
+
 export interface WeeklySummary {
-	weekNumber: number;
-	year: number;
+	number: number;
 	start: string;
 	end: string;
 	completed: number;
 	target: number;
-	status: "completed" | "on-track" | "behind";
+	status: SummaryStatus;
 }
-export type WeeklySummaryTimeline = WeeklySummary[];
+export type WeeklySummaryTimeline = (WeeklySummary | null)[][];
 
-// MONTHLY summary
 export interface MonthlySummary {
-	year: number;
 	month: number;
-	start: string;
-	end: string;
+	year: number;
 	completed: number;
 	target: number;
-	status: "completed" | "on-track" | "behind";
+	status: SummaryStatus;
 }
-export type MonthlySummaryTimeline = MonthlySummary[];
+export type MonthlySummaryTimeline = (MonthlySummary | null)[][];
 
+export type SummaryTimeline = WeeklySummaryTimeline | MonthlySummaryTimeline;
+
+// TIMELINE MAP
 export interface TimelineMap {
 	daily: Record<string, DailyPeriodTimeline>;
 	weekly: Record<string, WeeklySummaryTimeline>;
 	monthly: Record<string, MonthlySummaryTimeline>;
 }
+
+// PROCESSORS
 
 export type DailyProcessor = {
 	generate: (habit: HabitWithRelations) => TimelineEntry[];

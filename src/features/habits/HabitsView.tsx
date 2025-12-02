@@ -1,6 +1,6 @@
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
-import type { Habit, HabitWithRelations } from "@/types/habit.types";
+import type { Habit } from "@/types/habit.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import { useHabitsQuery } from "./hooks/queries/useHabitsQuery";
 import { useHabitActions } from "./hooks/useHabitActions";
 import { useHabitModal } from "./hooks/useHabitModal";
 import HabitLogOptions from "./components/HabitLogOptions";
+import useHabitLogModal from "./hooks/useHabitLogModal";
 
 const HabitsView = () => {
 	const [selectedHabit, setSelectedHabit] = useState<Habit | null>(null);
@@ -27,18 +28,12 @@ const HabitsView = () => {
 	// Modal management
 	const { isOpen, modalMode, openModal, closeModal, initialFormValues } = useHabitModal(selectedHabit);
 
-	const [logOptionsHabit, setLogOptionsHabit] = useState<HabitWithRelations | null>(null);
-	const [isLogModalOpen, setIsLogModalOpen] = useState(false);
-
-	const openLogModal = (habit: HabitWithRelations) => {
-		setLogOptionsHabit(habit);
-		setIsLogModalOpen(true);
-	};
-
-	const closeLogModal = () => {
-		setIsLogModalOpen(false);
-		setLogOptionsHabit(null);
-	};
+	const {
+		isOpen: isLogModalOpen,
+		logOptionsHabit,
+		openModal: openLogModal,
+		closeModal: closeLogModal,
+	} = useHabitLogModal();
 
 	// Habit actions
 	const { handleAddHabit, handleUpdateHabit, handleDeleteHabit, handleToggleHabit, isMutating } =
@@ -84,7 +79,7 @@ const HabitsView = () => {
 				handleClose={closeModal}
 				title={modalModeConfig[modalMode].title}
 				description={modalModeConfig[modalMode].description}
-				containerClass="habits-form-container"
+				containerClass="habit-form-container"
 			>
 				<HabitForm
 					isEditMode={modalMode === "edit"}
@@ -99,7 +94,8 @@ const HabitsView = () => {
 				isOpen={isLogModalOpen}
 				handleClose={closeLogModal}
 				title="Log Habit"
-				description="Choose when to log your habit"
+				description="When would you like to log this habit?"
+				containerClass="habit-log-options-container"
 			>
 				{logOptionsHabit && (
 					<HabitLogOptions

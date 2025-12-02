@@ -1,4 +1,4 @@
-import type { AdherenceMap } from "@/types/habit.types";
+import type { AdherenceMap, ShortTermAdherenceMap } from "@/types/habit.types";
 import type {
 	TimelineMap,
 	StreakMap,
@@ -15,6 +15,7 @@ interface GetHabitStatsArgs {
 	streakMap: StreakMap;
 	timelineMap: TimelineMap;
 	timelineModes: TimelineModesMap;
+	shortTermAdherenceMap: ShortTermAdherenceMap;
 }
 
 export const getHabitStats = ({
@@ -24,10 +25,12 @@ export const getHabitStats = ({
 	streakMap,
 	timelineMap,
 	timelineModes,
+	shortTermAdherenceMap,
 }: GetHabitStatsArgs) => {
 	const adherence = adherenceMap[habitId];
 	const streak = streakMap[habitId];
 	const mode = timelineModes[habitId] ?? "weekly";
+	const shortTermAdherence = shortTermAdherenceMap[habitId];
 
 	let timeline: DailyPeriodTimeline | WeeklySummaryTimeline | MonthlySummaryTimeline | undefined;
 
@@ -49,6 +52,7 @@ export const getHabitStats = ({
 	if (!timeline) {
 		return {
 			adherence,
+			shortTermAdherence,
 			currentStreak: streak.currentStreak,
 			longestStreak: streak.longestStreak,
 			mode,
@@ -66,6 +70,7 @@ export const getHabitStats = ({
 
 		return {
 			adherence,
+			shortTermAdherence,
 			currentStreak: streak.currentStreak,
 			longestStreak: streak.longestStreak,
 			mode,
@@ -79,6 +84,7 @@ export const getHabitStats = ({
 
 	return {
 		adherence,
+		shortTermAdherence,
 		currentStreak: streak.currentStreak,
 		longestStreak: streak.longestStreak,
 		mode,

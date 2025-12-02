@@ -2,12 +2,12 @@ import type { TimelineEntry } from "@/types/statistics.types";
 import { getISOWeek, getISOWeekYear, parseISO } from "date-fns";
 import DailyRow from "./DailyRow";
 
-interface DailySlideProps {
+interface DailyRowsProps {
 	period: TimelineEntry[];
 	renderOverride?: (entry: TimelineEntry) => React.ReactNode;
 }
 
-const DailySlide: React.FC<DailySlideProps> = ({ period, renderOverride }) => {
+const DailyRows: React.FC<DailyRowsProps> = ({ period, renderOverride }) => {
 	const weeks: TimelineEntry[][] = [];
 	let current: TimelineEntry[] = [];
 
@@ -61,4 +61,4 @@ const DailySlide: React.FC<DailySlideProps> = ({ period, renderOverride }) => {
 	);
 };
 
-export default DailySlide;
+export default DailyRows;

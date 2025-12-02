@@ -36,12 +36,20 @@
 		font-size: 12px;
 		color: $jet-brighter;
 		margin-bottom: 2px;
+
+		@include respond(sm) {
+			@include fluid-type(small-text);
+		}
 	}
 
 	.week-day__date {
 		font-size: 11px;
 		color: rgba($off-white, 0.8);
 		margin-bottom: 6px;
+
+		@include respond(sm) {
+			@include fluid-type(small-text);
+		}
 	}
 
 	.timeline-embla__slide-header {
@@ -146,5 +154,109 @@
 		border-radius: 50%;
 		background-color: transparent;
 		border: 1px solid $jet-bright;
+	}
+}
+
+// SUMMARY CELLS
+
+.weekly-summary,
+.monthly-summary {
+	width: 100%;
+
+	.weekly-cells,
+	.monthly-cells {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 0.5rem;
+		padding: 8px 0;
+		justify-items: center;
+	}
+
+	.week-cell,
+	.month-cell {
+		width: 100%;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		text-align: center;
+
+		&__week-number,
+		&__month {
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 0.5px;
+			margin-bottom: 0.35rem;
+			background-color: $rich-black-surface-light;
+			padding: 0.05rem 0.35rem;
+			border-radius: 0.3rem;
+
+			@include respond(sm) {
+				@include fluid-type(small-text);
+			}
+		}
+
+		&__week-start-end,
+		&__year {
+			font-size: 11px;
+			opacity: 0.75;
+			margin-bottom: 0.25rem;
+			white-space: nowrap;
+
+			@include respond(sm) {
+				@include fluid-type(small-text);
+			}
+		}
+
+		&__completed-target {
+			font-weight: 600;
+			@include fluid-type(small-text);
+			margin-bottom: 0.2rem;
+
+			@include respond(sm) {
+				@include fluid-type(caption);
+			}
+		}
+
+		&__dot {
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+		}
+
+		// STATUS COLORS
+		&__dot--completed {
+			background-color: $green-primary;
+		}
+
+		&__dot--missed {
+			background-color: rgba($alert-red, 0.9);
+		}
+
+		&__dot--pending {
+			background-color: rgba($off-white, 0.8);
+			border: 1px solid $jet-bright;
+		}
+	}
+
+	// Placeholder cells
+	.week-cell--placeholder,
+	.month-cell--placeholder {
+		opacity: 0.45;
+
+		span {
+			color: $jet-bright;
+		}
+	}
+
+	.month-cell__dot--placeholder,
+	.week-cell__dot--placeholder {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		border: 1px solid $jet-bright;
+		background: transparent;
 	}
 }

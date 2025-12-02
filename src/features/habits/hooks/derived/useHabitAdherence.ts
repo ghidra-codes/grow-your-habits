@@ -7,10 +7,9 @@ export const useHabitAdherence = (habits: HabitWithRelations[]): AdherenceMap =>
 		const adherenceMap: AdherenceMap = {};
 
 		for (const habit of habits) {
-			const logCount = habit.logs?.length ?? 0;
 			const schedule = habit.schedules ?? [];
 
-			adherenceMap[habit.id] = calculateHabitAdherence(habit, logCount, schedule);
+			adherenceMap[habit.id] = calculateHabitAdherence(habit, schedule);
 		}
 
 		return adherenceMap;

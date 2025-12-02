@@ -12,6 +12,7 @@ import StreakBar from "./components/StreakBar";
 import { TimelineCarousel } from "./components/timeline/TimelineCarousel";
 import { useStatsTimeline } from "./hooks/timeline/useStatsTimeline";
 import { useStatsStreak } from "./hooks/useStatsStreak";
+import useShortTermAdherence from "./hooks/useShortTermAdherence";
 
 const StatsModalView = () => {
 	const [timelineModes, setTimelineModes] = useState<TimelineModesMap>({});
@@ -20,8 +21,15 @@ const StatsModalView = () => {
 
 	const { data: habits = [], isLoading } = useHabitsQuery(userId);
 	const adherenceMap = useHabitAdherence(habits);
+	const shortTermAdherenceMap = useShortTermAdherence(habits);
+
 	const streakMap = useStatsStreak(habits);
 	const timelineMap = useStatsTimeline(habits, timelineModes);
+
+	console.log("habits:", habits);
+	console.log("timelineMap:", timelineMap);
+	console.log("adherenceMap:", adherenceMap);
+	console.log("shortTermAdherenceMap:", shortTermAdherenceMap);
 
 	if (isLoading) return <LoadingSpinner />;
 
@@ -35,6 +43,7 @@ const StatsModalView = () => {
 					timelineMap,
 					timelineModes,
 					habitFrequency: habit.frequency_type,
+					shortTermAdherenceMap,
 				});
 
 				const props = getCarouselProps(habit, timelineMap, stats.mode, stats.isCompact);
@@ -112,8 +121,18 @@ const StatsModalView = () => {
 						</div>
 
 						<div className="progressbar-container">
-							<h3>Adherence:</h3>
+							<h3>Overall adherence:</h3>
 							<ProgressBar value={stats.adherence.percentage || 0} />
+						</div>
+
+						<div className="progressbar-container">
+							<h3>Adherence last 7 days:</h3>
+							<ProgressBar value={stats.shortTermAdherence?.last7 || 0} />
+						</div>
+
+						<div className="progressbar-container">
+							<h3>Adherence last 30 days:</h3>
+							<ProgressBar value={stats.shortTermAdherence?.last30 || 0} />
 						</div>
 					</div>
 				);

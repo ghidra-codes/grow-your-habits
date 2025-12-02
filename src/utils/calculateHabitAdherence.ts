@@ -1,83 +1,97 @@
-import { differenceInDays, differenceInMonths, startOfDay } from "date-fns";
-import type { FrequencyType, HabitAdherence, HabitWithRelations } from "@/types/habit.types";
+import { startOfDay, differenceInDays, startOfWeek, startOfMonth, endOfMonth } from "date-fns";
+import type { HabitAdherence, HabitWithRelations } from "@/types/habit.types";
 
 export const calculateHabitAdherence = (
 	habit: HabitWithRelations,
-	logCount: number,
 	scheduleWeekdays: number[]
 ): HabitAdherence => {
-	const today = startOfDay(new Date());
-	const yesterday = startOfDay(new Date(today.getTime() - 24 * 60 * 60 * 1000));
+	const adherenceBoundary = startOfDay(new Date());
 	const createdAt = startOfDay(new Date(habit.created_at));
 
-	const countScheduledDays = (from: Date, to: Date, scheduledWeekdays: number[]) => {
-		if (to < from) return 0;
+	// CALCULATE ACTUAL LOGS
+
+	const logsCount = (habit.logs ?? []).filter(
+		(l) => startOfDay(new Date(l.log_date)).getTime() <= adherenceBoundary.getTime()
+	).length;
+
+	let expectedCount = 0;
+	let period: HabitAdherence["period"] = "day";
+
+	// CALCULATE EXPECTED LOGS BASED ON FREQUENCY TYPE
+
+	// DAILY
+
+	if (habit.frequency_type === "daily") {
+		period = "day";
+		expectedCount = Math.max(0, differenceInDays(adherenceBoundary, createdAt) + 1);
+	}
+
+	// WEEKLY
+
+	if (habit.frequency_type === "weekly") {
+		period = "week";
+		const target = habit.target_per_week ?? 0;
+
+		const weekStart = startOfWeek(adherenceBoundary, { weekStartsOn: 1 });
+
+		const effectiveStart = startOfDay(new Date(Math.max(weekStart.getTime(), createdAt.getTime())));
+
+		const daysActiveInPeriod = differenceInDays(adherenceBoundary, effectiveStart) + 1;
+
+		if (daysActiveInPeriod > 0) {
+			const progress = daysActiveInPeriod / 7;
+			expectedCount = Math.ceil(progress * target);
+		}
+	}
+
+	// MONTHLY
+
+	if (habit.frequency_type === "monthly") {
+		period = "month";
+		const target = habit.target_per_month ?? 0;
+
+		const monthStart = startOfMonth(adherenceBoundary);
+		const monthEnd = endOfMonth(adherenceBoundary);
+		const daysInMonth = differenceInDays(monthEnd, monthStart) + 1;
+
+		const effectiveStart = startOfDay(new Date(Math.max(monthStart.getTime(), createdAt.getTime())));
+
+		const daysActiveInPeriod = differenceInDays(adherenceBoundary, effectiveStart) + 1;
+
+		if (daysActiveInPeriod > 0) {
+			const progress = daysActiveInPeriod / daysInMonth;
+			expectedCount = Math.ceil(progress * target);
+		}
+	}
+
+	// CUSTOM
+
+	if (habit.frequency_type === "custom") {
+		period = "day";
 
 		let count = 0;
-		const current = new Date(from);
+		const cursor = new Date(createdAt);
 
-		while (current <= to) {
-			if (scheduledWeekdays.includes(current.getDay())) count++;
-			current.setDate(current.getDate() + 1);
+		while (cursor <= adherenceBoundary) {
+			if (scheduleWeekdays.includes(cursor.getDay())) count++;
+			cursor.setDate(cursor.getDate() + 1);
 		}
+		expectedCount = count;
+	}
 
-		return count;
-	};
+	// FINAL CALCULATIONS
 
-	const computeExpectedUpTo = (to: Date) => {
-		if (to < createdAt) return 0;
+	expectedCount = Math.max(0, expectedCount);
 
-		switch (habit.frequency_type) {
-			case "daily":
-				return differenceInDays(to, createdAt) + 1;
-
-			case "weekly": {
-				const days = differenceInDays(to, createdAt) + 1;
-				const weeks = Math.ceil(days / 7);
-				return weeks * (habit.target_per_week || 0);
-			}
-
-			case "monthly": {
-				const months = differenceInMonths(to, createdAt) + 1;
-				return months * (habit.target_per_month || 0);
-			}
-
-			case "custom":
-				return countScheduledDays(createdAt, to, scheduleWeekdays);
-
-			default:
-				return 0;
-		}
-	};
-
-	const expected = computeExpectedUpTo(today);
-	const expectedPast = computeExpectedUpTo(yesterday);
-
-	const logCountPast = (habit.logs ?? []).filter(
-		(log) => startOfDay(new Date(log.log_date)) < today
-	).length;
+	const percentage = expectedCount === 0 ? 100 : Math.min(100, (logsCount / expectedCount) * 100);
 
 	return {
 		habitId: habit.id,
-		expected,
-		logCount,
-		period: getPeriod(habit.frequency_type),
-		onTrack: logCountPast >= expectedPast,
-		percentage: expected === 0 ? 100 : Math.min(100, (logCount / expected) * 100),
-		missed: Math.max(0, expectedPast - logCountPast),
+		expected: expectedCount,
+		logCount: logsCount,
+		period,
+		onTrack: logsCount >= expectedCount,
+		percentage,
+		missed: Math.max(0, expectedCount - logsCount),
 	};
-};
-
-// Helper
-const getPeriod = (frequencyType: FrequencyType): HabitAdherence["period"] => {
-	switch (frequencyType) {
-		case "daily":
-			return "day";
-		case "weekly":
-			return "week";
-		case "monthly":
-			return "month";
-		default:
-			return "day";
-	}
 };

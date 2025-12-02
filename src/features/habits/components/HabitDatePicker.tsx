@@ -1,12 +1,12 @@
 import type { TimelineEntry } from "@/types/statistics.types";
 import DailyRow from "@/ui/timeline/DailyRow";
-import DailySlide from "@/ui/timeline/DailySlide";
+import DailyRows from "@/ui/timeline/DailyRows";
 import { format, isAfter, parseISO, startOfToday } from "date-fns";
 
 interface HabitDatePickerProps {
 	period: TimelineEntry[];
 	mode: "weekly" | "monthly";
-	onSelectDate: (entry: TimelineEntry) => void;
+	onSelectDate: (entryDate: string, completed: boolean, e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const HabitDatePicker = ({ period, mode, onSelectDate }: HabitDatePickerProps) => {
@@ -26,8 +26,8 @@ const HabitDatePicker = ({ period, mode, onSelectDate }: HabitDatePickerProps) =
 		return (
 			<div
 				className={`week-day date-picker-day ${disabled ? "disabled" : "active"}`}
-				onClick={() => {
-					if (!disabled) onSelectDate(entry);
+				onClick={(e) => {
+					if (!disabled) onSelectDate(entry.date, completed, e);
 				}}
 			>
 				<span className="week-day__weekday">{weekday}</span>
@@ -47,7 +47,7 @@ const HabitDatePicker = ({ period, mode, onSelectDate }: HabitDatePickerProps) =
 
 	return (
 		<div className={`date-picker-wrapper ${period.length > 7 ? "compact" : ""}`}>
-			<DailySlide period={period} renderOverride={renderClickable} />
+			<DailyRows period={period} renderOverride={renderClickable} />
 		</div>
 	);
 };

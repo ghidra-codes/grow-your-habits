@@ -1,5 +1,5 @@
 import type { DailyPeriodTimeline, TimelineEntry } from "@/types/statistics.types";
-import DailySlide from "@/ui/timeline/DailySlide";
+import DailyRows from "@/ui/timeline/DailyRows";
 import { splitIntoWeeks } from "@/utils/helpers/splitIntoWeeks";
 import { format, getISOWeek, parseISO } from "date-fns";
 import { FaAngleDoubleRight } from "react-icons/fa";
@@ -19,7 +19,7 @@ const DailyCarouselContent = ({ periods, compact, mode }: DailyCarouselContentPr
 	const getLabel = (period: TimelineEntry[]) => {
 		if (!period.length) return "";
 		const firstDate = parseISO(period[0].date);
-		return mode === "weekly" ? `v${getISOWeek(firstDate)}` : format(firstDate, "LLLL");
+		return mode === "weekly" ? `w${getISOWeek(firstDate)}` : format(firstDate, "LLLL");
 	};
 
 	const weekCounts = periods.map((p) => splitIntoWeeks(p).length);
@@ -46,7 +46,7 @@ const DailyCarouselContent = ({ periods, compact, mode }: DailyCarouselContentPr
 						)}
 					</div>
 
-					<DailySlide period={period} />
+					<DailyRows period={period} />
 				</div>
 			))}
 		</>
