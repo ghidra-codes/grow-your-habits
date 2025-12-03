@@ -27,6 +27,7 @@ const StatsModalView = () => {
 	const timelineMap = useStatsTimeline(habits, timelineModes);
 
 	console.log("habits:", habits);
+	console.log("streakMap:", streakMap);
 	console.log("timelineMap:", timelineMap);
 	console.log("adherenceMap:", adherenceMap);
 	console.log("shortTermAdherenceMap:", shortTermAdherenceMap);
@@ -37,7 +38,7 @@ const StatsModalView = () => {
 		<div className="stats-list">
 			{habits.map((habit) => {
 				const stats = getHabitStats({
-					habitId: habit.id,
+					habit,
 					adherenceMap,
 					streakMap,
 					timelineMap,
@@ -133,6 +134,11 @@ const StatsModalView = () => {
 						<div className="progressbar-container">
 							<h3>Adherence last 30 days:</h3>
 							<ProgressBar value={stats.shortTermAdherence?.last30 || 0} />
+						</div>
+
+						<div className="trend-container">
+							<h3>Trend:</h3>
+							<span className={`trend-label trend-${stats.trend}`}>{stats.trend}</span>
 						</div>
 					</div>
 				);

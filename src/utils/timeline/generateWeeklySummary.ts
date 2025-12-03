@@ -2,8 +2,8 @@ import type { HabitWithRelations } from "@/types/habit.types";
 import type { SummaryStatus, WeeklySummary } from "@/types/statistics.types";
 import { addWeeks, endOfWeek, getISOWeek, isAfter, startOfWeek } from "date-fns";
 
-export const generateWeeklySummary = (habit: HabitWithRelations): WeeklySummary[] => {
-	if (habit.frequency_type !== "weekly") return [];
+export const generateWeeklySummary = (habit: HabitWithRelations, chartData?: boolean): WeeklySummary[] => {
+	if (!chartData && habit.frequency_type !== "weekly") return [];
 
 	const target = habit.target_per_week ?? 0;
 	const logs = (habit.logs ?? []).map((l) => new Date(l.log_date));

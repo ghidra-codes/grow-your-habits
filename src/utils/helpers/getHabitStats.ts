@@ -1,4 +1,4 @@
-import type { AdherenceMap, ShortTermAdherenceMap } from "@/types/habit.types";
+import type { AdherenceMap, HabitWithRelations, ShortTermAdherenceMap } from "@/types/habit.types";
 import type {
 	TimelineMap,
 	StreakMap,
@@ -7,9 +7,10 @@ import type {
 	WeeklySummaryTimeline,
 	MonthlySummaryTimeline,
 } from "@/types/statistics.types";
+import { calculateTrendDirection } from "../calculateTrendDirection";
 
 interface GetHabitStatsArgs {
-	habitId: string;
+	habit: HabitWithRelations;
 	habitFrequency: "daily" | "weekly" | "monthly" | "custom";
 	adherenceMap: AdherenceMap;
 	streakMap: StreakMap;
@@ -19,7 +20,7 @@ interface GetHabitStatsArgs {
 }
 
 export const getHabitStats = ({
-	habitId,
+	habit,
 	habitFrequency,
 	adherenceMap,
 	streakMap,
@@ -27,22 +28,22 @@ export const getHabitStats = ({
 	timelineModes,
 	shortTermAdherenceMap,
 }: GetHabitStatsArgs) => {
-	const adherence = adherenceMap[habitId];
-	const streak = streakMap[habitId];
-	const mode = timelineModes[habitId] ?? "weekly";
-	const shortTermAdherence = shortTermAdherenceMap[habitId];
+	const adherence = adherenceMap[habit.id];
+	const streak = streakMap[habit.id];
+	const mode = timelineModes[habit.id] ?? "weekly";
+	const shortTermAdherence = shortTermAdherenceMap[habit.id];
 
 	let timeline: DailyPeriodTimeline | WeeklySummaryTimeline | MonthlySummaryTimeline | undefined;
 
 	switch (habitFrequency) {
 		case "daily":
-			timeline = timelineMap.daily[habitId];
+			timeline = timelineMap.daily[habit.id];
 			break;
 		case "weekly":
-			timeline = timelineMap.weekly[habitId];
+			timeline = timelineMap.weekly[habit.id];
 			break;
 		case "monthly":
-			timeline = timelineMap.monthly[habitId];
+			timeline = timelineMap.monthly[habit.id];
 			break;
 		default:
 			timeline = undefined;
@@ -58,6 +59,7 @@ export const getHabitStats = ({
 			mode,
 			isSinglePeriod: false,
 			isCompact: false,
+			trend: calculateTrendDirection(habit),
 		};
 	}
 
@@ -76,11 +78,13 @@ export const getHabitStats = ({
 			mode,
 			isSinglePeriod: single,
 			isCompact: compact,
+			trend: calculateTrendDirection(habit),
 		};
 	}
 
 	// WEEKLY OR MONTHLY TIMELINE
 	const single = timeline.length <= 7;
+	const trend = calculateTrendDirection(habit);
 
 	return {
 		adherence,
@@ -90,5 +94,6 @@ export const getHabitStats = ({
 		mode,
 		isSinglePeriod: single,
 		isCompact: false,
+		trend,
 	};
 };

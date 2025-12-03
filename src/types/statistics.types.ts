@@ -69,3 +69,7 @@ export interface Streak {
 }
 
 export type StreakMap = Record<string, Streak>;
+
+// TREND
+
+export type TrendDirection = "improving" | "stable" | "declining";

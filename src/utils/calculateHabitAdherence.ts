@@ -1,5 +1,6 @@
 import { startOfDay, differenceInDays, startOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import type { HabitAdherence, HabitWithRelations } from "@/types/habit.types";
+import { getWeightedLifetimeAdherence } from "./helpers/getWeightedLifetimeAdherence";
 
 export const calculateHabitAdherence = (
 	habit: HabitWithRelations,
@@ -8,8 +9,7 @@ export const calculateHabitAdherence = (
 	const adherenceBoundary = startOfDay(new Date());
 	const createdAt = startOfDay(new Date(habit.created_at));
 
-	// CALCULATE ACTUAL LOGS
-
+	// LOG COUNT
 	const logsCount = (habit.logs ?? []).filter(
 		(l) => startOfDay(new Date(l.log_date)).getTime() <= adherenceBoundary.getTime()
 	).length;
@@ -17,23 +17,19 @@ export const calculateHabitAdherence = (
 	let expectedCount = 0;
 	let period: HabitAdherence["period"] = "day";
 
-	// CALCULATE EXPECTED LOGS BASED ON FREQUENCY TYPE
-
 	// DAILY
-
 	if (habit.frequency_type === "daily") {
 		period = "day";
 		expectedCount = Math.max(0, differenceInDays(adherenceBoundary, createdAt) + 1);
 	}
 
 	// WEEKLY
-
 	if (habit.frequency_type === "weekly") {
 		period = "week";
+
 		const target = habit.target_per_week ?? 0;
 
 		const weekStart = startOfWeek(adherenceBoundary, { weekStartsOn: 1 });
-
 		const effectiveStart = startOfDay(new Date(Math.max(weekStart.getTime(), createdAt.getTime())));
 
 		const daysActiveInPeriod = differenceInDays(adherenceBoundary, effectiveStart) + 1;
@@ -45,9 +41,9 @@ export const calculateHabitAdherence = (
 	}
 
 	// MONTHLY
-
 	if (habit.frequency_type === "monthly") {
 		period = "month";
+
 		const target = habit.target_per_month ?? 0;
 
 		const monthStart = startOfMonth(adherenceBoundary);
@@ -65,7 +61,6 @@ export const calculateHabitAdherence = (
 	}
 
 	// CUSTOM
-
 	if (habit.frequency_type === "custom") {
 		period = "day";
 
@@ -76,22 +71,26 @@ export const calculateHabitAdherence = (
 			if (scheduleWeekdays.includes(cursor.getDay())) count++;
 			cursor.setDate(cursor.getDate() + 1);
 		}
+
 		expectedCount = count;
 	}
 
 	// FINAL CALCULATIONS
-
 	expectedCount = Math.max(0, expectedCount);
 
-	const percentage = expectedCount === 0 ? 100 : Math.min(100, (logsCount / expectedCount) * 100);
+	// Weighted lifetime adherence replaces raw lifetime
+	const weighted = getWeightedLifetimeAdherence(habit, scheduleWeekdays);
+
+	// Determine onTrack based on weighted adherence
+	const onTrack = weighted >= 85;
 
 	return {
 		habitId: habit.id,
 		expected: expectedCount,
 		logCount: logsCount,
 		period,
-		onTrack: logsCount >= expectedCount,
-		percentage,
+		onTrack,
+		percentage: weighted,
 		missed: Math.max(0, expectedCount - logsCount),
 	};
 };
