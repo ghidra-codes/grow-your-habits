@@ -3,6 +3,8 @@ import { useHabitsQuery } from "../habits/hooks/queries/useHabitsQuery";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import { usePlantHealth } from "./hooks/usePlantHealth";
 import PlantAnimation from "./components/PlantAnimation";
+import AnimatedPlantSvg from "./components/AnimatedPlantSvg";
+import testSvgRaw from "@/assets/lottie/svgs/test.svg?raw";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
@@ -17,7 +19,7 @@ const PlantView = () => {
 
 	return (
 		<div className="plant-view">
-			<PlantAnimation health={plantHealth} />
+			<AnimatedPlantSvg svgRaw={testSvgRaw} width={300} height={300} />
 			<h1>Plant health: {plantHealth}</h1>
 		</div>
 	);
