@@ -2,8 +2,8 @@ import React, { useRef, useMemo } from "react";
 import Lottie, { type LottieRefCurrentProps } from "lottie-react";
 import { useLottieSvgExtractor } from "@/features/plant/hooks/utils/useLottieSvgExtractor";
 
-const FRAME_TO_EXTRACT = 71;
-const EXTRACTION_ENABLED = false;
+const FRAME_TO_EXTRACT = 2;
+const EXTRACTION_ENABLED = true;
 
 interface LottieExtractorProps {
 	animationJson: object;

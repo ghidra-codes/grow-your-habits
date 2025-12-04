@@ -1,4 +1,3 @@
-// hooks/useUpdateHabit.ts
 import { updateHabit } from "@/features/habits/data/habits";
 import type { Habit, UpdateHabitPayload } from "@/types/habit.types";
 import { habitsKey } from "@/utils/helpers/queryKeys";

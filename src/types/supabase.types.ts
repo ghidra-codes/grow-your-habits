@@ -105,6 +105,33 @@ export type Database = {
         }
         Relationships: []
       }
+      plant_state: {
+        Row: {
+          created_at: string | null
+          death_count: number
+          growth_score: number
+          last_growth_date: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          death_count?: number
+          growth_score?: number
+          last_growth_date?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          death_count?: number
+          growth_score?: number
+          last_growth_date?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

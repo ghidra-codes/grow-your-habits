@@ -1,0 +1,23 @@
+@use "../abstracts/index" as *;
+
+.health-bar {
+	display: flex;
+	flex-direction: column-reverse;
+	width: 100%;
+	padding: 4px;
+	gap: 5px;
+
+	background: $rich-black-surface-light;
+	border-radius: 8px;
+	border: 2px solid $rich-black-lightest;
+}
+
+.segment {
+	flex: 1;
+	min-height: 20px;
+	border-radius: 4px;
+
+	background: $rich-black-surface;
+	transition: all 0.3s ease;
+	border: 1px solid $rich-black-lightest;
+}

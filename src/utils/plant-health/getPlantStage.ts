@@ -1,4 +1,6 @@
-export const getPlantStage = (health: number): 1 | 2 | 3 | 4 | 5 => {
+import type { PlantStage } from "@/types/plant.types";
+
+export const getPlantStage = (health: number): PlantStage => {
 	if (health >= 80) return 5;
 	if (health >= 60) return 4;
 	if (health >= 40) return 3;

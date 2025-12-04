@@ -3,23 +3,44 @@ import { useHabitsQuery } from "../habits/hooks/queries/useHabitsQuery";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import { usePlantHealth } from "./hooks/usePlantHealth";
 import PlantAnimation from "./components/PlantAnimation";
-import AnimatedPlantSvg from "./components/AnimatedPlantSvg";
-import testSvgRaw from "@/assets/lottie/svgs/test.svg?raw";
+import PlantSvgAnimated from "./components/PlantSvgAnimated";
+import { usePlantAnimActions, usePlantAnimEnabled } from "@/store/usePlantAnimationStore";
+import { usePlantGrowth } from "./hooks/usePlantGrowth";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
 	const { data: habits, isLoading, isError, error } = useHabitsQuery(userId);
 
-	const plantHealth = usePlantHealth({
-		habits: habits ?? [],
+	const plantHealth = usePlantHealth({ habits: habits ?? [] });
+	const {
+		stage,
+		isLoading: isLoadingGrowth,
+		isError: isErrorGrowth,
+		error: errorGrowth,
+	} = usePlantGrowth({
+		userId,
+		plantHealth,
+		habitCount: habits?.length ?? 0,
 	});
 
-	if (isLoading) return <LoadingSpinner />;
-	if (isError) return <div>Error: {error?.message}</div>;
+	const hasSeenAnim = usePlantAnimEnabled();
+	const { disable } = usePlantAnimActions();
+
+	const handleLottieComplete = () => disable();
+
+	if (isLoading || isLoadingGrowth) return <LoadingSpinner />;
+	if (isError || isErrorGrowth) return <div>Error: {error?.message || errorGrowth?.message}</div>;
 
 	return (
 		<div className="plant-view">
-			<AnimatedPlantSvg svgRaw={testSvgRaw} width={300} height={300} />
+			<div className="plant-render-container">
+				{hasSeenAnim && stage !== 0 ? (
+					<PlantAnimation stage={stage} onComplete={handleLottieComplete} />
+				) : (
+					<PlantSvgAnimated stage={stage} />
+				)}
+			</div>
+
 			<h1>Plant health: {plantHealth}</h1>
 		</div>
 	);

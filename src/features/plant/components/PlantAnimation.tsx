@@ -1,29 +1,35 @@
-import { useMemo } from "react";
+import { useMemo, useCallback, useRef } from "react";
 import Lottie from "lottie-react";
 import { plantAnimations } from "@/assets/lottie";
-import { getPlantStage } from "@/utils/plant-health/getPlantStage";
+import type { PlantStage } from "@/types/plant.types";
 
 interface Props {
-	health: number;
+	onComplete: () => void;
+	stage: PlantStage;
 }
 
-const PlantAnimation = ({ health }: Props) => {
-	const stage = getPlantStage(health);
+const PlantAnimation = ({ onComplete, stage }: Props) => {
 	const animationData = useMemo(() => plantAnimations[stage], [stage]);
 
-	const key = `plant-stage-${4}`;
+	const completedRef = useRef(false);
+
+	const handleComplete = useCallback(() => {
+		if (completedRef.current) return;
+		completedRef.current = true;
+		onComplete();
+	}, [onComplete]);
+
+	const key = `plant-stage-${stage}`;
 
 	return (
-		<div className="plant-wrapper" style={{ width: 200, height: 200 }}>
+		<div className="plant-lottie-wrapper">
 			<Lottie
+				key={key}
 				animationData={animationData}
 				loop={false}
 				autoplay={true}
-				key={key}
-				style={{
-					width: "100%",
-					height: "100%",
-				}}
+				onComplete={handleComplete}
+				rendererSettings={{ preserveAspectRatio: "none" }}
 			/>
 		</div>
 	);

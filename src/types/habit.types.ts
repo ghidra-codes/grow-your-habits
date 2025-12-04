@@ -15,10 +15,6 @@ export type HabitRelations = {
 
 export type HabitWithRelations = Habit & HabitRelations;
 
-export type HabitInsert = Omit<Database["public"]["Tables"]["habits"]["Insert"], "frequency_type"> & {
-	frequency_type: FrequencyType;
-};
-
 export type HabitPayload = {
 	name: string;
 	description: string;

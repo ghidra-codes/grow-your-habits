@@ -1,5 +1,5 @@
 export const makeTimelineSummaryCells = (completed: number, target: number): { status: string }[] => {
-	const cells = [];
+	const cells: { status: string }[] = [];
 
 	// Completed weeks
 	for (let i = 0; i < completed; i++) {

@@ -6,6 +6,8 @@ export type TimelineModesMap = Record<string, TimelineViewMode>;
 
 export type TimelineStatus = "completed" | "missed" | "pending" | "unavailable";
 
+export type TimelineCells = "completed" | "missed" | "placeholder";
+
 // DAILY TIMELINE
 export interface TimelineEntry {
 	date: string;

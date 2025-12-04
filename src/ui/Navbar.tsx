@@ -1,12 +1,29 @@
-import { useStatsModalStore } from "@/store/useStatsModalStore";
+import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
+import { usePlantHealth } from "@/features/plant/hooks/usePlantHealth";
+import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import { usePlantStore } from "@/store/usePlantStore";
+import { useStatsModalActions } from "@/store/useStatsModalStore";
 import { supabase } from "@/utils/supabase-client";
+import { useEffect } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { LuChartLine } from "react-icons/lu";
 import { MdChecklist } from "react-icons/md";
 import { PiPlant } from "react-icons/pi";
+import { Link } from "react-router";
+import PlantHealthBar from "./PlantHealthBar";
 
 const Navbar = () => {
-	const { open } = useStatsModalStore();
+	const { open } = useStatsModalActions();
+	const userId = useUserIdRequired();
+	const { data: habits } = useHabitsQuery(userId);
+
+	const plantHealth = usePlantHealth({ habits: habits ?? [] });
+
+	const setHealth = usePlantStore((state) => state.setHealth);
+
+	useEffect(() => {
+		setHealth(plantHealth);
+	}, [plantHealth, setHealth]);
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -17,14 +34,14 @@ const Navbar = () => {
 		<nav className="vertical-navbar">
 			<ul>
 				<li>
-					<a href="/">
+					<Link to="/">
 						<PiPlant />
-					</a>
+					</Link>
 				</li>
 				<li>
-					<a href="/habits">
+					<Link to="/habits">
 						<MdChecklist />
-					</a>
+					</Link>
 				</li>
 				<li onClick={open}>
 					<LuChartLine />
@@ -33,6 +50,8 @@ const Navbar = () => {
 					<BiLogOut />
 				</li>
 			</ul>
+
+			<PlantHealthBar health={plantHealth} />
 		</nav>
 	);
 };

@@ -1,13 +1,13 @@
-import { Routes as RouterRoutes, Route } from "react-router";
+import { Routes, Route } from "react-router";
 import Layout from "./Layout";
 import PlantView from "@/features/plant/PlantView";
 import HabitsView from "@/features/habits/HabitsView";
 import LoginView from "@/features/auth/LoginView";
 import RegisterView from "@/features/auth/RegisterView";
 
-const Routes = () => {
+const AppRoutes = () => {
 	return (
-		<RouterRoutes>
+		<Routes>
 			{/* PUBLIC ROUTES (Login, Register) */}
 			<Route path="/login" element={<LoginView />} />
 			<Route path="/register" element={<RegisterView />} />
@@ -19,8 +19,8 @@ const Routes = () => {
 
 				<Route path="*" element={<h2>404: Page Not Found</h2>} />
 			</Route>
-		</RouterRoutes>
+		</Routes>
 	);
 };
 
-export default Routes;
+export default AppRoutes;

@@ -13,10 +13,15 @@
 @use "./ui/checkbox";
 @use "./ui/loading-spinner";
 @use "./ui/adherence-circle";
+@use "./ui/plant-health-bar";
 @use "./ui/progress-bar";
 @use "./ui/select";
 
 @use "./features/auth/auth-views";
+
+@use "./features/plant/plant-view";
+@use "./features/plant/plant-animation";
+@use "./features/plant/plant-svg-animated";
 
 @use "./features/habits/habits-view";
 @use "./features/habits/habit-form";
@@ -27,7 +32,3 @@
 @use "./features/statistics/timeline-carousel";
 @use "./features/statistics/statistics-modal-view";
 @use "./features/statistics/streak-bar";
-
-#plant {
-	box-shadow: inset 0 0 10px rgba(37, 137, 42, 0.8);
-}
