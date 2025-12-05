@@ -13,7 +13,7 @@
 	flex: 0 0 100%;
 	padding: 12px 0;
 
-	// WEEK ROW
+	/* WEEK ROW */
 
 	.week-row {
 		width: 100%;
@@ -23,7 +23,7 @@
 		padding: 8px 0;
 	}
 
-	// DAY CELL
+	/* DAY CELL */
 
 	.week-day {
 		display: flex;
@@ -81,7 +81,8 @@
 	}
 }
 
-// COMPACT
+/* COMPACT */
+
 .timeline-embla__slide.compact {
 	.week-row {
 		padding: 5px 0;
@@ -111,7 +112,7 @@
 	}
 }
 
-// DOTS
+/* DOTS */
 
 .week-day__dot {
 	width: 10px;
@@ -157,7 +158,7 @@
 	}
 }
 
-// SUMMARY CELLS
+/* SUMMARY CELLS */
 
 .weekly-summary,
 .monthly-summary {
@@ -226,7 +227,7 @@
 			border-radius: 50%;
 		}
 
-		// STATUS COLORS
+		/* STATUS COLORS */
 		&__dot--completed {
 			background-color: $green-primary;
 		}
@@ -241,7 +242,7 @@
 		}
 	}
 
-	// Placeholder cells
+	/* PLACEHOLDER CELLS */
 	.week-cell--placeholder,
 	.month-cell--placeholder {
 		opacity: 0.45;

@@ -1,5 +1,5 @@
-import type { HabitLog, HabitWithRelations } from "@/types/habit.types";
-import { habitsKey } from "@/utils/helpers/queryKeys";
+import type { HabitLog, HabitWithLogs } from "@/types/habit.types";
+import { habitsKey } from "@/lib/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteHabitLog } from "../../data/habit-logs";
 import type { LogCtx, LogVars, ServiceResponse } from "@/types/service.types";
@@ -16,9 +16,9 @@ export const useDeleteHabitLog = (userId: string) => {
 			const key = habitsKey(userId);
 			await queryClient.cancelQueries({ queryKey: key });
 
-			const prevHabits = queryClient.getQueryData<HabitWithRelations[]>(key);
+			const prevHabits = queryClient.getQueryData<HabitWithLogs[]>(key);
 
-			queryClient.setQueryData<HabitWithRelations[]>(key, (old = []) =>
+			queryClient.setQueryData<HabitWithLogs[]>(key, (old = []) =>
 				old.map((habit) =>
 					habit.id !== habitId
 						? habit
@@ -39,7 +39,7 @@ export const useDeleteHabitLog = (userId: string) => {
 		},
 
 		onSuccess: (_result, { habitId, date }) => {
-			queryClient.setQueryData<HabitWithRelations[]>(habitsKey(userId), (old = []) =>
+			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (old = []) =>
 				old.map((habit) =>
 					habit.id !== habitId
 						? habit

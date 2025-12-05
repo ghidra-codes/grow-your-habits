@@ -1,10 +1,10 @@
 import { getHabits } from "@/features/habits/data/habits";
-import type { HabitWithRelations } from "@/types/habit.types";
-import { habitsKey } from "@/utils/helpers/queryKeys";
+import type { HabitWithLogs } from "@/types/habit.types";
+import { habitsKey } from "@/lib/helpers/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 export const useHabitsQuery = (userId: string) =>
-	useQuery<HabitWithRelations[]>({
+	useQuery<HabitWithLogs[]>({
 		queryKey: habitsKey(userId),
 
 		queryFn: async () => {

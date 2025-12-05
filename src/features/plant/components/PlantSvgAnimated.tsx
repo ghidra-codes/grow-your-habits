@@ -10,6 +10,8 @@ interface PlantSvgAnimatedProps {
 	glowColor?: string;
 }
 
+type CSSVars = React.CSSProperties & Record<`--${string}`, string>;
+
 const PlantSvgAnimated = ({
 	stage,
 	swayScale = 1.02,
@@ -33,11 +35,12 @@ const PlantSvgAnimated = ({
 		if (!ready) requestAnimationFrame(() => setReady(true));
 	}, [svgRaw, swayScale, swayRotate, swayDuration, ready]);
 
+	const style: CSSVars = {
+		"--glow-color": glowColor,
+	};
+
 	return (
-		<div
-			className={`plant-glow-wrapper ${ready ? "visible" : ""}`}
-			style={{ "--glow-color": glowColor } as React.CSSProperties}
-		>
+		<div className={`plant-glow-wrapper ${ready ? "visible" : ""}`} style={style}>
 			<div
 				ref={wrapperRef}
 				className="plant-svg-wrapper"

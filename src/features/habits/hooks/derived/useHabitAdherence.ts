@@ -1,17 +1,6 @@
 import { useMemo } from "react";
-import type { AdherenceMap, HabitWithRelations } from "@/types/habit.types";
-import { calculateHabitAdherence } from "@/utils/calculateHabitAdherence";
+import { calculateHabitAdherence } from "@/lib/calculateHabitAdherence";
+import type { HabitWithLogs, HabitAdherence } from "@/types/habit.types";
 
-export const useHabitAdherence = (habits: HabitWithRelations[]): AdherenceMap => {
-	return useMemo(() => {
-		const adherenceMap: AdherenceMap = {};
-
-		for (const habit of habits) {
-			const schedule = habit.schedules ?? [];
-
-			adherenceMap[habit.id] = calculateHabitAdherence(habit, schedule);
-		}
-
-		return adherenceMap;
-	}, [habits]);
-};
+export const useHabitAdherence = (habit: HabitWithLogs): HabitAdherence =>
+	useMemo(() => calculateHabitAdherence(habit), [habit]);

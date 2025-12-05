@@ -18,7 +18,7 @@
 
 	h2 {
 		@include fluid-type(h1);
-		font-family: "Oxanium", sans-serif;
+		font-family: $secondary-font;
 		color: $green-light;
 		font-weight: 700;
 		text-align: center;

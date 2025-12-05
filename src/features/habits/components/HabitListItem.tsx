@@ -1,23 +1,23 @@
-import type { AdherenceMap, Habit, HabitWithRelations } from "@/types/habit.types";
+import type { AdherenceMap, Habit, HabitWithLogs } from "@/types/habit.types";
 import AdherenceCircle from "@/ui/AdherenceCircle";
 import Checkbox from "@/ui/Checkbox";
-import getTodayDate from "@/utils/helpers/getTodayDate";
-import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
+import { getTodayDate } from "@/lib/helpers/getTodayDate";
+import { hasLoggedToday } from "@/lib/helpers/hasLoggedToday";
 import { AnimatePresence } from "motion/react";
 import { FaCaretDown } from "react-icons/fa";
 import HabitInfoDrawer from "./HabitInfoDrawer";
 import { useConfetti } from "@/hooks/useConfetti";
 
 interface HabitListItemProps {
-	habits: HabitWithRelations[];
+	habits: HabitWithLogs[];
 	onSelect: (habit: Habit | null) => void;
 	selectedHabit: Habit | null;
-	onToggleHabit: (habit: HabitWithRelations, date: string) => void;
+	onToggleHabit: (habit: HabitWithLogs, date: string) => void;
 	expandedIds: Set<string>;
 	setExpandedIds: React.Dispatch<React.SetStateAction<Set<string>>>;
 	isMutating: boolean;
 	adherenceMap: AdherenceMap;
-	onOpenLogModal: (habit: HabitWithRelations) => void;
+	onOpenLogModal: (habit: HabitWithLogs) => void;
 }
 
 const HabitListItem: React.FC<HabitListItemProps> = ({
@@ -34,7 +34,7 @@ const HabitListItem: React.FC<HabitListItemProps> = ({
 	const { playConfetti, confettiLock } = useConfetti();
 
 	// HANDLERS
-	const handleChecked = (habit: HabitWithRelations, isDoneDaily: boolean, checkboxEl: HTMLElement) => {
+	const handleChecked = (habit: HabitWithLogs, isDoneDaily: boolean, checkboxEl: HTMLElement) => {
 		if (habit.frequency_type === "daily") {
 			if (!isDoneDaily) playConfetti(checkboxEl);
 

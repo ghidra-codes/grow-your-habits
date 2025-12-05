@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { incrementGrowthScore } from "@/features/plant/data/plant-state";
-import { plantStateKey } from "@/utils/helpers/queryKeys";
-import { getPlantStageFromGrowth } from "@/utils/plant-growth/getPlantStageFromGrowth";
+import { plantStateKey } from "@/lib/helpers/queryKeys";
+import { getPlantStageFromGrowth } from "@/lib/plant-growth/getPlantStageFromGrowth";
 import type { PlantEntry } from "@/types/plant.types";
 
 export const useIncrementGrowth = (userId: string) => {

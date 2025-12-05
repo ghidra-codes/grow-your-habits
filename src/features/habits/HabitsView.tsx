@@ -8,7 +8,7 @@ import HabitForm from "./components/HabitForm";
 import HabitListItem from "./components/HabitListItem";
 import HabitsControlPanel from "./components/HabitsControlPanel";
 import { modalModeConfig } from "./config/modalModeConfig";
-import { useHabitAdherence } from "./hooks/derived/useHabitAdherence";
+import { useHabitAdherenceMap } from "./hooks/derived/useHabitAdherenceMap";
 import { useHabitsQuery } from "./hooks/queries/useHabitsQuery";
 import { useHabitActions } from "./hooks/useHabitActions";
 import { useHabitModal } from "./hooks/useHabitModal";
@@ -23,7 +23,7 @@ const HabitsView = () => {
 
 	// Data fetching
 	const { data: habits, isLoading, isError, error } = useHabitsQuery(userId);
-	const adherenceMap = useHabitAdherence(habits || []);
+	const adherenceMap = useHabitAdherenceMap(habits || []);
 
 	// Modal management
 	const { isOpen, modalMode, openModal, closeModal, initialFormValues } = useHabitModal(selectedHabit);

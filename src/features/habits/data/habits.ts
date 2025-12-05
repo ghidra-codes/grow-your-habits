@@ -1,10 +1,10 @@
 import type { FrequencyType, Habit } from "@/types/habit.types";
 import type { ServiceResponse } from "@/types/service.types";
-import { normalizeHabit, normalizeHabitWithRelations } from "@/utils/helpers/normalizeHabit";
-import { supabase } from "@/utils/supabase-client";
+import { normalizeHabit, normalizeHabitWithLogs } from "@/lib/helpers/normalizeHabit";
+import { supabase } from "@/lib/supabase-client";
 
 /**
- * Fetches all habits, their logs and schedules for the for a given user ID.
+ * Fetches all habits, their logs and for the for a given user ID.
  */
 export const getHabits = async (userId: string) => {
 	const { data, error } = await supabase
@@ -22,9 +22,6 @@ export const getHabits = async (userId: string) => {
 			habit_logs!left (
 				id,
 				log_date
-			),
-			habit_schedule!left (
-				weekday
 			)
 		`
 		)
@@ -32,7 +29,7 @@ export const getHabits = async (userId: string) => {
 
 	if (error) return { data: null, error };
 
-	return { data: data?.map(normalizeHabitWithRelations), error: null };
+	return { data: data?.map(normalizeHabitWithLogs), error: null };
 };
 
 /**
@@ -42,7 +39,7 @@ export const addHabit = async (
 	name: string,
 	userId: string,
 	description: string,
-	frequency_type: "daily" | "weekly" | "monthly" | "custom",
+	frequency_type: FrequencyType,
 	target_per_week: number | null,
 	target_per_month: number | null
 ): Promise<ServiceResponse<Habit>> => {

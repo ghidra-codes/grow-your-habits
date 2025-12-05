@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabase-client";
+import { supabase } from "@/lib/supabase-client";
 import type { ServiceResponse } from "@/types/service.types";
 import type { PlantState, PlantStateInsert, PlantStateUpdate } from "@/types/plant.types";
 

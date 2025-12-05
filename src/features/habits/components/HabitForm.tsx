@@ -37,7 +37,6 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 	});
 
 	const onSubmit = async (data: FormValues) => {
-		console.log("data:", data);
 		const actionFn = isEditMode ? onUpdateHabit : onAddHabit;
 
 		await actionFn({
@@ -96,7 +95,6 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 							{ label: "Daily", value: "daily" },
 							{ label: "Weekly", value: "weekly" },
 							{ label: "Monthly", value: "monthly" },
-							{ label: "Custom", value: "custom" },
 						]}
 					/>
 				)}

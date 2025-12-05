@@ -1,18 +1,18 @@
 import { useConfetti } from "@/hooks/useConfetti";
-import type { HabitWithRelations } from "@/types/habit.types";
-import { generateCurrentPeriod } from "@/utils/date-picker/generateCurrentPeriod";
-import getTodayDate from "@/utils/helpers/getTodayDate";
+import type { HabitWithLogs } from "@/types/habit.types";
+import { generateCurrentPeriod } from "@/lib/date-picker/generateCurrentPeriod";
+import { getTodayDate } from "@/lib/helpers/getTodayDate";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import HabitDatePicker from "./HabitDatePicker";
-import { hasLoggedToday } from "@/utils/helpers/hasLoggedToday";
+import { hasLoggedToday } from "@/lib/helpers/hasLoggedToday";
 
 const HabitLogOptions = ({
 	habit,
 	onToggleHabit,
 }: {
-	habit: HabitWithRelations;
-	onToggleHabit: (habit: HabitWithRelations, date: string) => void;
+	habit: HabitWithLogs;
+	onToggleHabit: (habit: HabitWithLogs, date: string) => void;
 }) => {
 	const [selectionMode, setSelectionMode] = useState<"today" | "past" | null>(null);
 	const [confirmUndoToday, setConfirmUndoToday] = useState(false);

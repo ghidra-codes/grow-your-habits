@@ -1,4 +1,4 @@
-import type { HabitWithRelations } from "./habit.types";
+import type { HabitWithLogs } from "./habit.types";
 
 export type TimelineViewMode = "weekly" | "monthly";
 
@@ -52,16 +52,16 @@ export interface TimelineMap {
 // PROCESSORS
 
 export type DailyProcessor = {
-	generate: (habit: HabitWithRelations) => TimelineEntry[];
+	generate: (habit: HabitWithLogs) => TimelineEntry[];
 	split: (entries: TimelineEntry[]) => DailyPeriodTimeline;
 };
 
 export type WeeklyProcessor = {
-	generate: (habit: HabitWithRelations) => WeeklySummaryTimeline;
+	generate: (habit: HabitWithLogs) => WeeklySummaryTimeline;
 };
 
 export type MonthlyProcessor = {
-	generate: (habit: HabitWithRelations) => MonthlySummaryTimeline;
+	generate: (habit: HabitWithLogs) => MonthlySummaryTimeline;
 };
 
 // STREAKS

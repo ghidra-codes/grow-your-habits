@@ -2,11 +2,11 @@ import { GoGoal } from "react-icons/go";
 import { MdDoneOutline } from "react-icons/md";
 import { TbClockX } from "react-icons/tb";
 import { motion } from "motion/react";
-import type { HabitAdherence, HabitWithRelations } from "@/types/habit.types";
+import type { HabitAdherence, HabitWithLogs } from "@/types/habit.types";
 import type React from "react";
 
 interface HabitInfoDrawerProps {
-	habit: HabitWithRelations;
+	habit: HabitWithLogs;
 	habitAdherence: HabitAdherence;
 }
 

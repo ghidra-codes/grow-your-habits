@@ -1,15 +1,15 @@
-import useShortTermAdherence from "@/features/statistics/hooks/useShortTermAdherence";
-import { useStatsStreak } from "@/features/statistics/hooks/useStatsStreak";
-import type { HabitWithRelations } from "@/types/habit.types";
+import useShortTermAdherenceMap from "@/features/habits/hooks/derived/useShortTermAdherenceMap";
+import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
+import type { HabitWithLogs } from "@/types/habit.types";
 import type { PlantHealth } from "@/types/plant.types";
-import { calculateTrendDirection } from "@/utils/calculateTrendDirection";
-import { calculateHabitPlantHealth } from "@/utils/plant-health/calculateHabitPlantHealth";
-import { sanitizePlantHealth } from "@/utils/plant-health/sanitizePlantHealth";
+import { calculateTrendDirection } from "@/lib/calculateTrendDirection";
+import { calculateHabitPlantHealth } from "@/lib/plant-health/calculateHabitPlantHealth";
+import { sanitizePlantHealth } from "@/lib/plant-health/sanitizePlantHealth";
 import { useMemo } from "react";
 
-export const usePlantHealth = ({ habits }: { habits: HabitWithRelations[] }): PlantHealth => {
-	const streakMap = useStatsStreak(habits ?? []);
-	const shortTermAdherenceMap = useShortTermAdherence(habits ?? []);
+export const usePlantHealth = ({ habits }: { habits: HabitWithLogs[] }): PlantHealth => {
+	const streakMap = useStatsStreakMap(habits ?? []);
+	const shortTermAdherenceMap = useShortTermAdherenceMap(habits ?? []);
 
 	return useMemo(() => {
 		if (!habits.length) return sanitizePlantHealth(0);

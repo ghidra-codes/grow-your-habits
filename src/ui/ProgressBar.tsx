@@ -2,17 +2,17 @@ import * as Progress from "@radix-ui/react-progress";
 
 interface ProgressBarProps {
 	value: number;
-	className?: string;
+	indicatorClass?: string;
 }
 
-const ProgressBar = ({ value, className }: ProgressBarProps) => {
+const ProgressBar = ({ value, indicatorClass }: ProgressBarProps) => {
 	const percentage = Math.round(value);
 	const showInside = value >= 20;
 
 	return (
-		<Progress.Root className={`progressbar ${className || ""}`} value={value} max={100}>
+		<Progress.Root className="progressbar" value={value} max={100}>
 			<Progress.Indicator
-				className="progressbar__indicator"
+				className={`progressbar__indicator ${indicatorClass || ""}`}
 				style={{ width: `${Math.max(0, Math.min(100, value))}%` }}
 			>
 				{showInside && <span className="progressbar__label">{percentage}%</span>}

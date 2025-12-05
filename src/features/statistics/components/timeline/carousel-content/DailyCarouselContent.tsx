@@ -1,6 +1,6 @@
 import type { DailyPeriodTimeline, TimelineEntry } from "@/types/statistics.types";
 import DailyRows from "@/ui/timeline/DailyRows";
-import { splitIntoWeeks } from "@/utils/helpers/splitIntoWeeks";
+import { splitIntoWeeks } from "@/lib/helpers/splitIntoWeeks";
 import { format, getISOWeek, parseISO } from "date-fns";
 import { FaAngleDoubleRight } from "react-icons/fa";
 

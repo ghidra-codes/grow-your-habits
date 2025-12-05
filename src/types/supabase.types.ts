@@ -49,29 +49,6 @@ export type Database = {
           },
         ]
       }
-      habit_schedule: {
-        Row: {
-          habit_id: string
-          weekday: number
-        }
-        Insert: {
-          habit_id: string
-          weekday: number
-        }
-        Update: {
-          habit_id?: string
-          weekday?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "habit_schedule_habit_id_fkey"
-            columns: ["habit_id"]
-            isOneToOne: false
-            referencedRelation: "habits"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       habits: {
         Row: {
           created_at: string

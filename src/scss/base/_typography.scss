@@ -12,7 +12,7 @@ h2 {
 
 h3 {
 	@include fluid-type(h3);
-	font-family: "Oxanium", sans-serif;
+	font-family: $secondary-font;
 }
 
 p {

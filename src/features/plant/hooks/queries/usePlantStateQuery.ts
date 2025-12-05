@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPlantState, initPlantState, updatePlantState } from "@/features/plant/data/plant-state";
-import { plantStateKey } from "@/utils/helpers/queryKeys";
-import { getDailyGrowthAmount } from "@/utils/plant-growth/getDailyGrowthAmount";
-import { getPlantStageFromGrowth } from "@/utils/plant-growth/getPlantStageFromGrowth";
+import { plantStateKey } from "@/lib/helpers/queryKeys";
+import { getDailyGrowthAmount } from "@/lib/plant-growth/getDailyGrowthAmount";
+import { getPlantStageFromGrowth } from "@/lib/plant-growth/getPlantStageFromGrowth";
 import type { PlantEntry } from "@/types/plant.types";
 
-export const usePlantStateQuery = (userId: string, plantHealth: number) =>
+export const usePlantStateQuery = (userId: string, plantHealth: number, habitCount: number) =>
 	useQuery<PlantEntry>({
-		queryKey: plantStateKey(userId),
+		queryKey: [...plantStateKey(userId), plantHealth, habitCount],
+		enabled: habitCount > 0 && plantHealth > 0,
 
 		queryFn: async () => {
 			// Fetch or init

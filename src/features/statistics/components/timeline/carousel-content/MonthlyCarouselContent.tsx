@@ -1,5 +1,5 @@
 import type { MonthlySummaryTimeline } from "@/types/statistics.types";
-import { padNumber } from "@/utils/helpers/padNumber";
+import { padNumber } from "@/lib/helpers/padNumber";
 
 const MonthlyCarouselContent = ({ months }: { months: MonthlySummaryTimeline }) => {
 	const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

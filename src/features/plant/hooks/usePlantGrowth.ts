@@ -11,7 +11,7 @@ export const usePlantGrowth = ({
 	plantHealth: number;
 	habitCount: number;
 }) => {
-	const { data, isLoading, isError, error } = usePlantStateQuery(userId, plantHealth);
+	const { data, isLoading, isError, error } = usePlantStateQuery(userId, plantHealth, habitCount);
 
 	const result: { stage: PlantStageOrZero; growthScore: number } = useMemo(() => {
 		if (!data) {

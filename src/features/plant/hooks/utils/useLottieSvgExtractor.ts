@@ -22,7 +22,9 @@ export const useLottieSvgExtractor = (
 				lottieApiRef.current.goToAndStop(targetFrame, true);
 
 				const renderTimer = setTimeout(() => {
-					const svgElement = containerRef.current!.querySelector("svg");
+					if (!containerRef.current) return;
+
+					const svgElement = containerRef.current.querySelector("svg");
 
 					if (svgElement) {
 						const svgString = new XMLSerializer().serializeToString(svgElement);

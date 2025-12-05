@@ -1,11 +1,11 @@
-import type { HabitWithRelations } from "@/types/habit.types";
+import type { HabitWithLogs } from "@/types/habit.types";
 import { useState } from "react";
 
 const useHabitLogModal = () => {
-	const [logOptionsHabit, setLogOptionsHabit] = useState<HabitWithRelations | null>(null);
+	const [logOptionsHabit, setLogOptionsHabit] = useState<HabitWithLogs | null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const openModal = (habit: HabitWithRelations) => {
+	const openModal = (habit: HabitWithLogs) => {
 		setLogOptionsHabit(habit);
 		setIsOpen(true);
 	};

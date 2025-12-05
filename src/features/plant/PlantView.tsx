@@ -6,6 +6,8 @@ import PlantAnimation from "./components/PlantAnimation";
 import PlantSvgAnimated from "./components/PlantSvgAnimated";
 import { usePlantAnimActions, usePlantAnimEnabled } from "@/store/usePlantAnimationStore";
 import { usePlantGrowth } from "./hooks/usePlantGrowth";
+import { GROWTH_STAGES } from "./config/growthStageConfig";
+import { getPointsToNextStage } from "@/lib/plant-growth/getPointsToNextStage";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
@@ -14,6 +16,7 @@ const PlantView = () => {
 	const plantHealth = usePlantHealth({ habits: habits ?? [] });
 	const {
 		stage,
+		growthScore,
 		isLoading: isLoadingGrowth,
 		isError: isErrorGrowth,
 		error: errorGrowth,
@@ -27,21 +30,37 @@ const PlantView = () => {
 	const { disable } = usePlantAnimActions();
 
 	const handleLottieComplete = () => disable();
+	const pointsToNextStage = getPointsToNextStage(growthScore, stage);
 
 	if (isLoading || isLoadingGrowth) return <LoadingSpinner />;
 	if (isError || isErrorGrowth) return <div>Error: {error?.message || errorGrowth?.message}</div>;
 
 	return (
 		<div className="plant-view">
-			<div className="plant-render-container">
-				{hasSeenAnim && stage !== 0 ? (
-					<PlantAnimation stage={stage} onComplete={handleLottieComplete} />
-				) : (
-					<PlantSvgAnimated stage={stage} />
-				)}
-			</div>
+			<div className="plant-wrapper">
+				<div className="plant-render-container">
+					{hasSeenAnim && stage !== 0 ? (
+						<PlantAnimation stage={stage} onComplete={handleLottieComplete} />
+					) : (
+						<PlantSvgAnimated stage={stage} />
+					)}
+				</div>
 
-			<h1>Plant health: {plantHealth}</h1>
+				<div className="plant-info">
+					<div className="plant-growth-info">
+						<div className="plant-growth-score">
+							<span>GROWTH SCORE:</span> {growthScore}
+						</div>
+						<div className="points-to-next-stage">
+							<span>POINTS TO NEXT:</span> {pointsToNextStage ?? "-"}
+						</div>
+					</div>
+
+					<div className="plant-stage">
+						<span>PLANT STAGE:</span> {GROWTH_STAGES[stage].name}
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };

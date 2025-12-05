@@ -1,7 +1,8 @@
 import { addHabit } from "@/features/habits/data/habits";
-import type { Habit, HabitPayload } from "@/types/habit.types";
-import { habitsKey } from "@/utils/helpers/queryKeys";
+import type { HabitPayload, HabitWithLogs } from "@/types/habit.types";
+import { habitsKey } from "@/lib/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { normalizeHabit } from "@/lib/helpers/normalizeHabit";
 
 export const useAddHabit = (userId: string) => {
 	const queryClient = useQueryClient();
@@ -27,9 +28,9 @@ export const useAddHabit = (userId: string) => {
 
 			await queryClient.cancelQueries({ queryKey: key });
 
-			const prev = queryClient.getQueryData<Habit[]>(key) || [];
+			const prev = queryClient.getQueryData<HabitWithLogs[]>(key) || [];
 
-			const tempHabit: Habit = {
+			const tempHabit: HabitWithLogs = {
 				id: `temp-${Date.now()}`,
 				name: data.name,
 				description: data.description,
@@ -38,6 +39,7 @@ export const useAddHabit = (userId: string) => {
 				frequency_type: data.frequency_type,
 				target_per_week: data.target_per_week,
 				target_per_month: data.target_per_month,
+				logs: [],
 			};
 
 			queryClient.setQueryData(key, [tempHabit, ...prev]);
@@ -52,14 +54,19 @@ export const useAddHabit = (userId: string) => {
 		},
 
 		onSuccess: (savedHabit) => {
-			queryClient.setQueryData<Habit[]>(habitsKey(userId), (prev = []) => {
+			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (prev = []) => {
 				const withoutTemp = prev.filter((habit) => !habit.id.startsWith("temp-"));
 
-				return savedHabit
-					? [...withoutTemp, savedHabit].sort(
-							(a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-					  )
-					: withoutTemp;
+				if (!savedHabit) return withoutTemp;
+
+				const normalized: HabitWithLogs = {
+					...normalizeHabit(savedHabit),
+					logs: [],
+				};
+
+				return [...withoutTemp, normalized].sort(
+					(a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+				);
 			});
 		},
 	});

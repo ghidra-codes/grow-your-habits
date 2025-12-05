@@ -1,10 +1,10 @@
-import type { HabitWithRelations } from "@/types/habit.types";
-import type { DailyPeriodTimeline, TimelineModesMap } from "@/types/statistics.types";
-import { splitTimelineIntoMonths } from "@/utils/helpers/timeline/splitTimelineIntoMonths";
-import { splitTimelineIntoWeeks } from "@/utils/helpers/timeline/splitTimelineIntoWeeks";
-import { generateMonthlyTimeline } from "@/utils/timeline/generateMonthlyTimeline";
-import { generateWeeklyTimeline } from "@/utils/timeline/generateWeeklyTimeline";
 import { useMemo } from "react";
+import type { HabitWithLogs } from "@/types/habit.types";
+import type { DailyPeriodTimeline, TimelineViewMode } from "@/types/statistics.types";
+import { splitTimelineIntoMonths } from "@/lib/helpers/timeline/splitTimelineIntoMonths";
+import { splitTimelineIntoWeeks } from "@/lib/helpers/timeline/splitTimelineIntoWeeks";
+import { generateMonthlyTimeline } from "@/lib/timeline/generateMonthlyTimeline";
+import { generateWeeklyTimeline } from "@/lib/timeline/generateWeeklyTimeline";
 
 const DAILY_PROCESSORS = {
 	weekly: {
@@ -17,21 +17,9 @@ const DAILY_PROCESSORS = {
 	},
 } as const;
 
-export const useStatsDailyTimeline = (
-	habits: HabitWithRelations[],
-	modes: TimelineModesMap
-): Record<string, DailyPeriodTimeline> =>
+export const useStatsDailyTimeline = (habit: HabitWithLogs, mode: TimelineViewMode): DailyPeriodTimeline =>
 	useMemo(() => {
-		const map: Record<string, DailyPeriodTimeline> = {};
+		const { generate, split } = DAILY_PROCESSORS[mode];
 
-		for (const habit of habits) {
-			if (habit.frequency_type !== "daily") continue;
-
-			const mode = modes[habit.id] ?? "weekly";
-			const { generate, split } = DAILY_PROCESSORS[mode];
-
-			map[habit.id] = split(generate(habit));
-		}
-
-		return map;
-	}, [habits, modes]);
+		return split(generate(habit));
+	}, [habit, mode]);

@@ -19,6 +19,5 @@ export type PlantEntry = {
 	stage: PlantStageOrZero;
 };
 
-// HEALTH
-
-export type PlantHealth = number & { readonly __brand: "PlantHealth" };
+/** A number between 0 and 100 */
+export type PlantHealth = number;

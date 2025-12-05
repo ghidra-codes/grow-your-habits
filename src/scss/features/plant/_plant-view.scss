@@ -1,8 +1,50 @@
+@use "../../abstracts/index" as *;
+
 .plant-view {
 	width: 100%;
 
-	.plant-render-container {
-		width: 300px;
-		height: 300px;
+	.plant-wrapper {
+		width: 100%;
+		margin-top: 1rem;
+		background-color: $rich-black-light;
+		border: 2px solid $rich-black-lightest;
+		border-radius: 0.5rem;
+		max-width: 400px;
+		margin: 1rem auto 0 auto;
+
+		.plant-render-container {
+			margin: auto;
+			max-width: 400px;
+			max-height: 400px;
+		}
+
+		.plant-info {
+			border-top: 2px solid $rich-black-lightest;
+			background-color: $rich-black-lighter;
+			padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+			margin-top: 0.5rem;
+
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			font-family: $secondary-font;
+			@include fluid-type(small-text);
+			color: $off-white;
+
+			span {
+				font-weight: 700;
+				color: $jet-brighter;
+			}
+
+			@include respond(sm) {
+				margin-top: 1rem;
+			}
+
+			.plant-growth-info {
+				display: flex;
+				flex-direction: column;
+				gap: 0.25rem;
+			}
+		}
 	}
 }

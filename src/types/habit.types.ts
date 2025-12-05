@@ -2,18 +2,17 @@ import type { Database, Tables } from "./supabase.types";
 
 // HABIT
 
-export type FrequencyType = "daily" | "weekly" | "monthly" | "custom";
+export type FrequencyType = "daily" | "weekly" | "monthly";
 
 export type Habit = Omit<Database["public"]["Tables"]["habits"]["Row"], "frequency_type"> & {
 	frequency_type: FrequencyType;
 };
 
-export type HabitRelations = {
+export type HabitLogs = {
 	logs: Pick<Tables<"habit_logs">, "id" | "log_date">[];
-	schedules: number[];
 };
 
-export type HabitWithRelations = Habit & HabitRelations;
+export type HabitWithLogs = Habit & HabitLogs;
 
 export type HabitPayload = {
 	name: string;
@@ -30,12 +29,6 @@ export type UpdateHabitPayload = HabitPayload & { habitId: string };
 export type HabitLog = Database["public"]["Tables"]["habit_logs"]["Row"];
 
 export type HabitLogInsert = Database["public"]["Tables"]["habit_logs"]["Insert"];
-
-// SCHEDULE
-
-export type HabitSchedule = Database["public"]["Tables"]["habit_schedule"]["Row"];
-
-export type HabitScheduleInsert = Database["public"]["Tables"]["habit_schedule"]["Insert"];
 
 // ADHERENCE
 

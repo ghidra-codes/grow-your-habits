@@ -1,10 +1,8 @@
 import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
 import { usePlantHealth } from "@/features/plant/hooks/usePlantHealth";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
-import { usePlantStore } from "@/store/usePlantStore";
 import { useStatsModalActions } from "@/store/useStatsModalStore";
-import { supabase } from "@/utils/supabase-client";
-import { useEffect } from "react";
+import { supabase } from "@/lib/supabase-client";
 import { BiLogOut } from "react-icons/bi";
 import { LuChartLine } from "react-icons/lu";
 import { MdChecklist } from "react-icons/md";
@@ -13,17 +11,12 @@ import { Link } from "react-router";
 import PlantHealthBar from "./PlantHealthBar";
 
 const Navbar = () => {
-	const { open } = useStatsModalActions();
 	const userId = useUserIdRequired();
-	const { data: habits } = useHabitsQuery(userId);
 
-	const plantHealth = usePlantHealth({ habits: habits ?? [] });
+	const { data } = useHabitsQuery(userId);
+	const plantHealth = usePlantHealth({ habits: data ?? [] });
 
-	const setHealth = usePlantStore((state) => state.setHealth);
-
-	useEffect(() => {
-		setHealth(plantHealth);
-	}, [plantHealth, setHealth]);
+	const { open } = useStatsModalActions();
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();

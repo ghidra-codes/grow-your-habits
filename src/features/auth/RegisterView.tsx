@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "@/utils/supabase-client";
+import { supabase } from "@/lib/supabase-client";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
 
