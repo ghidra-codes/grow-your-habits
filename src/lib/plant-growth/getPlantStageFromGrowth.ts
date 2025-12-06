@@ -8,9 +8,7 @@ export const getPlantStageFromGrowth = (growth: number): GrowthStageKey => {
 		.filter((num): num is GrowthStageKey => num in GROWTH_STAGES);
 
 	for (const key of keys) {
-		if (growth >= GROWTH_STAGES[key].required) {
-			currentStage = key;
-		}
+		if (growth >= GROWTH_STAGES[key].required) currentStage = key;
 	}
 
 	return currentStage;

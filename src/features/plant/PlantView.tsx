@@ -13,7 +13,7 @@ const PlantView = () => {
 	const userId = useUserIdRequired();
 	const { data: habits, isLoading, isError, error } = useHabitsQuery(userId);
 
-	const plantHealth = usePlantHealth({ habits: habits ?? [] });
+	const plantHealth = usePlantHealth(habits ?? []);
 	const {
 		stage,
 		growthScore,

@@ -7,7 +7,7 @@ import { calculateHabitPlantHealth } from "@/lib/plant-health/calculateHabitPlan
 import { sanitizePlantHealth } from "@/lib/plant-health/sanitizePlantHealth";
 import { useMemo } from "react";
 
-export const usePlantHealth = ({ habits }: { habits: HabitWithLogs[] }): PlantHealth => {
+export const usePlantHealth = (habits: HabitWithLogs[]): PlantHealth => {
 	const streakMap = useStatsStreakMap(habits ?? []);
 	const shortTermAdherenceMap = useShortTermAdherenceMap(habits ?? []);
 
@@ -17,7 +17,7 @@ export const usePlantHealth = ({ habits }: { habits: HabitWithLogs[] }): PlantHe
 		const scores: number[] = [];
 
 		for (const habit of habits) {
-			const trend = calculateTrendDirection(habit);
+			const trend = calculateTrendDirection(habit, habit.frequency_type);
 
 			const habitHealth = calculateHabitPlantHealth({
 				habitId: habit.id,

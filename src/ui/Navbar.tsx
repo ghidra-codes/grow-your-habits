@@ -7,14 +7,15 @@ import { BiLogOut } from "react-icons/bi";
 import { LuChartLine } from "react-icons/lu";
 import { MdChecklist } from "react-icons/md";
 import { PiPlant } from "react-icons/pi";
+import { GoTrophy } from "react-icons/go";
 import { Link } from "react-router";
 import PlantHealthBar from "./PlantHealthBar";
 
 const Navbar = () => {
 	const userId = useUserIdRequired();
 
-	const { data } = useHabitsQuery(userId);
-	const plantHealth = usePlantHealth({ habits: data ?? [] });
+	const { data: habits } = useHabitsQuery(userId);
+	const plantHealth = usePlantHealth(habits ?? []);
 
 	const { open } = useStatsModalActions();
 
@@ -38,6 +39,11 @@ const Navbar = () => {
 				</li>
 				<li onClick={open}>
 					<LuChartLine />
+				</li>
+				<li>
+					<Link to="/achievements">
+						<GoTrophy />
+					</Link>
 				</li>
 				<li onClick={handleLogout}>
 					<BiLogOut />

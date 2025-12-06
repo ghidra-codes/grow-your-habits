@@ -4,6 +4,7 @@ import PlantView from "@/features/plant/PlantView";
 import HabitsView from "@/features/habits/HabitsView";
 import LoginView from "@/features/auth/LoginView";
 import RegisterView from "@/features/auth/RegisterView";
+import AchievementsView from "@/features/achievements/AchievementsView";
 
 const AppRoutes = () => {
 	return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
 			<Route path="/" element={<Layout />}>
 				<Route index element={<PlantView />} />
 				<Route path="habits" element={<HabitsView />} />
+				<Route path="achievements" element={<AchievementsView />} />
 
 				<Route path="*" element={<h2>404: Page Not Found</h2>} />
 			</Route>

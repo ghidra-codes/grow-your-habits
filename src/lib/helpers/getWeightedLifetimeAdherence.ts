@@ -14,6 +14,7 @@ export const getWeightedLifetimeAdherence = (habit: HabitWithLogs) => {
 	const dailyMap = getDailyCompletionMap(habit);
 
 	const today = startOfDay(new Date());
+	const yesterday = startOfDay(new Date(today.getTime() - 24 * 60 * 60 * 1000));
 	const createdAt = startOfDay(new Date(habit.created_at));
 
 	let weightedCompleted = 0;
@@ -27,7 +28,7 @@ export const getWeightedLifetimeAdherence = (habit: HabitWithLogs) => {
 
 	const allDays = eachDayOfInterval({
 		start: createdAt,
-		end: today,
+		end: yesterday,
 	});
 
 	for (const day of allDays) {

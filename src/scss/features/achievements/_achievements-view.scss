@@ -1,0 +1,50 @@
+.achievements-view {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.achievements-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.achievement-card {
+	border: 1px solid #444;
+	padding: 1rem;
+	border-radius: 6px;
+}
+
+.achievement-card.unlocked {
+	border-color: #4caf50;
+	background: #2d442f;
+}
+
+.achievement-card.locked {
+	opacity: 0.5;
+}
+
+.achievement-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.achievement-badge {
+	background: #4caf50;
+	color: white;
+	padding: 0.2rem 0.5rem;
+	border-radius: 4px;
+	font-size: 0.8rem;
+}
+
+.achievement-description {
+	margin-top: 0.4rem;
+}
+
+.achievement-date {
+	margin-top: 0.4rem;
+	font-size: 0.8rem;
+	opacity: 0.8;
+}

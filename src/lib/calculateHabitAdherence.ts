@@ -17,7 +17,7 @@ export const calculateHabitAdherence = (habit: HabitWithLogs): HabitAdherence =>
 	// DAILY
 	if (habit.frequency_type === "daily") {
 		period = "day";
-		expectedCount = Math.max(0, differenceInDays(adherenceBoundary, createdAt) + 1);
+		expectedCount = Math.max(0, differenceInDays(adherenceBoundary, createdAt));
 	}
 
 	// WEEKLY
@@ -29,7 +29,7 @@ export const calculateHabitAdherence = (habit: HabitWithLogs): HabitAdherence =>
 		const weekStart = startOfWeek(adherenceBoundary, { weekStartsOn: 1 });
 		const effectiveStart = startOfDay(new Date(Math.max(weekStart.getTime(), createdAt.getTime())));
 
-		const daysActiveInPeriod = differenceInDays(adherenceBoundary, effectiveStart) + 1;
+		const daysActiveInPeriod = differenceInDays(adherenceBoundary, effectiveStart);
 
 		if (daysActiveInPeriod > 0) {
 			const progress = daysActiveInPeriod / 7;
@@ -49,7 +49,7 @@ export const calculateHabitAdherence = (habit: HabitWithLogs): HabitAdherence =>
 
 		const effectiveStart = startOfDay(new Date(Math.max(monthStart.getTime(), createdAt.getTime())));
 
-		const daysActiveInPeriod = differenceInDays(adherenceBoundary, effectiveStart) + 1;
+		const daysActiveInPeriod = differenceInDays(adherenceBoundary, effectiveStart);
 
 		if (daysActiveInPeriod > 0) {
 			const progress = daysActiveInPeriod / daysInMonth;

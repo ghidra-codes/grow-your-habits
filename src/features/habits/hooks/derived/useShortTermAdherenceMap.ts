@@ -4,6 +4,8 @@ import { useMemo } from "react";
 
 const useShortTermAdherenceMap = (habits: HabitWithLogs[]) =>
 	useMemo(() => {
+		if (habits.length === 0) return {};
+
 		const adherenceMap: ShortTermAdherenceMap = {};
 
 		for (const habit of habits) adherenceMap[habit.id] = calculateShortTermAdherence(habit);
