@@ -82,12 +82,41 @@ export type Database = {
         }
         Relationships: []
       }
+      plant_growth_logs: {
+        Row: {
+          created_at: string
+          date: string
+          growth_score: number
+          id: string
+          plant_health: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          growth_score: number
+          id?: string
+          plant_health?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          growth_score?: number
+          id?: string
+          plant_health?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       plant_state: {
         Row: {
           created_at: string | null
           death_count: number
           growth_score: number
           last_growth_date: string | null
+          last_health_update_date: string | null
+          last_submitted_health: number | null
           updated_at: string | null
           user_id: string
         }
@@ -96,6 +125,8 @@ export type Database = {
           death_count?: number
           growth_score?: number
           last_growth_date?: string | null
+          last_health_update_date?: string | null
+          last_submitted_health?: number | null
           updated_at?: string | null
           user_id: string
         }
@@ -104,6 +135,8 @@ export type Database = {
           death_count?: number
           growth_score?: number
           last_growth_date?: string | null
+          last_health_update_date?: string | null
+          last_submitted_health?: number | null
           updated_at?: string | null
           user_id?: string
         }

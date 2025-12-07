@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
-import { usePlantHealth } from "@/features/plant/hooks/usePlantHealth";
 import { usePlantStateQuery } from "@/features/plant/hooks/queries/usePlantStateQuery";
 import { useHabitAdherenceMap } from "@/features/habits/hooks/derived/useHabitAdherenceMap";
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
@@ -9,12 +8,11 @@ export const useAchievementContext = (userId: string) => {
 	const { data: habits = [] } = useHabitsQuery(userId);
 
 	// DERIVED DATA
-	const plantHealth = usePlantHealth(habits);
 	const adherenceMap = useHabitAdherenceMap(habits);
 	const streakMap = useStatsStreakMap(habits);
 
 	// DB PLANT STATE
-	const { data: plantState } = usePlantStateQuery(userId, plantHealth, habits.length);
+	const { data: plantState } = usePlantStateQuery(userId);
 
 	const {
 		habitCount,

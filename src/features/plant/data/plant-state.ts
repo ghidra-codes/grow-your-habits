@@ -61,23 +61,6 @@ export const updatePlantState = async (
 };
 
 /**
- * Increment growth_score by a certain amount.
- * Used when applying daily growth.
- */
-export const incrementGrowthScore = async (
-	userId: string,
-	amount: number
-): Promise<ServiceResponse<PlantState>> => {
-	// Fetch current state
-	const existing = await getPlantState(userId);
-	if (existing.error || !existing.data) return existing;
-
-	const newScore = existing.data.growth_score + amount;
-
-	return updatePlantState(userId, { growth_score: newScore });
-};
-
-/**
  * Increment death_count by 1 (optional).
  */
 export const incrementDeathCount = async (userId: string): Promise<ServiceResponse<PlantState>> => {
@@ -88,3 +71,16 @@ export const incrementDeathCount = async (userId: string): Promise<ServiceRespon
 
 	return updatePlantState(userId, { death_count: newCount });
 };
+
+/**
+ * Updates only the fields related to health submission.
+ * This wraps updatePlantState so all logic remains centralized.
+ */
+export async function updatePlantHealth(userId: string, plantHealth: number) {
+	const today = new Date().toISOString().slice(0, 10);
+
+	return await updatePlantState(userId, {
+		last_submitted_health: plantHealth,
+		last_health_update_date: today,
+	});
+}

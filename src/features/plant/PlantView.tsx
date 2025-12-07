@@ -1,39 +1,27 @@
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
-import { useHabitsQuery } from "../habits/hooks/queries/useHabitsQuery";
 import LoadingSpinner from "@/ui/LoadingSpinner";
-import { usePlantHealth } from "./hooks/usePlantHealth";
 import PlantAnimation from "./components/PlantAnimation";
 import PlantSvgAnimated from "./components/PlantSvgAnimated";
 import { usePlantAnimActions, usePlantAnimEnabled } from "@/store/usePlantAnimationStore";
-import { usePlantGrowth } from "./hooks/usePlantGrowth";
 import { GROWTH_STAGES } from "./config/growthStageConfig";
 import { getPointsToNextStage } from "@/lib/plant-growth/getPointsToNextStage";
+import { usePlantStateQuery } from "./hooks/queries/usePlantStateQuery";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
-	const { data: habits, isLoading, isError, error } = useHabitsQuery(userId);
 
-	const plantHealth = usePlantHealth(habits ?? []);
-	const {
-		stage,
-		growthScore,
-		isLoading: isLoadingGrowth,
-		isError: isErrorGrowth,
-		error: errorGrowth,
-	} = usePlantGrowth({
-		userId,
-		plantHealth,
-		habitCount: habits?.length ?? 0,
-	});
+	const { data, isLoading, isError, error } = usePlantStateQuery(userId);
 
 	const hasSeenAnim = usePlantAnimEnabled();
 	const { disable } = usePlantAnimActions();
 
 	const handleLottieComplete = () => disable();
-	const pointsToNextStage = getPointsToNextStage(growthScore, stage);
+	const pointsToNextStage = getPointsToNextStage(data?.state.growth_score ?? 0, data?.stage ?? 0);
 
-	if (isLoading || isLoadingGrowth) return <LoadingSpinner />;
-	if (isError || isErrorGrowth) return <div>Error: {error?.message || errorGrowth?.message}</div>;
+	if (isLoading || !data) return <LoadingSpinner />;
+	if (isError) return <div>Error: {error?.message}</div>;
+
+	const { stage, state } = data;
 
 	return (
 		<div className="plant-view">
@@ -49,7 +37,7 @@ const PlantView = () => {
 				<div className="plant-info">
 					<div className="plant-growth-info">
 						<div className="plant-growth-score">
-							<span>GROWTH SCORE:</span> {growthScore}
+							<span>GROWTH SCORE:</span> {state.growth_score}
 						</div>
 						<div className="points-to-next-stage">
 							<span>POINTS TO NEXT:</span> {pointsToNextStage ?? "-"}

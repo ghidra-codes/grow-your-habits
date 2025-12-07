@@ -1,13 +1,14 @@
 import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
 import { usePlantHealth } from "@/features/plant/hooks/usePlantHealth";
+import useSyncPlantHealth from "@/hooks/useSyncPlantHealth";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
-import { useStatsModalActions } from "@/store/useStatsModalStore";
 import { supabase } from "@/lib/supabase-client";
+import { useStatsModalActions } from "@/store/useStatsModalStore";
 import { BiLogOut } from "react-icons/bi";
-import { LuChartLine } from "react-icons/lu";
+import { GoTrophy } from "react-icons/go";
+import { LuChartLine, LuLightbulb } from "react-icons/lu";
 import { MdChecklist } from "react-icons/md";
 import { PiPlant } from "react-icons/pi";
-import { GoTrophy } from "react-icons/go";
 import { Link } from "react-router";
 import PlantHealthBar from "./PlantHealthBar";
 
@@ -16,6 +17,8 @@ const Navbar = () => {
 
 	const { data: habits } = useHabitsQuery(userId);
 	const plantHealth = usePlantHealth(habits ?? []);
+
+	useSyncPlantHealth(userId, plantHealth);
 
 	const { open } = useStatsModalActions();
 
@@ -43,6 +46,11 @@ const Navbar = () => {
 				<li>
 					<Link to="/achievements">
 						<GoTrophy />
+					</Link>
+				</li>
+				<li>
+					<Link to="/insights">
+						<LuLightbulb />
 					</Link>
 				</li>
 				<li onClick={handleLogout}>

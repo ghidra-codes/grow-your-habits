@@ -2,16 +2,12 @@ import { useMemo } from "react";
 import { usePlantStateQuery } from "./queries/usePlantStateQuery";
 import type { PlantStageOrZero } from "@/types/plant.types";
 
-export const usePlantGrowth = ({
-	userId,
-	plantHealth,
-	habitCount,
-}: {
-	userId: string;
-	plantHealth: number;
-	habitCount: number;
-}) => {
-	const { data, isLoading, isError, error } = usePlantStateQuery(userId, plantHealth, habitCount);
+/**
+ * Purely reads plant_state from backend.
+ * No logic based on frontend plantHealth or habitCount.
+ */
+export const usePlantGrowth = (userId: string) => {
+	const { data, isLoading, isError, error } = usePlantStateQuery(userId);
 
 	const result: { stage: PlantStageOrZero; growthScore: number } = useMemo(() => {
 		if (!data) {
@@ -23,13 +19,11 @@ export const usePlantGrowth = ({
 
 		const { state, stage } = data;
 
-		const currentStage: PlantStageOrZero = plantHealth <= 0 || habitCount === 0 ? 0 : stage;
-
 		return {
-			stage: currentStage,
+			stage,
 			growthScore: state.growth_score,
 		};
-	}, [data, plantHealth, habitCount]);
+	}, [data]);
 
 	return {
 		isLoading,

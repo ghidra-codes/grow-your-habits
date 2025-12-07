@@ -18,13 +18,13 @@ export const ACHIEVEMENTS = [
 		id: "log_created",
 		title: "First Steps",
 		description: "Log a habit for the first time",
-		// 🚀 / 👣
+		// 👣
 	},
 	{
 		id: "log_created_10",
 		title: "Momentum Builder",
 		description: "Log a habit 10 times",
-		// ✈️
+		// 🚀
 	},
 	{
 		id: "log_created_50",
