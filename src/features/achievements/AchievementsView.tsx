@@ -1,14 +1,21 @@
-import { useUserIdRequired } from "@/hooks/useUserIdRequired";
 import { useAchievementContext } from "@/features/achievements/hooks/useAchievementContext";
 import { useAchievements } from "@/features/achievements/hooks/useAchievements";
+import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import type { AchievementFilters } from "@/types/achievements.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
+import Select from "@/ui/Select";
+import { useState } from "react";
+import { FaCheckCircle, FaLock, FaRegCheckCircle, FaUnlock } from "react-icons/fa";
+import { FILTER_OPTIONS } from "./config/achievements-filter";
 
 const AchievementsView = () => {
 	const userId = useUserIdRequired();
 
+	const [filter, setFilter] = useState<AchievementFilters>("all");
+
 	const context = useAchievementContext(userId);
 
-	const { achievements, isLoading } = useAchievements(userId, context);
+	const { achievements, isLoading } = useAchievements(userId, context, filter);
 
 	if (isLoading) return <LoadingSpinner />;
 
@@ -16,23 +23,56 @@ const AchievementsView = () => {
 		<div className="achievements-view">
 			<h2>Achievements</h2>
 
-			<div className="achievements-list">
-				{achievements.map((a) => (
-					<div key={a.id} className={`achievement-card ${a.unlocked ? "unlocked" : "locked"}`}>
-						<div className="achievement-header">
-							<h3>{a.title}</h3>
-							{a.unlocked && <span className="achievement-badge">Unlocked</span>}
+			<div className="achievements-content">
+				<div className="achievements-filter">
+					<p>Filter:</p>
+
+					<Select<AchievementFilters>
+						options={FILTER_OPTIONS}
+						value={filter}
+						onChange={setFilter}
+					/>
+				</div>
+
+				<div className="achievements-list">
+					{achievements.map((achievement) => (
+						<div
+							key={achievement.id}
+							className={`achievement-card ${achievement.unlocked ? "unlocked" : "locked"}`}
+						>
+							<div className="achievement-badge">
+								<img src={achievement.badge} alt={achievement.title} />
+							</div>
+
+							<div className="achievement-info">
+								<div className="achievement-header">
+									<h3>{achievement.title}</h3>
+
+									<div className="achievement-checkmark">
+										{achievement.unlocked ? (
+											<FaCheckCircle className="checkmark__unlocked" size={24} />
+										) : (
+											<FaRegCheckCircle className="checkmark__locked" size={24} />
+										)}
+									</div>
+								</div>
+
+								<p className="achievement-description">{achievement.description}</p>
+
+								<p className="achievement-date">
+									{achievement.unlocked && achievement.unlockedAt ? (
+										<>
+											<FaUnlock size={14} />{" "}
+											{new Date(achievement.unlockedAt).toLocaleDateString()}
+										</>
+									) : (
+										<FaLock size={14} />
+									)}
+								</p>
+							</div>
 						</div>
-
-						<p className="achievement-description">{a.description}</p>
-
-						{a.unlocked && a.unlockedAt && (
-							<p className="achievement-date">
-								Unlocked on {new Date(a.unlockedAt).toLocaleDateString()}
-							</p>
-						)}
-					</div>
-				))}
+					))}
+				</div>
 			</div>
 		</div>
 	);

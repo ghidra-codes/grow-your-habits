@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase-client";
-import type { ServiceResponse } from "@/types/service.types";
 import type { PlantState, PlantStateInsert, PlantStateUpdate } from "@/types/plant.types";
+import type { ServiceResponse } from "@/types/service.types";
+import { startOfDay, subDays } from "date-fns";
 
 /**
  * Fetch plant_state row for a specific user.
@@ -61,7 +62,7 @@ export const updatePlantState = async (
 };
 
 /**
- * Increment death_count by 1 (optional).
+ * Increment death_count by 1.
  */
 export const incrementDeathCount = async (userId: string): Promise<ServiceResponse<PlantState>> => {
 	const existing = await getPlantState(userId);
@@ -76,11 +77,73 @@ export const incrementDeathCount = async (userId: string): Promise<ServiceRespon
  * Updates only the fields related to health submission.
  * This wraps updatePlantState so all logic remains centralized.
  */
-export async function updatePlantHealth(userId: string, plantHealth: number) {
+export const updatePlantHealth = async (userId: string, plantHealth: number) => {
 	const today = new Date().toISOString().slice(0, 10);
 
 	return await updatePlantState(userId, {
 		last_submitted_health: plantHealth,
 		last_health_update_date: today,
 	});
-}
+};
+
+/** Returns this week's growth change compared to last week. */
+export const getWeeklyGrowthChange = async (userId: string): Promise<number> => {
+	const today = startOfDay(new Date());
+	const weekStart = subDays(today, 6);
+	const lastWeekStart = subDays(today, 13);
+
+	const { data, error } = await supabase
+		.from("plant_growth_logs")
+		.select("date, growth_score")
+		.eq("user_id", userId)
+		.gte("date", lastWeekStart.toISOString())
+		.lte("date", today.toISOString())
+		.order("date", { ascending: true });
+
+	if (error) throw error;
+
+	const thisWeek: number[] = [];
+	const lastWeek: number[] = [];
+
+	for (const log of data ?? []) {
+		const day = startOfDay(new Date(log.date));
+
+		if (day >= weekStart && day <= today) thisWeek.push(log.growth_score);
+		else if (day >= lastWeekStart && day < weekStart) lastWeek.push(log.growth_score);
+	}
+
+	const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
+
+	return sum(thisWeek) - sum(lastWeek);
+};
+
+/** Returns this month's growth change compared to last month. */
+export const getMonthlyGrowthChange = async (userId: string): Promise<number> => {
+	const today = startOfDay(new Date());
+	const monthStart = subDays(today, 29);
+	const lastMonthStart = subDays(today, 59);
+
+	const { data, error } = await supabase
+		.from("plant_growth_logs")
+		.select("date, growth_score")
+		.eq("user_id", userId)
+		.gte("date", lastMonthStart.toISOString())
+		.lte("date", today.toISOString())
+		.order("date", { ascending: true });
+
+	if (error) throw error;
+
+	const thisMonth: number[] = [];
+	const lastMonth: number[] = [];
+
+	for (const log of data ?? []) {
+		const day = startOfDay(new Date(log.date));
+
+		if (day >= monthStart && day <= today) thisMonth.push(log.growth_score);
+		else if (day >= lastMonthStart && day < monthStart) lastMonth.push(log.growth_score);
+	}
+
+	const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
+
+	return sum(thisMonth) - sum(lastMonth);
+};

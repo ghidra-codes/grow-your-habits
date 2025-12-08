@@ -11,10 +11,14 @@ export type UserAchievementUpdate = Database["public"]["Tables"]["user_achieveme
 
 // STATIC ACHIEVEMENT DEFINITIONS
 
+export type AchievementType = "setup" | "logging" | "streak" | "adherence" | "growth" | "meta";
+
 export type AchievementDefinition = {
 	id: string;
 	title: string;
 	description: string;
+	badge: string;
+	type: AchievementType;
 };
 
 export type Achievement = AchievementDefinition & {
@@ -35,3 +39,5 @@ export type AchievementContext = {
 	monthlyGoalHit: boolean;
 	maxLogsForOneHabit: number;
 };
+
+export type AchievementFilters = AchievementType | "all" | "unlocked" | "locked";

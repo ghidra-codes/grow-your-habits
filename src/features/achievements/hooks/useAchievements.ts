@@ -1,11 +1,20 @@
-import type { Achievement, AchievementContext, AchievementUnlockMap } from "@/types/achievements.types";
+import type {
+	Achievement,
+	AchievementContext,
+	AchievementFilters,
+	AchievementUnlockMap,
+} from "@/types/achievements.types";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ACHIEVEMENT_CONDITIONS } from "../config/achievement-conditions";
 import { ACHIEVEMENTS } from "../config/achievements";
 import { useUnlockAchievement } from "./mutations/useAchievementUnlock";
 import { useUserAchievementsQuery } from "./queries/useAchievementsQuery";
 
-export const useAchievements = (userId: string, context: AchievementContext) => {
+export const useAchievements = (
+	userId: string,
+	context: AchievementContext,
+	filter: AchievementFilters = "all"
+) => {
 	const { data: unlocked = [], isLoading } = useUserAchievementsQuery(userId);
 	const { mutate: unlock } = useUnlockAchievement(userId);
 
@@ -30,6 +39,13 @@ export const useAchievements = (userId: string, context: AchievementContext) => 
 			};
 		});
 	}, [unlocked]);
+
+	const filteredAchievements = useMemo(() => {
+		if (filter === "all") return achievements;
+		if (filter === "unlocked") return achievements.filter((a) => a.unlocked);
+		if (filter === "locked") return achievements.filter((a) => !a.unlocked);
+		return achievements.filter((a) => a.type === filter);
+	}, [achievements, filter]);
 
 	// DETECT NEW UNLOCKS
 	useEffect(() => {
@@ -73,7 +89,7 @@ export const useAchievements = (userId: string, context: AchievementContext) => 
 	}, [pendingUnlocks, unlock]);
 
 	return {
-		achievements,
+		achievements: filteredAchievements,
 		pendingUnlocks,
 		unlockedMap,
 		isLoading,

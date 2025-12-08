@@ -3,7 +3,7 @@ import useShortTermAdherenceMap from "@/features/habits/hooks/derived/useShortTe
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { Insight } from "@/types/insights.types";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { INSIGHTS_CONFIG } from "../config/insightsConfig";
 import { buildInsightContext } from "../utils/buildInsightContext";
 import { seededShuffle } from "../utils/helpers/seededShuffle";
@@ -12,12 +12,14 @@ import { insightGenerators } from "../utils/insightGenerators";
 type UseInsightsArgs = {
 	habits: HabitWithLogs[];
 	weeklyGrowthChange: number;
+	monthlyGrowthChange: number;
 };
 
-export const useInsights = ({ habits, weeklyGrowthChange }: UseInsightsArgs) => {
+export const useInsights = ({ habits, weeklyGrowthChange, monthlyGrowthChange }: UseInsightsArgs) => {
 	const adherenceMap = useHabitAdherenceMap(habits);
 	const shortTermMap = useShortTermAdherenceMap(habits);
 	const streakMap = useStatsStreakMap(habits);
+	const [seed] = useState(() => Math.random());
 
 	// Compute context
 	const context = useMemo(() => {
@@ -26,11 +28,12 @@ export const useInsights = ({ habits, weeklyGrowthChange }: UseInsightsArgs) => 
 		return buildInsightContext({
 			habits,
 			weeklyGrowthChange,
+			monthlyGrowthChange,
 			adherenceMap,
 			shortTermMap,
 			streakMap,
 		});
-	}, [habits, weeklyGrowthChange, adherenceMap, shortTermMap, streakMap]);
+	}, [habits, weeklyGrowthChange, monthlyGrowthChange, adherenceMap, shortTermMap, streakMap]);
 
 	// Generate insights
 	const insights = useMemo<Insight[]>(() => {
@@ -45,10 +48,8 @@ export const useInsights = ({ habits, weeklyGrowthChange }: UseInsightsArgs) => 
 	const displayedInsights = useMemo(() => {
 		if (insights.length <= 3) return insights;
 
-		const seed = insights.length * 137 + (insights[0]?.id.length ?? 1) * 997;
-
 		return seededShuffle(insights, seed).slice(0, 3);
-	}, [insights]);
+	}, [insights, seed]);
 
 	return displayedInsights;
 };

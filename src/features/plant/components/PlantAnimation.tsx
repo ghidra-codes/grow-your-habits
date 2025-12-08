@@ -1,7 +1,7 @@
 import { useMemo, useCallback, useRef } from "react";
 import Lottie from "lottie-react";
-import { plantAnimations } from "@/assets/lottie";
 import type { PlantStage } from "@/types/plant.types";
+import { PLANT_ANIMATIONS } from "@/assets/lottie";
 
 interface Props {
 	onComplete: () => void;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const PlantAnimation = ({ onComplete, stage }: Props) => {
-	const animationData = useMemo(() => plantAnimations[stage], [stage]);
+	const animationData = useMemo(() => PLANT_ANIMATIONS[stage], [stage]);
 
 	const completedRef = useRef(false);
 

@@ -1,6 +1,7 @@
 import type { TimelineEntry } from "@/types/statistics.types";
 import { format, getDay, parseISO } from "date-fns";
 import React from "react";
+import { weekdays } from "../constants/weekdays";
 
 interface DailyRowProps {
 	period: TimelineEntry[];
@@ -22,15 +23,13 @@ const DailyRow: React.FC<DailyRowProps> = ({ period, renderOverride }) => {
 		slots[idx] = entry;
 	});
 
-	const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
 	return (
 		<div className="week-row">
 			{slots.map((entry, i) => {
 				if (!entry || entry.status === "unavailable") {
 					return (
 						<div key={i} className="week-day week-day--placeholder">
-							<span className="week-day__weekday">{labels[i]}</span>
+							<span className="week-day__weekday">{weekdays[i]}</span>
 							<span className="week-day__date">--/--</span>
 							<div className="week-day__dot week-day__dot--placeholder" />
 						</div>

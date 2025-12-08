@@ -10,6 +10,7 @@ type BuildInsightContextArgs = {
 	shortTermMap: ShortTermAdherenceMap;
 	streakMap: StreakMap;
 	weeklyGrowthChange: number;
+	monthlyGrowthChange: number;
 };
 
 export const buildInsightContext = ({
@@ -18,8 +19,10 @@ export const buildInsightContext = ({
 	shortTermMap,
 	streakMap,
 	weeklyGrowthChange,
+	monthlyGrowthChange,
 }: BuildInsightContextArgs): InsightContext => {
 	const today = startOfDay(new Date());
+
 	const last7Start = subDays(today, 6);
 	const last30Start = subDays(today, 29);
 
@@ -74,13 +77,9 @@ export const buildInsightContext = ({
 		for (const log of habit.logs) {
 			const logDate = startOfDay(new Date(log.log_date));
 
-			if (isWithinInterval(logDate, { start: last7Start, end: today })) {
-				weeklyTotal++;
-			}
+			if (isWithinInterval(logDate, { start: last7Start, end: today })) weeklyTotal++;
 
-			if (isWithinInterval(logDate, { start: last30Start, end: today })) {
-				monthlyTotal++;
-			}
+			if (isWithinInterval(logDate, { start: last30Start, end: today })) monthlyTotal++;
 		}
 	}
 
@@ -122,9 +121,7 @@ export const buildInsightContext = ({
 
 		const top = [...improvements].sort((a, b) => b.improvement - a.improvement)[0];
 
-		if (top && top.improvement > 0) {
-			mostImprovedHabit = top;
-		}
+		if (top && top.improvement > 0) mostImprovedHabit = top;
 	}
 
 	return {
@@ -142,6 +139,7 @@ export const buildInsightContext = ({
 		weeklyTotal,
 		monthlyTotal,
 		weeklyGrowthChange,
+		monthlyGrowthChange,
 
 		bestStreakHabit,
 		mostImprovedHabit,

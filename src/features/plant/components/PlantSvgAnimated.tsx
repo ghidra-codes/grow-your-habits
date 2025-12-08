@@ -1,4 +1,4 @@
-import { plantSvgs } from "@/assets/lottie/svgs";
+import { PLANT_SVGS } from "@/assets/lottie/svgs";
 import type { PlantStageOrZero } from "@/types/plant.types";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -22,7 +22,7 @@ const PlantSvgAnimated = ({
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const [ready, setReady] = useState(false);
 
-	const svgRaw = useMemo(() => plantSvgs[stage], [stage]);
+	const svgRaw = useMemo(() => PLANT_SVGS[stage], [stage]);
 
 	useEffect(() => {
 		const el = wrapperRef.current;

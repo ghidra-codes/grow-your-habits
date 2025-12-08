@@ -7,6 +7,7 @@ export type InsightID =
 	| "weakest-habit"
 	| "weekly-consistency"
 	| "weekly-growth"
+	| "monthly-growth"
 	| "best-streak-habit"
 	| "monthly-consistency"
 	| "most-improved-habit";
@@ -17,6 +18,13 @@ export type Insight = {
 	id: InsightID;
 	type: InsightType;
 	message: string;
+};
+
+export type InsightConfig = {
+	id: InsightID;
+	title: string;
+	description?: string;
+	defaultType?: InsightType;
 };
 
 export type InsightContext = {
@@ -31,6 +39,7 @@ export type InsightContext = {
 	weeklyTotal: number;
 	monthlyTotal: number;
 	weeklyGrowthChange: number;
+	monthlyGrowthChange: number;
 	bestStreakHabit: { id: string; name: string; longestStreak: number } | null;
 	mostImprovedHabit: { id: string; name: string; improvement: number } | null;
 };

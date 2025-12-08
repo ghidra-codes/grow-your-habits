@@ -1,17 +1,20 @@
 import { useInsights } from "@/features/insights/hooks/useInsights";
-import { useHabitsQuery } from "../habits/hooks/queries/useHabitsQuery";
+import { useMonthlyGrowthChange } from "@/features/plant/hooks/queries/growth-change/useMonthlyGrowthChange";
+import { useWeeklyGrowthChange } from "@/features/plant/hooks/queries/growth-change/useWeeklyGrowthChange";
 import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import LoadingSpinner from "@/ui/LoadingSpinner";
+import { useHabitsQuery } from "../habits/hooks/queries/useHabitsQuery";
 
 const InsightsView = () => {
 	const userId = useUserIdRequired();
 	const { data: habits = [], isLoading } = useHabitsQuery(userId);
 
-	// Temporary for testing — replace with real weekly growth logic
-	const weeklyGrowthChange = 5;
+	const { data: weeklyGrowthChange = 0 } = useWeeklyGrowthChange(userId);
+	const { data: monthlyGrowthChange = 0 } = useMonthlyGrowthChange(userId);
 
-	const insights = useInsights({ habits, weeklyGrowthChange });
+	const insights = useInsights({ habits, weeklyGrowthChange, monthlyGrowthChange });
 
-	if (isLoading) return <div>Loading insights…</div>;
+	if (isLoading) return <LoadingSpinner />;
 
 	return (
 		<div style={{ padding: "1rem" }}>
