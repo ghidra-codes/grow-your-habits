@@ -6,7 +6,7 @@ import { hasLoggedToday } from "@/lib/helpers/hasLoggedToday";
 import { AnimatePresence } from "motion/react";
 import { FaCaretDown } from "react-icons/fa";
 import HabitInfoDrawer from "./HabitInfoDrawer";
-import { useConfetti } from "@/hooks/useConfetti";
+import { useConfetti } from "@/ui/hooks/useConfetti";
 
 interface HabitListItemProps {
 	habits: HabitWithLogs[];

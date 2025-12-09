@@ -7,7 +7,7 @@
    style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;"
    version="1.1"
    id="svg26"
-   sodipodi:docname="test.svg"
+   sodipodi:docname="plant-2.svg"
    inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,10 +23,10 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.0122103"
-     inkscape:cx="485.57105"
-     inkscape:cy="766.14517"
-     inkscape:window-width="1920"
-     inkscape:window-height="991"
+     inkscape:cx="486.55897"
+     inkscape:cy="767.13308"
+     inkscape:window-width="2560"
+     inkscape:window-height="1351"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
@@ -185,6 +185,22 @@
            fill-opacity="1"
            d=" M-1.812000036239624,-14.003999710083008 C9.234000205993652,-14.003999710083008 20,-11.045999526977539 20,0 C20,11.045999526977539 11.045999526977539,10.5 0,10.5 C-11.045999526977539,10.5 -16.761999130249023,10.5600004196167 -20,0 C-24.03499984741211,-13.159000396728516 -12.857999801635742,-14.003999710083008 -1.812000036239624,-14.003999710083008z"
            id="path15" />
+      </g>
+    </g>
+    <g
+       transform="matrix(-1.5745447,-1.2854237,2.7271915,-0.74213968,-334.22651,1124.9948)"
+       opacity="1"
+       style="display:block"
+       id="g6-5">
+      <g
+         opacity="1"
+         transform="translate(-5,321)"
+         id="g5-5">
+        <path
+           fill="#572214"
+           fill-opacity="1"
+           d="m 0,-20 c 11.046,0 20,8.954 20,20 0,11.046 -8.954,10.5 -20,10.5 -11.046,0 -25.172001,-0.7399998 -20,-10.5 5.565,-10.5 8.954,-20 20,-20 z"
+           id="path4-1" />
       </g>
     </g>
     <g

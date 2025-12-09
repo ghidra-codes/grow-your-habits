@@ -13,16 +13,39 @@
 		margin: 1rem auto 0 auto;
 
 		.plant-render-container {
+			position: relative;
+			padding-top: 1rem;
+			padding-bottom: 0.5rem;
 			margin: auto;
 			max-width: 400px;
-			max-height: 400px;
+			max-height: 500px;
+			overflow: hidden;
+
+			.plant-particles {
+				position: absolute;
+				inset: 0;
+				pointer-events: none;
+				z-index: 5;
+				overflow: hidden;
+			}
+
+			.plant-particle {
+				position: absolute;
+				border-radius: 50%;
+				background: $accent-gold;
+				filter: blur(2px);
+				z-index: 10;
+			}
+
+			@include respond(sm) {
+				padding-bottom: 1rem;
+			}
 		}
 
 		.plant-info {
 			border-top: 2px solid $rich-black-lightest;
 			background-color: $rich-black-lighter;
 			padding: 0.75rem 0.75rem 0.5rem 0.75rem;
-			margin-top: 0.5rem;
 
 			display: flex;
 			justify-content: space-between;
@@ -34,10 +57,6 @@
 			span {
 				font-weight: 700;
 				color: $jet-brighter;
-			}
-
-			@include respond(sm) {
-				margin-top: 1rem;
 			}
 
 			.plant-growth-info {

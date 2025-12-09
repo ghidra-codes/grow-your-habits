@@ -4,10 +4,10 @@ import { useLogHabit } from "./mutations/useLogHabit";
 import { useAddHabit } from "./mutations/useAddHabit";
 import { useDeleteHabit } from "./mutations/useDeleteHabit";
 import { useUpdateHabit } from "./mutations/useUpdateHabit";
-import { updatePlantState } from "@/features/plant/data/plant-state";
-import { supabase } from "@/lib/supabase-client";
+import { initPlantState } from "@/features/plant/data/plant-state";
 import { useQueryClient } from "@tanstack/react-query";
 import { plantStateKey } from "@/lib/helpers/queryKeys";
+import { checkHasHadHabits } from "../data/habits";
 
 export const useHabitActions = (
 	userId: string,
@@ -30,21 +30,13 @@ export const useHabitActions = (
 
 	// Handler functions
 	const handleAddHabit = async (payload: HabitPayload) => {
-		const { data: existingHabits } = await supabase
-			.from("habits")
-			.select("id", { count: "exact", head: true })
-			.eq("user_id", userId);
-
-		const hasEverHadHabits = (existingHabits?.length ?? 0) > 0;
+		const hasHadHabits = await checkHasHadHabits(userId);
 
 		await addHabit(payload);
 
-		if (!hasEverHadHabits) {
-			await updatePlantState(userId, {
-				growth_score: 4,
-			});
-
-			await queryClient.refetchQueries({ queryKey: plantStateKey(userId) });
+		if (!hasHadHabits) {
+			await initPlantState(userId);
+			await queryClient.invalidateQueries({ queryKey: plantStateKey(userId) });
 		}
 
 		closeModal();

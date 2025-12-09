@@ -1,4 +1,4 @@
-import { GROWTH_STAGES, type GrowthStageKey } from "@/features/plant/config/growthStageConfig";
+import { GROWTH_STAGES, type GrowthStageKey } from "@/features/plant/config/growth-stage";
 
 export const getPlantStageFromGrowth = (growth: number): GrowthStageKey => {
 	let currentStage: GrowthStageKey = 0;

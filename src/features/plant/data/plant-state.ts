@@ -7,7 +7,11 @@ import { startOfDay, subDays } from "date-fns";
  * Fetch plant_state row for a specific user.
  */
 export const getPlantState = async (userId: string): Promise<ServiceResponse<PlantState>> => {
-	const { data, error } = await supabase.from("plant_state").select("*").eq("user_id", userId).single();
+	const { data, error } = await supabase
+		.from("plant_state")
+		.select("*")
+		.eq("user_id", userId)
+		.maybeSingle();
 
 	if (error) return { data: null, error };
 
@@ -21,9 +25,10 @@ export const getPlantState = async (userId: string): Promise<ServiceResponse<Pla
 export const initPlantState = async (userId: string): Promise<ServiceResponse<PlantState>> => {
 	const payload: PlantStateInsert = {
 		user_id: userId,
-		growth_score: 0,
+		growth_score: 4,
 		death_count: 0,
 		last_growth_date: null,
+		last_submitted_health: 100,
 	};
 
 	const { data, error } = await supabase.from("plant_state").insert(payload).select().single();

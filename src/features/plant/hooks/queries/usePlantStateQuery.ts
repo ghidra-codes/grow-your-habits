@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPlantState, initPlantState } from "@/features/plant/data/plant-state";
+import { getPlantState } from "@/features/plant/data/plant-state";
 import { plantStateKey } from "@/lib/helpers/queryKeys";
 import { getPlantStageFromGrowth } from "@/lib/plant-growth/getPlantStageFromGrowth";
 import type { PlantEntry } from "@/types/plant.types";
@@ -10,24 +10,32 @@ export const usePlantStateQuery = (userId: string) =>
 		enabled: !!userId,
 
 		queryFn: async () => {
-			const fetchState = async () => {
-				const { data, error } = await getPlantState(userId);
+			const { data, error } = await getPlantState(userId);
 
-				// IF NO PLANT STATE, INIT A NEW ONE
-				if (error && error.code === "PGRST116") {
-					const init = await initPlantState(userId);
-					if (!init.data) throw new Error(init.error?.message ?? "Failed to init plant state");
-					return init.data;
-				}
+			if (error) throw new Error(error.message);
 
-				if (!data) throw new Error(error?.message ?? "Failed to fetch plant state");
+			if (!data) {
+				return {
+					state: {
+						user_id: userId,
+						growth_score: 0,
+						death_count: 0,
+						last_growth_date: null,
+						last_submitted_health: 0,
+						last_health_update_date: null,
+						updated_at: null,
+						created_at: null,
+					},
+					stage: 0,
+					isInitialized: false,
+				} satisfies PlantEntry;
+			}
 
-				return data;
+			return {
+				state: data,
+				stage: getPlantStageFromGrowth(data.growth_score),
+				isInitialized: true,
 			};
-
-			const state = await fetchState();
-
-			return { state, stage: getPlantStageFromGrowth(state.growth_score) };
 		},
 
 		refetchOnWindowFocus: false,

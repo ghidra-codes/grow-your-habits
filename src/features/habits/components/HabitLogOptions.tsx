@@ -1,4 +1,4 @@
-import { useConfetti } from "@/hooks/useConfetti";
+import { useConfetti } from "@/ui/hooks/useConfetti";
 import type { HabitWithLogs } from "@/types/habit.types";
 import { generateCurrentPeriod } from "@/lib/date-picker/generateCurrentPeriod";
 import { getTodayDate } from "@/lib/helpers/getTodayDate";

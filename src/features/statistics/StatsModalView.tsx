@@ -1,5 +1,5 @@
 import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
-import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import HabitStatsCarousel from "./components/HabitStatsCarousel";
 import HabitStatsCard from "./components/HabitStatsCard";

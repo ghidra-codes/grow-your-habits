@@ -11,20 +11,17 @@ const DailyRows: React.FC<DailyRowsProps> = ({ period, renderOverride }) => {
 	const weeks: TimelineEntry[][] = [];
 	let current: TimelineEntry[] = [];
 
-	// Find first real date for initialization
 	const firstReal = period.find((e) => e.date !== "placeholder");
 	let weekNum = firstReal ? getISOWeek(parseISO(firstReal.date)) : 0;
 	let weekYear = firstReal ? getISOWeekYear(parseISO(firstReal.date)) : 0;
 
 	period.forEach((entry) => {
 		if (entry.date === "placeholder") {
-			// If switching from real → placeholder, start a new week
 			if (current.length > 0 && current[0].date !== "placeholder") {
 				weeks.push(current);
 				current = [];
 			}
 
-			// If placeholder week hits 7 days, push it
 			if (current.length === 7) {
 				weeks.push(current);
 				current = [];
@@ -34,12 +31,10 @@ const DailyRows: React.FC<DailyRowsProps> = ({ period, renderOverride }) => {
 			return;
 		}
 
-		// Real entry
 		const d = parseISO(entry.date);
 		const w = getISOWeek(d);
 		const y = getISOWeekYear(d);
 
-		// Check for new ISO week or max 7 days
 		if (w !== weekNum || y !== weekYear || current.length === 7) {
 			weeks.push(current);
 			current = [];

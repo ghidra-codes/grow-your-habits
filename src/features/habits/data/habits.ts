@@ -106,3 +106,21 @@ export const deleteHabit = async (habitId: string): Promise<ServiceResponse<Habi
 
 	return { data: (data ?? []).map(normalizeHabit), error: null };
 };
+
+/**
+ * Returns true if the user has ever created a habit.
+ * Used to determine whether the plant should be initialized.
+ */
+export const checkHasHadHabits = async (userId: string): Promise<boolean> => {
+	const { data, error } = await supabase
+		.from("habits")
+		.select("id", { count: "exact", head: true })
+		.eq("user_id", userId);
+
+	if (error) {
+		console.error("Failed to check existing habits:", error);
+		return false;
+	}
+
+	return (data?.length ?? 0) > 0;
+};

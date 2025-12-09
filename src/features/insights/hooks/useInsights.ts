@@ -1,10 +1,10 @@
 import { useHabitAdherenceMap } from "@/features/habits/hooks/derived/useHabitAdherenceMap";
-import useShortTermAdherenceMap from "@/features/habits/hooks/derived/useShortTermAdherenceMap";
+import { useRecentAdherenceMap } from "@/features/habits/hooks/derived/useRecentAdherenceMap";
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { Insight } from "@/types/insights.types";
 import { useMemo, useState } from "react";
-import { INSIGHTS_CONFIG } from "../config/insightsConfig";
+import { INSIGHTS_CONFIG } from "../config/insights-config";
 import { buildInsightContext } from "../utils/buildInsightContext";
 import { seededShuffle } from "../utils/helpers/seededShuffle";
 import { insightGenerators } from "../utils/insightGenerators";
@@ -17,7 +17,7 @@ type UseInsightsArgs = {
 
 export const useInsights = ({ habits, weeklyGrowthChange, monthlyGrowthChange }: UseInsightsArgs) => {
 	const adherenceMap = useHabitAdherenceMap(habits);
-	const shortTermMap = useShortTermAdherenceMap(habits);
+	const recentMap = useRecentAdherenceMap(habits);
 	const streakMap = useStatsStreakMap(habits);
 	const [seed] = useState(() => Math.random());
 
@@ -30,10 +30,10 @@ export const useInsights = ({ habits, weeklyGrowthChange, monthlyGrowthChange }:
 			weeklyGrowthChange,
 			monthlyGrowthChange,
 			adherenceMap,
-			shortTermMap,
+			recentMap,
 			streakMap,
 		});
-	}, [habits, weeklyGrowthChange, monthlyGrowthChange, adherenceMap, shortTermMap, streakMap]);
+	}, [habits, weeklyGrowthChange, monthlyGrowthChange, adherenceMap, recentMap, streakMap]);
 
 	// Generate insights
 	const insights = useMemo<Insight[]>(() => {

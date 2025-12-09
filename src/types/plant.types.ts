@@ -17,6 +17,7 @@ export type PlantStateUpdate = Database["public"]["Tables"]["plant_state"]["Upda
 export type PlantEntry = {
 	state: PlantState;
 	stage: PlantStageOrZero;
+	isInitialized: boolean;
 };
 
 /** A number between 0 and 100 */

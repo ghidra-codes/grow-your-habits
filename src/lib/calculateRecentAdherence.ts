@@ -5,7 +5,7 @@ import type { HabitWithLogs } from "@/types/habit.types";
 /**
  * Calculates short-term adherence (last 7 and last 30 days) based on the habit's frequency.
  */
-export const calculateShortTermAdherence = (habit: HabitWithLogs) => {
+export const calculateRecentAdherence = (habit: HabitWithLogs) => {
 	const dailyMap = getDailyCompletionMap(habit);
 
 	const today = startOfDay(new Date());

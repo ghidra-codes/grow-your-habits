@@ -1,5 +1,5 @@
-import { useClickOutside } from "@/hooks/useClickOutside";
-import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import { useClickOutside } from "@/ui/hooks/useClickOutside";
+import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
 import type { Habit } from "@/types/habit.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
@@ -7,7 +7,7 @@ import { useState } from "react";
 import HabitForm from "./components/HabitForm";
 import HabitListItem from "./components/HabitListItem";
 import HabitsControlPanel from "./components/HabitsControlPanel";
-import { modalModeConfig } from "./config/modalModeConfig";
+import { modalModeConfig } from "./config/modal-mode";
 import { useHabitAdherenceMap } from "./hooks/derived/useHabitAdherenceMap";
 import { useHabitsQuery } from "./hooks/queries/useHabitsQuery";
 import { useHabitActions } from "./hooks/useHabitActions";

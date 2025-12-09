@@ -1,5 +1,5 @@
 import { getDailyCompletionMap } from "@/lib/helpers/getDailyCompletionMap";
-import type { AdherenceMap, HabitWithLogs, ShortTermAdherenceMap } from "@/types/habit.types";
+import type { AdherenceMap, HabitWithLogs, RecentAdherenceMap } from "@/types/habit.types";
 import type { InsightContext } from "@/types/insights.types";
 import type { StreakMap } from "@/types/statistics.types";
 import { isWithinInterval, startOfDay, subDays } from "date-fns";
@@ -7,7 +7,7 @@ import { isWithinInterval, startOfDay, subDays } from "date-fns";
 type BuildInsightContextArgs = {
 	habits: HabitWithLogs[];
 	adherenceMap: AdherenceMap;
-	shortTermMap: ShortTermAdherenceMap;
+	recentMap: RecentAdherenceMap;
 	streakMap: StreakMap;
 	weeklyGrowthChange: number;
 	monthlyGrowthChange: number;
@@ -16,7 +16,7 @@ type BuildInsightContextArgs = {
 export const buildInsightContext = ({
 	habits,
 	adherenceMap,
-	shortTermMap,
+	recentMap,
 	streakMap,
 	weeklyGrowthChange,
 	monthlyGrowthChange,
@@ -108,9 +108,9 @@ export const buildInsightContext = ({
 
 	if (habits.length > 0) {
 		const improvements = habits.map((h) => {
-			const short = shortTermMap[h.id];
-			const last7 = short?.last7 ?? 0;
-			const last30 = short?.last30 ?? 0;
+			const recent = recentMap[h.id];
+			const last7 = recent?.last7 ?? 0;
+			const last30 = recent?.last30 ?? 0;
 
 			return {
 				id: h.id,
@@ -127,7 +127,7 @@ export const buildInsightContext = ({
 	return {
 		habits,
 		adherenceMap,
-		shortTermMap,
+		recentMap,
 		streakMap,
 
 		completionsByDay,

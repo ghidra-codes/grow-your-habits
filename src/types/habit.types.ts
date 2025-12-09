@@ -44,9 +44,9 @@ export type HabitAdherence = {
 
 export type AdherenceMap = Record<string, HabitAdherence>;
 
-export type ShortTermAdherence = {
+export type RecentAdherence = {
 	last7: number;
 	last30: number;
 };
 
-export type ShortTermAdherenceMap = Record<string, ShortTermAdherence>;
+export type RecentAdherenceMap = Record<string, RecentAdherence>;

@@ -1,7 +1,3 @@
-import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
-import { usePlantHealth } from "@/features/plant/hooks/usePlantHealth";
-import useSyncPlantHealth from "@/hooks/useSyncPlantHealth";
-import { useUserIdRequired } from "@/hooks/useUserIdRequired";
 import { supabase } from "@/lib/supabase-client";
 import { useStatsModalActions } from "@/store/useStatsModalStore";
 import { BiLogOut } from "react-icons/bi";
@@ -11,14 +7,10 @@ import { MdChecklist } from "react-icons/md";
 import { PiPlant } from "react-icons/pi";
 import { Link } from "react-router";
 import PlantHealthBar from "./PlantHealthBar";
+import { usePlantHealth } from "@/features/plant/hooks/derived/usePlantHealth";
 
 const Navbar = () => {
-	const userId = useUserIdRequired();
-
-	const { data: habits } = useHabitsQuery(userId);
-	const plantHealth = usePlantHealth(habits ?? []);
-
-	useSyncPlantHealth(userId, plantHealth);
+	const plantHealth = usePlantHealth();
 
 	const { open } = useStatsModalActions();
 

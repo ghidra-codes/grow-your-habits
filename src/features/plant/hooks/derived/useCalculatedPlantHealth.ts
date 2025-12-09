@@ -1,15 +1,15 @@
-import useShortTermAdherenceMap from "@/features/habits/hooks/derived/useShortTermAdherenceMap";
+import { useRecentAdherenceMap } from "@/features/habits/hooks/derived/useRecentAdherenceMap";
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
+import { calculateTrendDirection } from "@/lib/calculateTrendDirection";
+import { calculatePlantHealth } from "@/lib/plant-health/calculatePlantHealth";
+import { sanitizePlantHealth } from "@/lib/plant-health/sanitizePlantHealth";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { PlantHealth } from "@/types/plant.types";
-import { calculateTrendDirection } from "@/lib/calculateTrendDirection";
-import { calculateHabitPlantHealth } from "@/lib/plant-health/calculateHabitPlantHealth";
-import { sanitizePlantHealth } from "@/lib/plant-health/sanitizePlantHealth";
 import { useMemo } from "react";
 
-export const usePlantHealth = (habits: HabitWithLogs[]): PlantHealth => {
+export const useCalculatedPlantHealth = (habits: HabitWithLogs[]): PlantHealth => {
 	const streakMap = useStatsStreakMap(habits ?? []);
-	const shortTermAdherenceMap = useShortTermAdherenceMap(habits ?? []);
+	const recentMap = useRecentAdherenceMap(habits ?? []);
 
 	return useMemo(() => {
 		if (!habits.length) return sanitizePlantHealth(0);
@@ -19,9 +19,9 @@ export const usePlantHealth = (habits: HabitWithLogs[]): PlantHealth => {
 		for (const habit of habits) {
 			const trend = calculateTrendDirection(habit, habit.frequency_type);
 
-			const habitHealth = calculateHabitPlantHealth({
+			const habitHealth = calculatePlantHealth({
 				habitId: habit.id,
-				shortTermAdherenceMap,
+				recentMap,
 				streakMap,
 				trend,
 			});
@@ -32,5 +32,5 @@ export const usePlantHealth = (habits: HabitWithLogs[]): PlantHealth => {
 		const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
 
 		return sanitizePlantHealth(Math.round(avg));
-	}, [habits, streakMap, shortTermAdherenceMap]);
+	}, [habits, streakMap, recentMap]);
 };

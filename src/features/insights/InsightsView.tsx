@@ -1,7 +1,7 @@
 import { useInsights } from "@/features/insights/hooks/useInsights";
 import { useMonthlyGrowthChange } from "@/features/plant/hooks/queries/growth-change/useMonthlyGrowthChange";
 import { useWeeklyGrowthChange } from "@/features/plant/hooks/queries/growth-change/useWeeklyGrowthChange";
-import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import { useHabitsQuery } from "../habits/hooks/queries/useHabitsQuery";
 

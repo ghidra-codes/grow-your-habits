@@ -1,5 +1,5 @@
 import { useHabitAdherence } from "@/features/habits/hooks/derived/useHabitAdherence";
-import { useShortTermAdherence } from "@/features/habits/hooks/derived/useShortTermAdherence";
+import { useRecentAdherence } from "@/features/habits/hooks/derived/useRecentAdherence";
 import { calculateTrendDirection } from "@/lib/calculateTrendDirection";
 import type { FrequencyType, HabitWithLogs } from "@/types/habit.types";
 import type { TimelineModesMap, TimelineViewMode } from "@/types/statistics.types";
@@ -7,14 +7,12 @@ import ProgressBar from "@/ui/ProgressBar";
 import Select from "@/ui/Select";
 import type { EmblaCarouselType } from "embla-carousel";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { PiArrowFatLineDown, PiArrowFatLineUp, PiArrowFatRight } from "react-icons/pi";
 import { FREQUENCY_LABELS } from "../constants/stats-card";
+import useEmblaNavigation from "../hooks/useEmblaNavigation";
 import { useStatsStreak } from "../hooks/useStatsStreak";
 import StreakBar from "./StreakBar";
 import TimelineRenderer from "./timeline/TimelineRenderer";
-import useEmblaNavigation from "../hooks/useEmblaNavigation";
-import { PiArrowFatLineUp } from "react-icons/pi";
-import { PiArrowFatLineDown } from "react-icons/pi";
-import { PiArrowFatRight } from "react-icons/pi";
 
 interface HabitStatsCardProps {
 	habit: HabitWithLogs;
@@ -36,7 +34,7 @@ const HabitStatsCard = ({
 	// GET HABIT STATS
 
 	const adherence = useHabitAdherence(habit);
-	const shortTerm = useShortTermAdherence(habit);
+	const recent = useRecentAdherence(habit);
 	const streak = useStatsStreak(habit);
 	const trend = calculateTrendDirection(habit, frequency);
 
@@ -48,8 +46,8 @@ const HabitStatsCard = ({
 
 	const ADHERENCE_STATS = [
 		{ label: "Overall", value: adherence.percentage || 0 },
-		{ label: "Last 7 days", value: shortTerm?.last7 || 0, class: "short-term" },
-		{ label: "Last 30 days", value: shortTerm?.last30 || 0, class: "long-term" },
+		{ label: "Last 7 days", value: recent?.last7 || 0, class: "short-term" },
+		{ label: "Last 30 days", value: recent?.last30 || 0, class: "long-term" },
 	];
 
 	const TREND_ICONS = {

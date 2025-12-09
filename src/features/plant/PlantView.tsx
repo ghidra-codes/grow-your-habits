@@ -1,21 +1,27 @@
-import { useUserIdRequired } from "@/hooks/useUserIdRequired";
+import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
+import { getPointsToNextStage } from "@/lib/plant-growth/getPointsToNextStage";
+import { usePlantAnimActions, usePlantAnimEnabled } from "@/store/usePlantAnimationStore";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import PlantAnimation from "./components/PlantAnimation";
 import PlantSvgAnimated from "./components/PlantSvgAnimated";
-import { usePlantAnimActions, usePlantAnimEnabled } from "@/store/usePlantAnimationStore";
-import { GROWTH_STAGES } from "./config/growthStageConfig";
-import { getPointsToNextStage } from "@/lib/plant-growth/getPointsToNextStage";
+import { GROWTH_STAGES } from "./config/growth-stage";
+import { usePlantHealth } from "./hooks/derived/usePlantHealth";
 import { usePlantStateQuery } from "./hooks/queries/usePlantStateQuery";
+import { getHealthGlowColor } from "./utils/getHealthGlowColor";
+import { getPlantColorProfile } from "./utils/getPlantColorProfile";
+import FloatingParticles from "@/ui/FloatingParticles";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
 
 	const { data, isLoading, isError, error } = usePlantStateQuery(userId);
+	const plantHealth = usePlantHealth();
 
 	const hasSeenAnim = usePlantAnimEnabled();
 	const { disable } = usePlantAnimActions();
 
 	const handleLottieComplete = () => disable();
+
 	const pointsToNextStage = getPointsToNextStage(data?.state.growth_score ?? 0, data?.stage ?? 0);
 
 	if (isLoading || !data) return <LoadingSpinner />;
@@ -30,8 +36,14 @@ const PlantView = () => {
 					{hasSeenAnim && stage !== 0 ? (
 						<PlantAnimation stage={stage} onComplete={handleLottieComplete} />
 					) : (
-						<PlantSvgAnimated stage={stage} />
+						<PlantSvgAnimated
+							stage={stage}
+							glowColor={getHealthGlowColor(plantHealth)}
+							profile={getPlantColorProfile(plantHealth)}
+						/>
 					)}
+
+					<FloatingParticles />
 				</div>
 
 				<div className="plant-info">

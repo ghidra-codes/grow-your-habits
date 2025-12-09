@@ -1,4 +1,4 @@
-import type { AdherenceMap, HabitWithLogs, ShortTermAdherenceMap } from "./habit.types";
+import type { AdherenceMap, HabitWithLogs, RecentAdherenceMap } from "./habit.types";
 import type { StreakMap } from "./statistics.types";
 
 export type InsightID =
@@ -30,7 +30,7 @@ export type InsightConfig = {
 export type InsightContext = {
 	habits: HabitWithLogs[];
 	adherenceMap: AdherenceMap;
-	shortTermMap: ShortTermAdherenceMap;
+	recentMap: RecentAdherenceMap;
 	streakMap: StreakMap;
 	completionsByDay: Record<number, number>;
 	strongestDayIndex: number | null;
