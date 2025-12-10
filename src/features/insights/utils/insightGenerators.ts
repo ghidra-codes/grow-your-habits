@@ -1,15 +1,15 @@
-import type { Insight, InsightID } from "@/types/insights.types";
+import type { InsightGenerated, InsightID } from "@/types/insights.types";
 import type { InsightContext } from "@/types/insights.types";
-import { weekdays } from "@/ui/constants/weekdays";
+import { fullWeekdays } from "@/ui/constants/weekdays";
 
-export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insight | null> = {
+export const insightGenerators: Record<InsightID, (ctx: InsightContext) => InsightGenerated | null> = {
 	"strongest-day": (ctx) => {
 		if (ctx.strongestDayIndex == null) return null;
 
 		return {
 			id: "strongest-day",
 			type: "positive",
-			message: `You’re most consistent on ${weekdays[ctx.strongestDayIndex]}.`,
+			message: `You're most consistent on ${fullWeekdays[ctx.strongestDayIndex]}.`,
 		};
 	},
 
@@ -19,7 +19,7 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 		return {
 			id: "strongest-habit",
 			type: "positive",
-			message: `Your strongest habit is ${ctx.strongestHabit.name}.`,
+			message: `Your strongest habit is "${ctx.strongestHabit.name}".`,
 		};
 	},
 
@@ -29,7 +29,7 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 		return {
 			id: "weakest-habit",
 			type: "negative",
-			message: `${ctx.weakestHabit.name} is your most fragile habit right now.`,
+			message: `Your weakest habit is "${ctx.weakestHabit.name}".`,
 		};
 	},
 
@@ -50,7 +50,7 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 			return {
 				id: "weekly-growth",
 				type: "positive",
-				message: `Your plant gained +${growth} growth this week.`,
+				message: `Your plant gained ${growth} growth this week.`,
 			};
 		}
 
@@ -70,14 +70,14 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 			return {
 				id: "monthly-growth",
 				type: "positive",
-				message: `Your plant grew +${growth} this month.`,
+				message: `Your plant gained ${growth} growth this month.`,
 			};
 		}
 
 		return {
 			id: "monthly-growth",
 			type: "negative",
-			message: `Your plant declined by ${Math.abs(growth)} this month.`,
+			message: `Your plant lost ${Math.abs(growth)} growth this month.`,
 		};
 	},
 
@@ -87,7 +87,7 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 		return {
 			id: "best-streak-habit",
 			type: "positive",
-			message: `Your best streak is with ${ctx.bestStreakHabit.name} (${ctx.bestStreakHabit.longestStreak} days).`,
+			message: `Your best streak is with "${ctx.bestStreakHabit.name}" (${ctx.bestStreakHabit.longestStreak} in a row).`,
 		};
 	},
 
@@ -107,7 +107,7 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 		return {
 			id: "most-improved-habit",
 			type: "positive",
-			message: `${habit.name} improved the most (+${habit.improvement.toFixed(0)}%).`,
+			message: `"${habit.name}" improved the most this week (+${habit.improvement.toFixed(1)}).`,
 		};
 	},
 };

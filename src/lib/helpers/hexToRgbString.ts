@@ -1,4 +1,4 @@
-export function hexToRgbString(hex: string): string {
+export const hexToRgbString = (hex: string): string => {
 	const stripped = hex.replace("#", "");
 	const bigint = parseInt(stripped, 16);
 
@@ -7,4 +7,4 @@ export function hexToRgbString(hex: string): string {
 	const b = bigint & 255;
 
 	return `rgb(${r}, ${g}, ${b})`;
-}
+};

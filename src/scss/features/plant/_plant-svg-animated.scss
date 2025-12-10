@@ -2,11 +2,12 @@
 	--glow-color: rgba(0, 0, 0, 0);
 
 	filter: drop-shadow(0px -50px 40px rgba(0, 0, 0, 0));
-	transition: filter 2s ease-in-out;
 
 	&.visible {
 		filter: drop-shadow(0px -50px 40px var(--glow-color));
 	}
+
+	transition: filter 2s ease-in-out;
 }
 
 .plant-svg-wrapper {
@@ -23,7 +24,7 @@
 	svg #plant {
 		transform-origin: 50% 50%;
 		animation: plantSway var(--sway-duration) ease-in-out infinite;
-		will-change: transform;
+		transition: fill 400ms cubic-bezier(0.22, 0.9, 0.28, 1);
 	}
 
 	@keyframes plantSway {

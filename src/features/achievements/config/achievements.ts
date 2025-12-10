@@ -7,7 +7,7 @@ export const ACHIEVEMENTS = [
 		title: "Getting Started",
 		description: "Create your first habit",
 		badge: ACHIEVEMENT_BADGES.first_habit,
-		type: "setup",
+		type: "other",
 	},
 
 	// Habit creation
@@ -16,7 +16,7 @@ export const ACHIEVEMENTS = [
 		title: "Habit Collector",
 		description: "Create 3 habits",
 		badge: ACHIEVEMENT_BADGES.created_3_habits,
-		type: "setup",
+		type: "other",
 	},
 
 	// Logging
@@ -117,6 +117,6 @@ export const ACHIEVEMENTS = [
 		title: "Legend of Growth",
 		description: "Collect all achievements",
 		badge: ACHIEVEMENT_BADGES.achievement_collector,
-		type: "meta",
+		type: "other",
 	},
 ] as const;

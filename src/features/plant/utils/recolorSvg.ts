@@ -3,11 +3,12 @@ import { ORIGINAL_PLANT_COLORS } from "../constants/plant-colors";
 
 const escape = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-export const replacePlantColors = (svg: string, profile: Record<string, string>): string => {
+export const recolorSvg = (svg: string, profile: Record<string, string>): string => {
 	let output = svg;
 
 	for (const hex of ORIGINAL_PLANT_COLORS) {
 		const key = hex.toUpperCase();
+
 		const target = profile[key];
 		if (!target) continue;
 

@@ -16,6 +16,7 @@
 @use "./ui/plant-health-bar";
 @use "./ui/progress-bar";
 @use "./ui/select";
+@use "./ui/tooltip";
 
 @use "./features/auth/auth-views";
 
@@ -34,3 +35,6 @@
 @use "./features/statistics/streak-bar";
 
 @use "./features/achievements/achievements-view";
+
+@use "./features/insights/insights-view";
+@use "./features/insights/insights-card";

@@ -5,10 +5,11 @@
 	left: 0;
 	top: 0;
 	height: 100vh;
-	max-width: 75px;
+	max-width: 80px;
 
 	background-color: $rich-black-lightest;
-	padding: 1rem;
+	padding: 1.25rem 0.5rem 0.75rem 0.25rem;
+	box-shadow: 3px 0 8px rgba(0, 0, 0, 0.2);
 
 	display: flex;
 	flex-direction: column;
@@ -17,22 +18,60 @@
 	ul {
 		@include flex-center;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 1.25rem;
 
 		li {
-			@include flex-center;
-			padding: 0.5rem;
-			border-radius: 0.5rem;
-			border: 2px solid $green-olive;
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+
+			.nav-link-wrapper {
+				@include flex-center;
+				padding: 0.5rem;
+				border-radius: 0.5rem;
+				border: 2px solid $green-olive;
+			}
 
 			svg {
 				width: 1.5rem;
 				height: 1.5rem;
 			}
 
+			#trophy-icon {
+				stroke-width: 1.75;
+			}
+
+			.logout-icon {
+				rotate: 180deg;
+			}
+
 			a {
 				@include flex-center;
 			}
 		}
+	}
+
+	.nav-label {
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
+
+		font-size: 0.62rem;
+		letter-spacing: 0.05rem;
+		color: $jet-bright;
+		white-space: nowrap;
+		font-weight: 600;
+
+		justify-self: start;
+		pointer-events: none;
+
+		&.active {
+			color: $jet-brighter;
+		}
+	}
+
+	.plant-health-wrapper {
+		display: flex;
+		align-items: center;
+		letter-spacing: 0.06rem;
 	}
 }

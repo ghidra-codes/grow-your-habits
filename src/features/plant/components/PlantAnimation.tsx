@@ -2,14 +2,20 @@ import { useMemo, useCallback, useRef } from "react";
 import Lottie from "lottie-react";
 import type { PlantStage } from "@/types/plant.types";
 import { PLANT_ANIMATIONS } from "@/assets/lottie";
+import { recolorLottie } from "../utils/recolorLottie";
 
 interface Props {
 	onComplete: () => void;
 	stage: PlantStage;
+	profile: Record<string, string>;
 }
 
-const PlantAnimation = ({ onComplete, stage }: Props) => {
-	const animationData = useMemo(() => PLANT_ANIMATIONS[stage], [stage]);
+const PlantAnimation = ({ onComplete, stage, profile }: Props) => {
+	const animData = useMemo(() => {
+		const originalJson = PLANT_ANIMATIONS[stage];
+
+		return recolorLottie(structuredClone(originalJson), profile);
+	}, [stage, profile]);
 
 	const completedRef = useRef(false);
 
@@ -25,7 +31,7 @@ const PlantAnimation = ({ onComplete, stage }: Props) => {
 		<div className="plant-lottie-wrapper">
 			<Lottie
 				key={key}
-				animationData={animationData}
+				animationData={animData}
 				loop={false}
 				autoplay={true}
 				onComplete={handleComplete}

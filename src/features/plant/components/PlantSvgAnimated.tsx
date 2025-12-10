@@ -1,8 +1,8 @@
 import { PLANT_SVGS } from "@/assets/lottie/svgs";
 import type { PlantStageOrZero } from "@/types/plant.types";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { replacePlantColors } from "../utils/replacePlantColors";
 import { SVG_ANIMATION_CONFIG } from "../config/svg_animation";
+import { recolorSvg } from "../utils/recolorSvg";
 
 interface PlantSvgAnimatedProps {
 	stage: PlantStageOrZero;
@@ -22,7 +22,7 @@ const PlantSvgAnimated = ({ stage, glowColor, profile }: PlantSvgAnimatedProps) 
 		const raw = PLANT_SVGS[stage];
 		if (!profile || stage === 0) return raw;
 
-		return replacePlantColors(raw, profile);
+		return recolorSvg(raw, profile);
 	}, [stage, profile]);
 
 	useEffect(() => {

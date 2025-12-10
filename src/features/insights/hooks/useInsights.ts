@@ -21,11 +21,11 @@ export const useInsights = ({ habits, weeklyGrowthChange, monthlyGrowthChange }:
 	const streakMap = useStatsStreakMap(habits);
 	const [seed] = useState(() => Math.random());
 
-	// Compute context
-	const context = useMemo(() => {
-		if (habits.length === 0) return null;
+	const insights = useMemo(() => {
+		if (habits.length === 0) return [];
 
-		return buildInsightContext({
+		// Build context
+		const context = buildInsightContext({
 			habits,
 			weeklyGrowthChange,
 			monthlyGrowthChange,
@@ -33,23 +33,25 @@ export const useInsights = ({ habits, weeklyGrowthChange, monthlyGrowthChange }:
 			recentMap,
 			streakMap,
 		});
-	}, [habits, weeklyGrowthChange, monthlyGrowthChange, adherenceMap, recentMap, streakMap]);
 
-	// Generate insights
-	const insights = useMemo<Insight[]>(() => {
-		if (!context) return [];
+		// Generate insights
+		const generated = INSIGHTS_CONFIG.map((cfg) => {
+			const result = insightGenerators[cfg.id](context);
+			if (!result) return null;
 
-		return INSIGHTS_CONFIG.map((cfg) => insightGenerators[cfg.id](context)).filter(
-			(i): i is Insight => i !== null
-		);
-	}, [context]);
+			return {
+				id: cfg.id,
+				title: cfg.title,
+				description: cfg.description,
+				message: result.message,
+				type: result.type,
+			} satisfies Insight;
+		}).filter((i): i is Insight => i !== null);
 
-	// Deterministic shuffle, returns 3 insights
-	const displayedInsights = useMemo(() => {
-		if (insights.length <= 3) return insights;
+		// Shuffle and limit to 3
+		if (generated.length <= 3) return generated;
+		return seededShuffle(generated, seed).slice(0, 3);
+	}, [habits, weeklyGrowthChange, monthlyGrowthChange, adherenceMap, recentMap, streakMap, seed]);
 
-		return seededShuffle(insights, seed).slice(0, 3);
-	}, [insights, seed]);
-
-	return displayedInsights;
+	return insights;
 };

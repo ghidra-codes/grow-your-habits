@@ -11,7 +11,7 @@ export type UserAchievementUpdate = Database["public"]["Tables"]["user_achieveme
 
 // STATIC ACHIEVEMENT DEFINITIONS
 
-export type AchievementType = "setup" | "logging" | "streak" | "adherence" | "growth" | "meta";
+export type AchievementType = "logging" | "streak" | "adherence" | "growth" | "other";
 
 export type AchievementDefinition = {
 	id: string;

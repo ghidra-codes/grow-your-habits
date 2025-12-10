@@ -31,20 +31,7 @@
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="g26" />
-  <defs
-     id="defs1">
-    <clipPath
-       id="__lottie_element_64">
-      <rect
-         width="1080"
-         height="1080"
-         x="0"
-         y="0"
-         id="rect1" />
-    </clipPath>
-  </defs>
   <g
-     clip-path="url(#__lottie_element_64)"
      id="g26">
     <g
        transform="matrix(5,0,0,5,287.5,530.0020141601562)"

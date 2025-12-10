@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import "../scss/main.scss";
 
 import AppRoutes from "./AppRoutes";
@@ -8,7 +9,9 @@ const queryClient = new QueryClient();
 function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<AppRoutes />
+			<Tooltip.Provider delayDuration={150}>
+				<AppRoutes />
+			</Tooltip.Provider>
 		</QueryClientProvider>
 	);
 }

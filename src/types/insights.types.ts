@@ -1,6 +1,3 @@
-import type { AdherenceMap, HabitWithLogs, RecentAdherenceMap } from "./habit.types";
-import type { StreakMap } from "./statistics.types";
-
 export type InsightID =
 	| "strongest-day"
 	| "strongest-habit"
@@ -16,30 +13,34 @@ export type InsightType = "positive" | "neutral" | "negative";
 
 export type Insight = {
 	id: InsightID;
-	type: InsightType;
+	title: string;
+	description: string;
 	message: string;
+	type: InsightType;
 };
 
 export type InsightConfig = {
 	id: InsightID;
 	title: string;
-	description?: string;
-	defaultType?: InsightType;
+	description: string;
 };
 
+export type InsightGenerated = {
+	id: InsightID;
+	message: string;
+	type: InsightType;
+};
+
+export type HabitRef = { id: string; name: string };
+
 export type InsightContext = {
-	habits: HabitWithLogs[];
-	adherenceMap: AdherenceMap;
-	recentMap: RecentAdherenceMap;
-	streakMap: StreakMap;
-	completionsByDay: Record<number, number>;
 	strongestDayIndex: number | null;
-	strongestHabit: { id: string; name: string; adherence: number } | null;
-	weakestHabit: { id: string; name: string; adherence: number } | null;
+	strongestHabit: HabitRef | null;
+	weakestHabit: HabitRef | null;
 	weeklyTotal: number;
 	monthlyTotal: number;
 	weeklyGrowthChange: number;
 	monthlyGrowthChange: number;
-	bestStreakHabit: { id: string; name: string; longestStreak: number } | null;
-	mostImprovedHabit: { id: string; name: string; improvement: number } | null;
+	bestStreakHabit: (HabitRef & { longestStreak: number }) | null;
+	mostImprovedHabit: (HabitRef & { improvement: number }) | null;
 };

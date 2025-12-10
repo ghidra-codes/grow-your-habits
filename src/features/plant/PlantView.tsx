@@ -29,17 +29,19 @@ const PlantView = () => {
 
 	const { stage, state } = data;
 
+	const profile = getPlantColorProfile(plantHealth);
+
 	return (
 		<div className="plant-view">
 			<div className="plant-wrapper">
 				<div className="plant-render-container">
-					{hasSeenAnim && stage !== 0 ? (
-						<PlantAnimation stage={stage} onComplete={handleLottieComplete} />
+					{hasSeenAnim && stage !== 0 && profile ? (
+						<PlantAnimation stage={stage} onComplete={handleLottieComplete} profile={profile} />
 					) : (
 						<PlantSvgAnimated
 							stage={stage}
 							glowColor={getHealthGlowColor(plantHealth)}
-							profile={getPlantColorProfile(plantHealth)}
+							profile={profile}
 						/>
 					)}
 

@@ -1,0 +1,15 @@
+@use "../../abstracts/index" as *;
+
+.insights-container {
+	h2 {
+		font-family: $secondary-font;
+		color: $green-light;
+		margin-top: 1.5rem;
+		padding-bottom: 1rem;
+	}
+
+	.insights-list {
+		margin-top: 3rem;
+		position: relative;
+	}
+}
