@@ -1,5 +1,5 @@
 import type { FrequencyType, HabitWithLogs } from "@/types/habit.types";
-import type { TimelineViewMode } from "@/types/statistics.types";
+import type { TimelineViewMode } from "@/types/statistic.types";
 import DailyTimelineCarousel from "./DailyTimelineCarousel";
 import WeeklyTimelineCarousel from "./WeeklyTimelineCarousel";
 import MonthlyTimelineCarousel from "./MonthlyTimelineCarousel";

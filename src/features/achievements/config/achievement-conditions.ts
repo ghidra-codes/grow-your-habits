@@ -1,4 +1,4 @@
-import type { AchievementContext } from "@/types/achievements.types";
+import type { AchievementContext } from "@/types/achievement.types";
 
 export const ACHIEVEMENT_CONDITIONS: Record<string, (ctx: AchievementContext) => boolean> = {
 	// Setup

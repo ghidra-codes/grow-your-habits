@@ -1,4 +1,4 @@
-import type { AchievementFilters } from "@/types/achievements.types";
+import type { AchievementFilters } from "@/types/achievement.types";
 
 export const FILTER_OPTIONS: { label: string; value: AchievementFilters }[] = [
 	{ label: "All", value: "all" },

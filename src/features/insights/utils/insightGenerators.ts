@@ -1,5 +1,5 @@
-import type { InsightGenerated, InsightID } from "@/types/insights.types";
-import type { InsightContext } from "@/types/insights.types";
+import type { InsightGenerated, InsightID } from "@/types/insight.types";
+import type { InsightContext } from "@/types/insight.types";
 import { fullWeekdays } from "@/ui/constants/weekdays";
 
 export const insightGenerators: Record<InsightID, (ctx: InsightContext) => InsightGenerated | null> = {
@@ -9,7 +9,7 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 		return {
 			id: "strongest-day",
 			type: "positive",
-			message: `You're most consistent on ${fullWeekdays[ctx.strongestDayIndex]}.`,
+			message: `You're most consistent on ${fullWeekdays[ctx.strongestDayIndex].toLowerCase()}s.`,
 		};
 	},
 

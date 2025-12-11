@@ -1,5 +1,5 @@
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { SummaryStatus, WeeklySummary } from "@/types/statistics.types";
+import type { SummaryStatus, WeeklySummary } from "@/types/statistic.types";
 import { addWeeks, endOfWeek, getISOWeek, isAfter, startOfWeek } from "date-fns";
 
 export const generateWeeklySummary = (habit: HabitWithLogs, chartData?: boolean): WeeklySummary[] => {

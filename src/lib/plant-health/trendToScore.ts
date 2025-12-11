@@ -1,4 +1,4 @@
-import type { TrendDirection } from "@/types/statistics.types";
+import type { TrendDirection } from "@/types/statistic.types";
 
 export const trendToScore = (trend: TrendDirection): number => {
 	switch (trend) {

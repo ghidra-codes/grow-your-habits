@@ -1,4 +1,4 @@
-import type { TimelineEntry } from "@/types/statistics.types";
+import type { TimelineEntry } from "@/types/statistic.types";
 import DailyRow from "@/ui/timeline/DailyRow";
 import DailyRows from "@/ui/timeline/DailyRows";
 import { format, isAfter, parseISO, startOfToday } from "date-fns";

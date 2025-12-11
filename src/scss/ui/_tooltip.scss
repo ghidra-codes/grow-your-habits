@@ -1,21 +1,22 @@
 @use "../abstracts/index" as *;
 
 .tooltip {
-	background: $jet;
+	background: $green-tint;
 	padding: 0.35rem 0.75rem;
 	border-radius: 0.5rem;
 	max-width: 240px;
-	border: 1px solid $jet-mid;
+	border: 1px solid $jet;
 	font-size: 0.85rem;
 	line-height: 1.35;
-	color: $off-white;
+	font-weight: 500;
+	color: $rich-black-darker;
 	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 	z-index: 999;
 	animation: tooltip-fade 150ms ease-out;
 }
 
 .tooltip-arrow {
-	fill: $jet-mid;
+	fill: $green-tint;
 }
 
 @keyframes tooltip-fade {

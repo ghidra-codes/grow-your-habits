@@ -29,7 +29,7 @@ const PlantView = () => {
 
 	const { stage, state } = data;
 
-	const profile = getPlantColorProfile(plantHealth);
+	const profile = getPlantColorProfile(80);
 
 	return (
 		<div className="plant-view">

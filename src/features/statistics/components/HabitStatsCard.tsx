@@ -2,7 +2,7 @@ import { useHabitAdherence } from "@/features/habits/hooks/derived/useHabitAdher
 import { useRecentAdherence } from "@/features/habits/hooks/derived/useRecentAdherence";
 import { calculateTrendDirection } from "@/lib/calculateTrendDirection";
 import type { FrequencyType, HabitWithLogs } from "@/types/habit.types";
-import type { TimelineModesMap, TimelineViewMode } from "@/types/statistics.types";
+import type { TimelineModesMap, TimelineViewMode } from "@/types/statistic.types";
 import ProgressBar from "@/ui/ProgressBar";
 import Select from "@/ui/Select";
 import type { EmblaCarouselType } from "embla-carousel";

@@ -2,7 +2,7 @@ import { useHabitAdherenceMap } from "@/features/habits/hooks/derived/useHabitAd
 import { useRecentAdherenceMap } from "@/features/habits/hooks/derived/useRecentAdherenceMap";
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { Insight } from "@/types/insights.types";
+import type { Insight } from "@/types/insight.types";
 import { useMemo, useState } from "react";
 import { INSIGHTS_CONFIG } from "../config/insights-config";
 import { buildInsightContext } from "../utils/buildInsightContext";

@@ -5,6 +5,7 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
 import Navbar from "@/ui/Navbar";
 import { Navigate, Outlet } from "react-router";
+import AppEvents from "@/features/notifications/AppEvents";
 
 const Layout = () => {
 	const session = useAuthSession();
@@ -20,6 +21,8 @@ const Layout = () => {
 	return (
 		<div className="app-container">
 			<Navbar />
+
+			<AppEvents />
 
 			<main>
 				<div className="content-wrapper">

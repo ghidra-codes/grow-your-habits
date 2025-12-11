@@ -24,6 +24,8 @@ export type AchievementDefinition = {
 export type Achievement = AchievementDefinition & {
 	unlocked: boolean;
 	unlockedAt?: string | null;
+	notifiedAt?: string | null;
+	entryId?: string | null;
 };
 
 export type AchievementUnlockMap = Record<string, boolean>;

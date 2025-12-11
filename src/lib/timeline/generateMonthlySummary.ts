@@ -1,5 +1,5 @@
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { MonthlySummary } from "@/types/statistics.types";
+import type { MonthlySummary } from "@/types/statistic.types";
 import { addMonths, endOfMonth, getMonth, getYear, isAfter, startOfMonth } from "date-fns";
 
 export const generateMonthlySummary = (habit: HabitWithLogs): MonthlySummary[] => {

@@ -1,4 +1,4 @@
-import type { MonthlySummaryTimeline } from "@/types/statistics.types";
+import type { MonthlySummaryTimeline } from "@/types/statistic.types";
 import { padNumber } from "@/lib/helpers/padNumber";
 
 const MonthlyCarouselContent = ({ months }: { months: MonthlySummaryTimeline }) => {

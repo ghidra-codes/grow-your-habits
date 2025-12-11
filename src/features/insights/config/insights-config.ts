@@ -1,15 +1,15 @@
-import type { InsightConfig } from "@/types/insights.types";
+import type { InsightConfig } from "@/types/insight.types";
 
 export const INSIGHTS_CONFIG: ReadonlyArray<InsightConfig> = [
 	{
 		id: "strongest-day",
 		title: "Your strongest day",
-		description: "The day of the week you complete the most habits.",
+		description: "The weekday on which you complete the most habits overall.",
 	},
 	{
 		id: "strongest-habit",
 		title: "Your strongest habit",
-		description: "The habit with the highest overall adherence.",
+		description: "The habit you follow most consistently based on adherence.",
 	},
 	{
 		id: "weakest-habit",
@@ -19,31 +19,31 @@ export const INSIGHTS_CONFIG: ReadonlyArray<InsightConfig> = [
 	{
 		id: "weekly-consistency",
 		title: "Your weekly consistency",
-		description: "Summary of how many habits you completed this week.",
+		description: "How many total habit completions you logged in the past week.",
 	},
 	{
 		id: "weekly-growth",
 		title: "Plant growth this week",
-		description: "How much your plant grew or declined based on your habits.",
+		description: "How your plant grew or declined based on last week's habit activity.",
 	},
 	{
 		id: "monthly-growth",
 		title: "Plant growth this month",
-		description: "How much your plant grew or declined this month.",
+		description: "How your plant grew or declined over the past month.",
 	},
 	{
 		id: "best-streak-habit",
 		title: "Your best streak",
-		description: "The habit with your longest active or historical streak.",
+		description: "The habit with your longest recorded streak.",
 	},
 	{
 		id: "monthly-consistency",
 		title: "Your monthly consistency",
-		description: "Summary of how many habits you completed this month.",
+		description: "How many total habit completions you logged this month.",
 	},
 	{
 		id: "most-improved-habit",
 		title: "Your most improved habit",
-		description: "The habit that improved the most compared to last week.",
+		description: "The habit that has shown the biggest improvement compared to your longer-term average.",
 	},
 ];

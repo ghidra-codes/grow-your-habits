@@ -1,7 +1,7 @@
 import { getDailyCompletionMap } from "@/lib/helpers/getDailyCompletionMap";
 import type { AdherenceMap, HabitWithLogs, RecentAdherenceMap } from "@/types/habit.types";
-import type { HabitRef, InsightContext } from "@/types/insights.types";
-import type { StreakMap } from "@/types/statistics.types";
+import type { HabitRef, InsightContext } from "@/types/insight.types";
+import type { StreakMap } from "@/types/statistic.types";
 import { isWithinInterval, startOfDay, subDays } from "date-fns";
 
 type BuildInsightContextArgs = {
@@ -25,7 +25,7 @@ export const buildInsightContext = ({
 
 	// STRONGEST DAY
 
-	const completions = Array(7).fill(0);
+	const completions: number[] = Array(7).fill(0);
 
 	for (const habit of habits) {
 		for (const [date, done] of Object.entries(getDailyCompletionMap(habit))) {
@@ -83,7 +83,7 @@ export const buildInsightContext = ({
 
 	// BEST STREAK
 
-	let bestStreakHabit = null;
+	let bestStreakHabit: (HabitRef & { longestStreak: number }) | null = null;
 	for (const habit of habits) {
 		const streak = streakMap[habit.id]?.longestStreak ?? 0;
 
@@ -94,7 +94,7 @@ export const buildInsightContext = ({
 
 	// MOST IMPROVED HABIT
 
-	let mostImprovedHabit = null;
+	let mostImprovedHabit: (HabitRef & { improvement: number }) | null = null;
 	for (const habit of habits) {
 		const recent = recentMap[habit.id];
 		const improvement = (recent?.last7 ?? 0) - (recent?.last30 ?? 0);

@@ -20,21 +20,40 @@
 		flex-direction: column;
 		gap: 1.25rem;
 
-		li {
+		.nav-list-item {
 			display: flex;
 			align-items: center;
 			gap: 0.25rem;
 
-			.nav-link-wrapper {
+			.nav-link {
 				@include flex-center;
-				padding: 0.5rem;
-				border-radius: 0.5rem;
-				border: 2px solid $green-olive;
+				padding: 0.65rem;
+				border-radius: 0.35rem;
+				background-color: $rich-black-surface;
+				border: 2px solid rgba($amber-soft, 0.7);
+
+				&:active,
+				&:hover {
+					background-color: $rich-black-surface-light;
+					border-color: rgba($amber-soft, 0.8);
+				}
+			}
+
+			&.active {
+				.nav-link {
+					background-color: $rich-black-surface-light;
+					border-color: rgba($amber-soft, 0.8);
+				}
+
+				.nav-label {
+					color: $highlight-green;
+				}
 			}
 
 			svg {
 				width: 1.5rem;
 				height: 1.5rem;
+				color: $off-white;
 			}
 
 			#trophy-icon {
@@ -43,10 +62,6 @@
 
 			.logout-icon {
 				rotate: 180deg;
-			}
-
-			a {
-				@include flex-center;
 			}
 		}
 	}
@@ -57,16 +72,12 @@
 
 		font-size: 0.62rem;
 		letter-spacing: 0.05rem;
-		color: $jet-bright;
+		color: rgba($green-tint, 0.85);
 		white-space: nowrap;
 		font-weight: 600;
 
 		justify-self: start;
 		pointer-events: none;
-
-		&.active {
-			color: $jet-brighter;
-		}
 	}
 
 	.plant-health-wrapper {

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { achievementsKey } from "@/lib/helpers/queryKeys";
-import type { UserAchievement } from "@/types/achievements.types";
+import type { UserAchievement } from "@/types/achievement.types";
 import { unlockAchievement } from "../../data/achievements";
 
 export const useUnlockAchievement = (userId: string) => {
@@ -30,6 +30,7 @@ export const useUnlockAchievement = (userId: string) => {
 					user_id: userId,
 					achievement_id: achievementId,
 					unlocked_at: new Date().toISOString(),
+					notified_at: null,
 				};
 
 				queryClient.setQueryData(key, [...prev, optimistic]);

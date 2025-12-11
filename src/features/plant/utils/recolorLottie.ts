@@ -1,52 +1,79 @@
 import { mapHexToNormalized } from "@/lib/helpers/mapHexToNormalized";
 import { ORIGINAL_PLANT_COLORS } from "../constants/plant-colors";
+import type { Animation } from "@lottiefiles/lottie-types";
 
 type RGBA = [number, number, number, number];
-type LottieJSON = Record<string, unknown>;
 
-export const recolorLottie = (json: LottieJSON, profile: Record<string, string>): LottieJSON => {
+interface ColorValue {
+	k: number[];
+}
+
+// CHECK IF VALUE IS OBJECT
+const isObject = (value: unknown): value is Record<string, unknown> =>
+	typeof value === "object" && value !== null;
+
+// CHECK IF VALUE IS COLOR PROPERTY
+const isColorProp = (value: unknown): value is ColorValue => {
+	if (!isObject(value)) return false;
+	if (!("k" in value)) return false;
+
+	const obj: { [key: string]: unknown } = value;
+
+	if (!Array.isArray(obj["k"])) return false;
+
+	const kUnknown: unknown[] = obj["k"] as unknown[];
+
+	for (const element of kUnknown) {
+		const valueElement: unknown = element;
+		if (typeof valueElement !== "number") return false;
+	}
+
+	return true;
+};
+
+export const recolorLottie = (json: Animation, profile: Record<string, string>): Animation => {
 	const originalMap: Record<string, RGBA> = {};
 	const targetMap: Record<string, RGBA> = {};
 
+	// BUILD COLOR MAPS
 	for (const hex of ORIGINAL_PLANT_COLORS) {
-		const normalized = mapHexToNormalized(hex);
-		originalMap[hex] = normalized;
+		originalMap[hex] = mapHexToNormalized(hex);
 
-		const targetHex = profile[hex] ?? hex;
-		targetMap[hex] = mapHexToNormalized(targetHex);
+		const target = profile[hex] ?? hex;
+		targetMap[hex] = mapHexToNormalized(target);
 	}
 
-	const isClose = (a: number, b: number) => Math.abs(a - b) < 0.02;
+	// CHECK RGB SIMILARITY
+	const isClose = (a: number, b: number): boolean => Math.abs(a - b) < 0.02;
 
-	// Match a Lottie RGB array to a original plant color
+	// FIND MATCHING ORIGINAL COLOR
 	const findMatchingHex = (rgb: number[]): string | undefined => {
 		for (const hex of ORIGINAL_PLANT_COLORS) {
-			const orig = originalMap[hex];
-			if (isClose(orig[0], rgb[0]) && isClose(orig[1], rgb[1]) && isClose(orig[2], rgb[2])) {
+			const [r, g, b] = originalMap[hex];
+			if (isClose(r, rgb[0]) && isClose(g, rgb[1]) && isClose(b, rgb[2])) {
 				return hex;
 			}
 		}
 		return undefined;
 	};
 
-	// Recursive traversal
-	const walk = (node: unknown) => {
-		if (!node || typeof node !== "object") return;
+	// RECURSIVE WALK THROUGH LOTTIE JSON
+	const walk = (node: unknown): void => {
+		if (!isObject(node)) return;
 
-		const obj = node as Record<string, unknown>;
+		if ("c" in node) {
+			const cValue = node.c;
 
-		const colorProp = obj.c as { k?: number[] } | undefined;
-
-		if (Array.isArray(colorProp?.k) && colorProp.k.length >= 3) {
-			const rgb = colorProp.k.slice(0, 3);
-			const matchHex = findMatchingHex(rgb);
-
-			if (matchHex) {
-				colorProp.k = targetMap[matchHex];
+			if (isColorProp(cValue) && cValue.k.length >= 3) {
+				const rgb = cValue.k.slice(0, 3);
+				const match = findMatchingHex(rgb);
+				if (match) {
+					cValue.k = targetMap[match];
+				}
 			}
 		}
 
-		for (const value of Object.values(obj)) {
+		for (const value of Object.values(node)) {
 			walk(value);
 		}
 	};

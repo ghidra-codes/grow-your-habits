@@ -1,4 +1,4 @@
-import type { Insight } from "@/types/insights.types";
+import type { Insight } from "@/types/insight.types";
 import Tooltip from "@/ui/ToolTip";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";

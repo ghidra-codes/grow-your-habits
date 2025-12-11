@@ -3,7 +3,7 @@ import type {
 	AchievementContext,
 	AchievementFilters,
 	AchievementUnlockMap,
-} from "@/types/achievements.types";
+} from "@/types/achievement.types";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ACHIEVEMENT_CONDITIONS } from "../config/achievement-conditions";
 import { ACHIEVEMENTS } from "../config/achievements";
@@ -36,6 +36,8 @@ export const useAchievements = (
 				...def,
 				unlocked: !!match,
 				unlockedAt: match?.unlocked_at ?? null,
+				notifiedAt: match?.notified_at ?? null,
+				entryId: match?.id ?? null,
 			};
 		});
 	}, [unlocked]);

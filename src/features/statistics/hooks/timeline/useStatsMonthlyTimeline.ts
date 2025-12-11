@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { MonthlySummary, MonthlySummaryTimeline } from "@/types/statistics.types";
+import type { MonthlySummary, MonthlySummaryTimeline } from "@/types/statistic.types";
 import { splitTimelineSummary } from "@/lib/helpers/timeline/splitTimelineSummary";
 import { generateMonthlySummary } from "@/lib/timeline/generateMonthlySummary";
 

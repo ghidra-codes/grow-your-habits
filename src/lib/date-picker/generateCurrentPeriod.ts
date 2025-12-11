@@ -1,5 +1,5 @@
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { TimelineEntry } from "@/types/statistics.types";
+import type { TimelineEntry } from "@/types/statistic.types";
 import {
 	startOfWeek,
 	endOfWeek,

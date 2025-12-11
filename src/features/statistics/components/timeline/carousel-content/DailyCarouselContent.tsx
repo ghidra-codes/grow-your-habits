@@ -1,4 +1,4 @@
-import type { DailyPeriodTimeline, TimelineEntry } from "@/types/statistics.types";
+import type { DailyPeriodTimeline, TimelineEntry } from "@/types/statistic.types";
 import DailyRows from "@/ui/timeline/DailyRows";
 import { splitIntoWeeks } from "@/lib/helpers/splitIntoWeeks";
 import { format, getISOWeek, parseISO } from "date-fns";

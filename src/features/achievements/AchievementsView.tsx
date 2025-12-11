@@ -1,7 +1,7 @@
 import { useAchievementContext } from "@/features/achievements/hooks/useAchievementContext";
 import { useAchievements } from "@/features/achievements/hooks/useAchievements";
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
-import type { AchievementFilters } from "@/types/achievements.types";
+import type { AchievementFilters } from "@/types/achievement.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Select from "@/ui/Select";
 import { useState } from "react";

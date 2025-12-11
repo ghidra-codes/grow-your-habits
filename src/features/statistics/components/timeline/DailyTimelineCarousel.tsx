@@ -1,5 +1,5 @@
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { TimelineViewMode } from "@/types/statistics.types";
+import type { TimelineViewMode } from "@/types/statistic.types";
 import { EmblaWrapper } from "@/ui/EmblaWrapper";
 import { useStatsDailyTimeline } from "../../hooks/timeline/useStatsDailyTimeline";
 import DailyCarouselContent from "./carousel-content/DailyCarouselContent";

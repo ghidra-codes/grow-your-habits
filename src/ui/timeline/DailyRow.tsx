@@ -1,4 +1,4 @@
-import type { TimelineEntry } from "@/types/statistics.types";
+import type { TimelineEntry } from "@/types/statistic.types";
 import { format, getDay, parseISO } from "date-fns";
 import React from "react";
 import { weekdays } from "../constants/weekdays";

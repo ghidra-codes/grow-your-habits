@@ -1,5 +1,5 @@
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { StreakMap } from "@/types/statistics.types";
+import type { StreakMap } from "@/types/statistic.types";
 import { calculateStreaks } from "@/lib/calculateStreaks";
 import { useMemo } from "react";
 

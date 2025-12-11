@@ -1,4 +1,4 @@
-import type { TimelineMap, TimelineViewMode } from "@/types/statistics.types";
+import type { TimelineMap, TimelineViewMode } from "@/types/statistic.types";
 import type { TimelineCarouselProps } from "@/types/carousel.types";
 import type { HabitWithLogs } from "@/types/habit.types";
 

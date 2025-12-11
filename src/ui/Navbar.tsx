@@ -4,12 +4,13 @@ import { LuChartLine, LuLightbulb, LuLogOut, LuLeaf, LuListChecks, LuTrophy } fr
 import { Link, useLocation } from "react-router";
 import PlantHealthBar from "./PlantHealthBar";
 import { usePlantHealth } from "@/features/plant/hooks/derived/usePlantHealth";
+import { motion } from "motion/react";
+import { tapSpring } from "./motion/motion-presets";
 
 const Navbar = () => {
 	const plantHealth = usePlantHealth();
 
-	const location = useLocation();
-	const pathname = location.pathname;
+	const { pathname } = useLocation();
 
 	const { open } = useStatsModalActions();
 
@@ -23,49 +24,51 @@ const Navbar = () => {
 	return (
 		<nav className="vertical-navbar">
 			<ul>
-				<li>
-					<span className={`nav-label ${isActive("/") ? "active" : ""}`}>PLANT</span>
-					<div className="nav-link-wrapper">
-						<Link to="/">
+				<li className={`nav-list-item ${isActive("/") ? "active" : ""}`}>
+					<span className="nav-label">PLANT</span>
+
+					<motion.div className="link-wrapper" {...tapSpring}>
+						<Link to="/" className="nav-link">
 							<LuLeaf />
 						</Link>
-					</div>
+					</motion.div>
 				</li>
-				<li>
-					<span className={`nav-label ${isActive("/habits") ? "active" : ""}`}>HABITS</span>
-					<div className="nav-link-wrapper">
-						<Link to="/habits">
+				<li className={`nav-list-item ${isActive("/habits") ? "active" : ""}`}>
+					<span className="nav-label">HABITS</span>
+
+					<motion.div className="link-wrapper" {...tapSpring}>
+						<Link to="/habits" className="nav-link">
 							<LuListChecks />
 						</Link>
-					</div>
+					</motion.div>
 				</li>
-				<li onClick={open}>
+				<li className="nav-list-item" onClick={open}>
 					<span className="nav-label">STATS</span>
-					<div className="nav-link-wrapper">
+					<motion.button className="nav-link" {...tapSpring}>
 						<LuChartLine />
-					</div>
+					</motion.button>
 				</li>
-				<li>
-					<span className={`nav-label ${isActive("/insights") ? "active" : ""}`}>INSIGHT</span>
-					<div className="nav-link-wrapper">
-						<Link to="/insights">
+				<li className={`nav-list-item ${isActive("/insights") ? "active" : ""}`}>
+					<span className="nav-label">INSIGHT</span>
+					<motion.div className="link-wrapper" {...tapSpring}>
+						<Link to="/insights" className="nav-link">
 							<LuLightbulb />
 						</Link>
-					</div>
+					</motion.div>
 				</li>
-				<li>
-					<span className={`nav-label ${isActive("/achievements") ? "active" : ""}`}>BADGES</span>
-					<div className="nav-link-wrapper">
-						<Link to="/achievements">
+				<li className={`nav-list-item ${isActive("/achievements") ? "active" : ""}`}>
+					<span className="nav-label">BADGES</span>
+					<motion.div className="link-wrapper" {...tapSpring}>
+						<Link to="/achievements" className="nav-link">
 							<LuTrophy id="trophy-icon" />
 						</Link>
-					</div>
+					</motion.div>
 				</li>
-				<li onClick={handleLogout}>
+				<li className="nav-list-item" onClick={handleLogout}>
 					<span className="nav-label">LOGOUT</span>
-					<div className="nav-link-wrapper">
+					<motion.button className="nav-link" {...tapSpring}>
 						<LuLogOut className="logout-icon" />
-					</div>
+					</motion.button>
 				</li>
 			</ul>
 

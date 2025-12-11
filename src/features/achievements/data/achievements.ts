@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase-client";
-import type { UserAchievement, UserAchievementInsert } from "@/types/achievements.types";
+import type { UserAchievement, UserAchievementInsert } from "@/types/achievement.types";
 import type { ServiceResponse } from "@/types/service.types";
 
 /**
@@ -54,4 +54,16 @@ export const unlockAchievement = async (
 	}
 
 	return { data, error: null };
+};
+
+export const notifyAchievements = async (ids: string[]) => {
+	if (!ids?.length) return { data: null, error: null };
+
+	const { data, error } = await supabase
+		.from("user_achievements")
+		.update({ notified_at: new Date().toISOString() })
+		.in("id", ids)
+		.select();
+
+	return { data, error };
 };

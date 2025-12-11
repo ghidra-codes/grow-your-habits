@@ -1,5 +1,5 @@
 import { parseISO } from "date-fns";
-import type { TimelineEntry, DailyPeriodTimeline } from "@/types/statistics.types";
+import type { TimelineEntry, DailyPeriodTimeline } from "@/types/statistic.types";
 
 export const splitTimelineIntoMonths = (timeline: TimelineEntry[]): DailyPeriodTimeline => {
 	const months: DailyPeriodTimeline = [];

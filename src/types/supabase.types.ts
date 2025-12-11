@@ -146,18 +146,21 @@ export type Database = {
         Row: {
           achievement_id: string
           id: string
+          notified_at: string | null
           unlocked_at: string
           user_id: string
         }
         Insert: {
           achievement_id: string
           id?: string
+          notified_at?: string | null
           unlocked_at?: string
           user_id: string
         }
         Update: {
           achievement_id?: string
           id?: string
+          notified_at?: string | null
           unlocked_at?: string
           user_id?: string
         }

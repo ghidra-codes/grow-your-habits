@@ -1,5 +1,5 @@
 import { deleteHabit } from "@/features/habits/data/habits";
-import type { Habit } from "@/types/habit.types";
+import type { Habit, HabitWithLogs } from "@/types/habit.types";
 import { habitsKey } from "@/lib/helpers/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -36,7 +36,7 @@ export const useDeleteHabit = (userId: string) => {
 		},
 
 		onSuccess: (habitId) => {
-			queryClient.setQueryData<Habit[]>(habitsKey(userId), (prev = []) =>
+			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (prev = []) =>
 				prev.filter((habit) => habit.id !== habitId)
 			);
 		},

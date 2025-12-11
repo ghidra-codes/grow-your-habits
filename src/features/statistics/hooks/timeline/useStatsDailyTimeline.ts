@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { HabitWithLogs } from "@/types/habit.types";
-import type { DailyPeriodTimeline, TimelineViewMode } from "@/types/statistics.types";
+import type { DailyPeriodTimeline, TimelineViewMode } from "@/types/statistic.types";
 import { splitTimelineIntoMonths } from "@/lib/helpers/timeline/splitTimelineIntoMonths";
 import { splitTimelineIntoWeeks } from "@/lib/helpers/timeline/splitTimelineIntoWeeks";
 import { generateMonthlyTimeline } from "@/lib/timeline/generateMonthlyTimeline";

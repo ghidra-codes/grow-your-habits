@@ -1,5 +1,5 @@
 import type { RecentAdherenceMap } from "@/types/habit.types";
-import type { StreakMap, TrendDirection } from "@/types/statistics.types";
+import type { StreakMap, TrendDirection } from "@/types/statistic.types";
 import { getStreakHealth } from "./getStreakHealth";
 import { trendToScore } from "./trendToScore";
 

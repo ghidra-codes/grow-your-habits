@@ -1,4 +1,4 @@
-import type { Insight } from "@/types/insights.types";
+import type { Insight } from "@/types/insight.types";
 import { useState } from "react";
 import InsightCard from "./InsightsCard";
 

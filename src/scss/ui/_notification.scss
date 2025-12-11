@@ -1,0 +1,33 @@
+@use "../abstracts/index" as *;
+
+.notification-stack {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	z-index: 10000;
+}
+
+.notification {
+	padding: 0.8rem 1rem;
+	border-radius: 0.5rem;
+	background: $rich-black-surface-light;
+	border: 1px solid rgba($highlight-green, 0.3);
+	color: $off-white;
+	cursor: pointer;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+	&.success {
+		border-color: $highlight-green;
+	}
+
+	&.alert {
+		border-color: $alert-red;
+	}
+
+	&.info {
+		border-color: $slate-blue;
+	}
+}

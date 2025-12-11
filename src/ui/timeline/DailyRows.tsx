@@ -1,4 +1,4 @@
-import type { TimelineEntry } from "@/types/statistics.types";
+import type { TimelineEntry } from "@/types/statistic.types";
 import { getISOWeek, getISOWeekYear, parseISO } from "date-fns";
 import DailyRow from "./DailyRow";
 

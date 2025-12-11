@@ -12,7 +12,7 @@ const Tooltip = ({ content, children, side = "top", sideOffset = 6 }: ToolTipPro
 	const [open, setOpen] = useState(false);
 
 	return (
-		<RadixTooltip.Root open={open} onOpenChange={setOpen}>
+		<RadixTooltip.Root open={open} disableHoverableContent>
 			<RadixTooltip.Trigger
 				asChild
 				onClick={(e) => {
