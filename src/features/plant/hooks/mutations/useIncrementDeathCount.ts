@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { incrementDeathCount } from "@/features/plant/data/plant-state";
 import { plantStateKey } from "@/lib/helpers/queryKeys";
 import { getPlantStageFromGrowth } from "@/lib/plant-growth/getPlantStageFromGrowth";
 import type { PlantEntry } from "@/types/plant.types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useIncrementDeathCount = (userId: string) => {
 	const queryClient = useQueryClient();
@@ -23,6 +23,7 @@ export const useIncrementDeathCount = (userId: string) => {
 				if (!prev) return prev;
 
 				return {
+					...prev,
 					state: updated,
 					stage: getPlantStageFromGrowth(updated.growth_score),
 				};

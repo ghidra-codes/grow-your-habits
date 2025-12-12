@@ -39,3 +39,18 @@
 
 @use "./features/insights/insights-view";
 @use "./features/insights/insights-card";
+
+.notification-tester {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0 1rem;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+
+	button {
+		background-color: gray;
+		padding: 0.5rem 1rem;
+		border-radius: 0.25rem;
+	}
+}

@@ -2,32 +2,59 @@
 
 .notification-stack {
 	position: fixed;
-	top: 1rem;
-	right: 1rem;
-	display: flex;
-	flex-direction: column;
-	gap: 0.75rem;
+	top: 0.75rem;
+	right: 0.75rem;
 	z-index: 10000;
 }
 
 .notification {
-	padding: 0.8rem 1rem;
-	border-radius: 0.5rem;
-	background: $rich-black-surface-light;
-	border: 1px solid rgba($highlight-green, 0.3);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1rem;
+	border-radius: 0.35rem;
+
+	background: rgba(255, 255, 255, 0.06);
+	backdrop-filter: blur(10px) saturate(140%);
+	-webkit-backdrop-filter: blur(10px) saturate(140%);
+
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
 	color: $off-white;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+
 	cursor: pointer;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
-	&.success {
-		border-color: $highlight-green;
+	@include fluid-type(small-text);
+
+	p {
+		margin: 0;
 	}
 
-	&.alert {
-		border-color: $alert-red;
+	svg {
+		font-size: 1.2rem;
 	}
+}
 
-	&.info {
-		border-color: $slate-blue;
+.notification.success {
+	border-color: rgba($highlight-green, 0.45);
+
+	background: linear-gradient(135deg, rgba($highlight-green, 0.25), rgba($highlight-green, 0.08)),
+		rgba(255, 255, 255, 0.04);
+
+	svg {
+		color: $highlight-green;
+	}
+}
+
+.notification.alert {
+	border-color: rgba($alert-red, 0.45);
+
+	background: linear-gradient(135deg, rgba($alert-red, 0.3), rgba($alert-red, 0.1)),
+		rgba(255, 255, 255, 0.04);
+
+	svg {
+		color: $alert-red;
 	}
 }

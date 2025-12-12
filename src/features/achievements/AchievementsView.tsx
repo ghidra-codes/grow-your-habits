@@ -21,7 +21,7 @@ const AchievementsView = () => {
 
 	return (
 		<div className="achievements-view">
-			<h2>Achievements</h2>
+			<h2>Achievement badges</h2>
 
 			<div className="achievements-content">
 				<div className="achievements-filter">

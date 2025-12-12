@@ -1,5 +1,5 @@
 import React from "react";
-import { TbFlame } from "react-icons/tb";
+import { PiFireSimpleDuotone } from "react-icons/pi";
 
 interface StreakBarProps {
 	streak: number;
@@ -15,7 +15,12 @@ const StreakBar: React.FC<StreakBarProps> = ({ streak, maxSegments = 12 }) => {
 				{Array.from({ length: maxSegments }).map((_, i) => {
 					const isActive = i < segments;
 
-					return <TbFlame key={i} className={`streakbar__segment ${isActive ? "active" : ""}`} />;
+					return (
+						<PiFireSimpleDuotone
+							key={i}
+							className={`streakbar__segment ${isActive ? "active" : ""}`}
+						/>
+					);
 				})}
 			</div>
 		</div>

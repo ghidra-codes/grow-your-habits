@@ -10,7 +10,7 @@ const useStreakNotifications = () => {
 	const { data: habits = [] } = useHabitsQuery(userId);
 	const streakMap = useStatsStreakMap(habits);
 
-	const { open } = useNotificationActions();
+	const { push } = useNotificationActions();
 
 	useEffect(() => {
 		if (!habits.length) return;
@@ -39,7 +39,7 @@ const useStreakNotifications = () => {
 
 			// Fire notification only when streak increased and threshold met
 			if (current > previous && current >= threshold && !hasBeenNotified) {
-				open(NOTIF_MSG.streak(current, unit), NOTIF_TYPE.success);
+				push(NOTIF_MSG.streak(current, unit), NOTIF_TYPE.success, "streak");
 				notifiedMap[habitId] = true;
 			}
 
@@ -50,7 +50,7 @@ const useStreakNotifications = () => {
 		// Persist updated maps
 		localStorage.setItem(prevKey, JSON.stringify(prevMap));
 		localStorage.setItem(notifiedKey, JSON.stringify(notifiedMap));
-	}, [habits, streakMap, userId, open]);
+	}, [habits, streakMap, userId, push]);
 };
 
 export default useStreakNotifications;

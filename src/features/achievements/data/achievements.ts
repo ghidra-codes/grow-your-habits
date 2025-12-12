@@ -5,7 +5,7 @@ import type { ServiceResponse } from "@/types/service.types";
 /**
  * Fetch all unlocked achievements for a given user.
  */
-export const getUserAchievements = async (userId: string): Promise<ServiceResponse<UserAchievement[]>> => {
+export const getAchievements = async (userId: string): Promise<ServiceResponse<UserAchievement[]>> => {
 	const { data, error } = await supabase.from("user_achievements").select("*").eq("user_id", userId);
 
 	if (error) {

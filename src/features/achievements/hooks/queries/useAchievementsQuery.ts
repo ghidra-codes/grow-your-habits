@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { achievementsKey } from "@/lib/helpers/queryKeys";
 import type { UserAchievement } from "@/types/achievement.types";
-import { getUserAchievements } from "../../data/achievements";
+import { getAchievements } from "../../data/achievements";
 
-export const useUserAchievementsQuery = (userId: string) =>
+export const useAchievementsQuery = (userId: string) =>
 	useQuery<UserAchievement[]>({
 		queryKey: achievementsKey(userId),
 
 		queryFn: async () => {
-			const { data, error } = await getUserAchievements(userId);
+			const { data, error } = await getAchievements(userId);
 
 			if (error) throw new Error(error.message);
 

@@ -1,13 +1,13 @@
-import type { Notification, NotificationType } from "@/types/notification.types";
+import type { Notification, NotificationCategory, NotificationType } from "@/types/notification.types";
 import { create } from "zustand";
 
 interface NotificationStore {
-	queue: Notification[]; // waiting notifications
-	current: Notification | null; // currently visible notification
-	processing: boolean; // is the system busy?
-	push: (msg: string, type: NotificationType) => void;
-	next: () => void; // show next notification
-	removeCurrent: () => void; // remove active one
+	queue: Notification[];
+	current: Notification | null;
+	processing: boolean;
+	push: (msg: string, type: NotificationType, category: NotificationCategory) => void;
+	next: () => void;
+	removeCurrent: () => void;
 }
 
 export const useNotificationStore = create<NotificationStore>((set, get) => ({
@@ -15,19 +15,18 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
 	current: null,
 	processing: false,
 
-	push: (message, type = "info") => {
+	push: (message, type, category) => {
 		const notification: Notification = {
 			id: Math.random().toString(36),
 			message,
 			type,
+			category,
 		};
 
-		// Push into queue
 		set((state) => ({
 			queue: [...state.queue, notification],
 		}));
 
-		// If nothing is showing, immediately start
 		if (!get().processing) {
 			get().next();
 		}
@@ -36,13 +35,11 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
 	next: () => {
 		const { queue } = get();
 
-		// Nothing left? stop
 		if (queue.length === 0) {
 			set({ current: null, processing: false });
 			return;
 		}
 
-		// Take first item in queue
 		const [nextNotification, ...rest] = queue;
 
 		set({
@@ -54,21 +51,20 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
 
 	removeCurrent: () => {
 		set({ current: null });
-
-		// Immediately continue to next queued notification
-		get().next();
 	},
 }));
 
 // ACTIONS
 
 export const useNotificationActions = () => {
-	const push = useNotificationStore.getState().push;
-	const removeCurrent = useNotificationStore.getState().removeCurrent;
+	const push = useNotificationStore((state) => state.push);
+	const next = useNotificationStore((state) => state.next);
+	const close = useNotificationStore((state) => state.removeCurrent);
 
 	return {
-		open: (msg: string, type: NotificationType) => push(msg, type),
-		close: () => removeCurrent(),
+		push,
+		next,
+		close,
 	};
 };
 

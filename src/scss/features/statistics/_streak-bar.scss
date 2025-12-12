@@ -46,15 +46,16 @@
 
 			&__segment {
 				flex: 1 1 0%;
-				fill: none;
-				stroke: $flame-orange;
 				font-size: clamp(1.4rem, 4vw, 2.4rem);
 				line-height: 1;
 				transform: scale(1.2);
 				overflow: hidden;
+				opacity: 0.25;
+
+				color: $flame-orange;
 
 				&.active {
-					fill: $flame-orange-dark;
+					opacity: 1;
 					transform: scale(1.25);
 				}
 			}

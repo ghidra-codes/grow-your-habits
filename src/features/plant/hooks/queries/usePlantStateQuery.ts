@@ -39,6 +39,6 @@ export const usePlantStateQuery = (userId: string) =>
 		},
 
 		refetchOnWindowFocus: false,
-		refetchOnMount: false,
+		refetchOnMount: "always",
 		retry: 1,
 	});

@@ -8,27 +8,26 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ACHIEVEMENT_CONDITIONS } from "../config/achievement-conditions";
 import { ACHIEVEMENTS } from "../config/achievements";
 import { useUnlockAchievement } from "./mutations/useAchievementUnlock";
-import { useUserAchievementsQuery } from "./queries/useAchievementsQuery";
+import { useAchievementsQuery } from "./queries/useAchievementsQuery";
 
 export const useAchievements = (
 	userId: string,
 	context: AchievementContext,
 	filter: AchievementFilters = "all"
 ) => {
-	const { data: unlocked = [], isLoading } = useUserAchievementsQuery(userId);
+	const { data: unlocked = [], isLoading } = useAchievementsQuery(userId);
 	const { mutate: unlock } = useUnlockAchievement(userId);
 
 	const [pendingUnlocks, setPendingUnlocks] = useState<string[]>([]);
 	const prevContextRef = useRef<AchievementContext | null>(null);
+	const isUnlockingRef = useRef(false);
 
-	// FAST LOOKUP
 	const unlockedMap: AchievementUnlockMap = useMemo(() => {
 		const map: AchievementUnlockMap = {};
 		for (const a of unlocked) map[a.achievement_id] = true;
 		return map;
 	}, [unlocked]);
 
-	// UI
 	const achievements: Achievement[] = useMemo(() => {
 		return ACHIEVEMENTS.map((def) => {
 			const match = unlocked.find((a) => a.achievement_id === def.id);
@@ -51,7 +50,7 @@ export const useAchievements = (
 
 	// DETECT NEW UNLOCKS
 	useEffect(() => {
-		if (isLoading) return;
+		if (isLoading || isUnlockingRef.current) return;
 
 		const previous = prevContextRef.current;
 		const nextUnlocks: string[] = [];
@@ -76,7 +75,9 @@ export const useAchievements = (
 			if (!before && now) nextUnlocks.push(def.id);
 		}
 
-		if (nextUnlocks.length > 0) queueMicrotask(() => setPendingUnlocks(nextUnlocks));
+		if (nextUnlocks.length > 0) {
+			queueMicrotask(() => setPendingUnlocks(nextUnlocks));
+		}
 
 		prevContextRef.current = context;
 	}, [context, unlockedMap, isLoading]);
@@ -85,9 +86,14 @@ export const useAchievements = (
 	useEffect(() => {
 		if (pendingUnlocks.length === 0) return;
 
+		isUnlockingRef.current = true;
+
 		for (const id of pendingUnlocks) unlock(id);
 
-		queueMicrotask(() => setPendingUnlocks([]));
+		queueMicrotask(() => {
+			setPendingUnlocks([]);
+			isUnlockingRef.current = false;
+		});
 	}, [pendingUnlocks, unlock]);
 
 	return {

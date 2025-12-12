@@ -4,10 +4,9 @@ import { useLogHabit } from "./mutations/useLogHabit";
 import { useAddHabit } from "./mutations/useAddHabit";
 import { useDeleteHabit } from "./mutations/useDeleteHabit";
 import { useUpdateHabit } from "./mutations/useUpdateHabit";
-import { initPlantState } from "@/features/plant/data/plant-state";
+import { getPlantState, initPlantState } from "@/features/plant/data/plant-state";
 import { useQueryClient } from "@tanstack/react-query";
 import { plantStateKey } from "@/lib/helpers/queryKeys";
-import { checkHasHadHabits } from "../data/habits";
 
 export const useHabitActions = (
 	userId: string,
@@ -30,11 +29,11 @@ export const useHabitActions = (
 
 	// Handler functions
 	const handleAddHabit = async (payload: HabitPayload) => {
-		const hasHadHabits = await checkHasHadHabits(userId);
-
 		await addHabit(payload);
 
-		if (!hasHadHabits) {
+		// Ensure plant_state exists
+		const { data: plant_state } = await getPlantState(userId);
+		if (!plant_state) {
 			await initPlantState(userId);
 			await queryClient.invalidateQueries({ queryKey: plantStateKey(userId) });
 		}

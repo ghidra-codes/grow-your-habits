@@ -73,7 +73,7 @@ const Navbar = () => {
 			</ul>
 
 			<div className="plant-health-wrapper">
-				<span className="nav-label">PLANT HEALTH</span>
+				<span className="nav-label">PLANT HEALTH - {plantHealth}%</span>
 				<PlantHealthBar health={plantHealth} />
 			</div>
 		</nav>

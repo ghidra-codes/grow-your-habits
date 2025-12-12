@@ -4,11 +4,11 @@ import NotificationItem from "./NotificationItem";
 
 const NotificationProvider = () => {
 	const current = useCurrentNotification();
-	const { close } = useNotificationActions();
+	const { next, close } = useNotificationActions();
 
 	return (
 		<div className="notification-stack">
-			<AnimatePresence>
+			<AnimatePresence mode="wait" onExitComplete={next}>
 				{current && <NotificationItem key={current.id} n={current} close={close} />}
 			</AnimatePresence>
 		</div>

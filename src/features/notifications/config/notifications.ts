@@ -3,7 +3,6 @@
 export const NOTIF_TYPE = {
 	success: "success",
 	alert: "alert",
-	info: "info",
 } as const;
 
 // NOTIFICATION MESSAGES
@@ -11,14 +10,13 @@ export const NOTIF_TYPE = {
 export const NOTIF_MSG = {
 	plant: {
 		critical: "Your plant health is critically low!",
-		recovering: "Your plant is recovering!",
 		thriving: "Your plant is thriving!",
 		dead: "Your plant has died.",
 	},
 
 	streak: (streak: number, unit: string) => `Streak continues! You're on a ${streak}-${unit} streak`,
 
-	achievements: (title: string) => `Achievement unlocked: ${title}!`,
+	achievements: (title: string) => `Badge unlocked: ${title}`,
 } as const;
 
 // LABELS FOR STREAK FREQUENCIES

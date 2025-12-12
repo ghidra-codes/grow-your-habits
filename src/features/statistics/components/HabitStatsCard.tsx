@@ -55,6 +55,7 @@ const HabitStatsCard = ({
 		stable: <PiArrowFatRight className="trend-icon__stable" size={21} />,
 		declining: <PiArrowFatLineDown className="trend-icon__declining" size={21} />,
 	};
+
 	return (
 		<div className="habit-stats-card">
 			<div className="habit-stats-card__nav">

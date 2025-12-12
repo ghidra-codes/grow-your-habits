@@ -8,7 +8,7 @@ import { NOTIF_MSG, NOTIF_TYPE } from "./config/notifications";
 
 export const usePlantHealthNotifications = () => {
 	const userId = useUserIdRequired();
-	const { open } = useNotificationActions();
+	const { push } = useNotificationActions();
 
 	const health = usePlantHealth();
 	const { data } = usePlantStateQuery(userId);
@@ -31,12 +31,10 @@ export const usePlantHealthNotifications = () => {
 
 		// Notifications based on thresholds
 
-		if (health <= 20 && prevNum > 20) open(NOTIF_MSG.plant.critical, NOTIF_TYPE.alert);
+		if (health <= 20 && prevNum > 20) push(NOTIF_MSG.plant.critical, NOTIF_TYPE.alert, "plant");
 
-		if (prevNum <= 20 && health > 20) open(NOTIF_MSG.plant.recovering, NOTIF_TYPE.success);
-
-		if (health >= 90 && prevNum < 90) open(NOTIF_MSG.plant.thriving, NOTIF_TYPE.success);
+		if (health >= 90 && prevNum < 90) push(NOTIF_MSG.plant.thriving, NOTIF_TYPE.success, "plant");
 
 		localStorage.setItem(key, String(health));
-	}, [health, data, userId, open]);
+	}, [health, data, userId, push]);
 };
