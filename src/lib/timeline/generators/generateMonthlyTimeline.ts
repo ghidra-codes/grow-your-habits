@@ -1,8 +1,8 @@
+import { parseLocalDate } from "@/lib/dates";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { TimelineEntry } from "@/types/statistic.types";
-import { addDays, startOfMonth, differenceInCalendarDays, format, startOfDay, isBefore } from "date-fns";
-import { getEarliestAllowedStart } from "../helpers/timeline/getEarliestAllowedStart";
-import { parseLocalDate } from "../helpers/parseLocalDate";
+import { addDays, differenceInCalendarDays, format, isBefore, startOfDay, startOfMonth } from "date-fns";
+import { getEarliestAllowedStart } from "../getEarliestAllowedStart";
 
 export const generateMonthlyTimeline = (habit: HabitWithLogs): TimelineEntry[] => {
 	const today = startOfDay(new Date());

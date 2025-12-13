@@ -1,6 +1,6 @@
+import { calculateStreaks } from "@/lib/streaks";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { StreakMap } from "@/types/statistic.types";
-import { calculateStreaks } from "@/lib/calculateStreaks";
 import { useMemo } from "react";
 
 export const useStatsStreakMap = (habits: HabitWithLogs[]): StreakMap => {

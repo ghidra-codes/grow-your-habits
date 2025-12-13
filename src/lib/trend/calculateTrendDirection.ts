@@ -1,7 +1,7 @@
-import { eachDayOfInterval, startOfDay, subDays, format } from "date-fns";
 import type { FrequencyType, HabitWithLogs } from "@/types/habit.types";
 import type { TrendDirection } from "@/types/statistic.types";
-import { getDailyCompletionMap } from "./helpers/getDailyCompletionMap";
+import { eachDayOfInterval, format, startOfDay, subDays } from "date-fns";
+import { getDailyCompletionMap } from "../habits";
 
 // Min percentage-point change required to classify a trend as improving or declining
 const TREND_THRESHOLD = 5;

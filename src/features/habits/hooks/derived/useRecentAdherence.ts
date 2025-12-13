@@ -1,4 +1,4 @@
-import { calculateRecentAdherence } from "@/lib/calculateRecentAdherence";
+import { calculateRecentAdherence } from "@/lib/adherence";
 import type { HabitWithLogs, RecentAdherence } from "@/types/habit.types";
 import { useMemo } from "react";
 

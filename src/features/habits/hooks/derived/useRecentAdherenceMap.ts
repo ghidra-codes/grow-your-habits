@@ -1,5 +1,5 @@
+import { calculateRecentAdherence } from "@/lib/adherence";
 import type { HabitWithLogs, RecentAdherenceMap } from "@/types/habit.types";
-import { calculateRecentAdherence } from "@/lib/calculateRecentAdherence";
 import { useMemo } from "react";
 
 export const useRecentAdherenceMap = (habits: HabitWithLogs[]) =>

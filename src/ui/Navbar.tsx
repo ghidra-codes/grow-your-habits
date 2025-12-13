@@ -1,11 +1,11 @@
-import { supabase } from "@/lib/supabase-client";
-import { useStatsModalActions } from "@/store/useStatsModalStore";
-import { LuChartLine, LuLightbulb, LuLogOut, LuLeaf, LuListChecks, LuTrophy } from "react-icons/lu";
-import { Link, useLocation } from "react-router";
-import PlantHealthBar from "./PlantHealthBar";
 import { usePlantHealth } from "@/features/plant/hooks/derived/usePlantHealth";
+import { supabase } from "@/lib/supabase/supabase-client";
+import { useStatsModalActions } from "@/store/useStatsModalStore";
 import { motion } from "motion/react";
+import { LuChartLine, LuLeaf, LuLightbulb, LuListChecks, LuLogOut, LuTrophy } from "react-icons/lu";
+import { Link, useLocation } from "react-router";
 import { tapSpring } from "./motion/motion-presets";
+import PlantHealthBar from "./PlantHealthBar";
 
 const Navbar = () => {
 	const plantHealth = usePlantHealth();

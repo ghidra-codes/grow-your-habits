@@ -1,6 +1,7 @@
 import { subDays, eachDayOfInterval, startOfDay } from "date-fns";
-import { getDailyCompletionMap } from "./helpers/getDailyCompletionMap";
 import type { HabitWithLogs } from "@/types/habit.types";
+import { getEffectiveIntervalEnd } from "./getEffectiveIntervalEnd";
+import { getDailyCompletionMap } from "../habits/getDailyCompletionMap";
 
 /**
  * Calculates short-term adherence (last 7 and last 30 days) based on the habit's frequency.
@@ -10,14 +11,17 @@ export const calculateRecentAdherence = (habit: HabitWithLogs) => {
 
 	const today = startOfDay(new Date());
 	const createdAt = startOfDay(new Date(habit.created_at));
+	const intervalEnd = getEffectiveIntervalEnd(habit, today);
 
 	const calc = (daysInPeriod: number) => {
 		const intervalStart = subDays(today, daysInPeriod - 1);
 		const start = startOfDay(new Date(Math.max(intervalStart.getTime(), createdAt.getTime())));
 
+		if (intervalEnd < start) return 100;
+
 		const actualInterval = eachDayOfInterval({
 			start,
-			end: today,
+			end: intervalEnd,
 		});
 
 		const daysActive = actualInterval.length;
@@ -50,11 +54,10 @@ export const calculateRecentAdherence = (habit: HabitWithLogs) => {
 
 			expectedOpportunities = Math.ceil(progressRatio * target);
 
-			const logsInPeriod = (habit.logs ?? []).filter(
-				(l) =>
-					startOfDay(new Date(l.log_date)).getTime() >= start.getTime() &&
-					startOfDay(new Date(l.log_date)).getTime() <= today.getTime()
-			).length;
+			const logsInPeriod = (habit.logs ?? []).filter((l) => {
+				const logDay = startOfDay(new Date(l.log_date)).getTime();
+				return logDay >= start.getTime() && logDay <= intervalEnd.getTime();
+			}).length;
 
 			completed = logsInPeriod;
 			expectedOpportunities = Math.max(1, expectedOpportunities);

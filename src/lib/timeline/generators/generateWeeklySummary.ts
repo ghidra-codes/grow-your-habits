@@ -1,6 +1,6 @@
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { SummaryStatus, WeeklySummary } from "@/types/statistic.types";
-import { addWeeks, endOfWeek, getISOWeek, isAfter, startOfWeek } from "date-fns";
+import { addWeeks, endOfWeek, getISOWeek, startOfDay, startOfWeek } from "date-fns";
 
 export const generateWeeklySummary = (habit: HabitWithLogs, chartData?: boolean): WeeklySummary[] => {
 	if (!chartData && habit.frequency_type !== "weekly") return [];
@@ -9,22 +9,21 @@ export const generateWeeklySummary = (habit: HabitWithLogs, chartData?: boolean)
 	const logs = (habit.logs ?? []).map((l) => new Date(l.log_date));
 
 	const createdAt = new Date(habit.created_at);
-	const today = new Date();
+	const today = startOfDay(new Date());
 
 	let cursor = startOfWeek(createdAt, { weekStartsOn: 1 });
 	const result: WeeklySummary[] = [];
 
-	while (!isAfter(cursor, today)) {
+	while (cursor <= today) {
 		const start = cursor;
 		const end = endOfWeek(cursor, { weekStartsOn: 1 });
+		const nextWeekStart = addWeeks(start, 1);
 
 		const completed = logs.filter((l) => l >= start && l <= end).length;
 
-		const isPastWeek = today > end;
-
 		let status: SummaryStatus;
 		if (completed >= target) status = "completed";
-		else if (isPastWeek) status = "missed";
+		else if (today >= nextWeekStart) status = "missed";
 		else status = "pending";
 
 		result.push({

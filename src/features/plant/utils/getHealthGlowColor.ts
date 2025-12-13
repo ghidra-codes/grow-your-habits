@@ -1,4 +1,4 @@
-import { withAlpha } from "@/lib/helpers/withAlpha";
+import { withAlpha } from "@/lib/ui";
 import { PLANT_GLOW_COLORS } from "../constants/plant-glow-colors";
 
 export const getHealthGlowColor = (health: number): string => {

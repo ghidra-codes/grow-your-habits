@@ -1,8 +1,8 @@
+import { parseLocalDate } from "@/lib/dates";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { TimelineEntry } from "@/types/statistic.types";
 import { addDays, differenceInCalendarDays, format, startOfDay } from "date-fns";
-import { getEarliestAllowedStart } from "../helpers/timeline/getEarliestAllowedStart";
-import { parseLocalDate } from "../helpers/parseLocalDate";
+import { getEarliestAllowedStart } from "../getEarliestAllowedStart";
 
 export const generateWeeklyTimeline = (habit: HabitWithLogs): TimelineEntry[] => {
 	const today = startOfDay(new Date());

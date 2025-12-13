@@ -37,7 +37,6 @@ export type HabitAdherence = {
 	expected: number;
 	logCount: number;
 	period: "day" | "week" | "month";
-	onTrack: boolean;
 	percentage: number;
 	missed: number;
 };
@@ -50,3 +49,11 @@ export type RecentAdherence = {
 };
 
 export type RecentAdherenceMap = Record<string, RecentAdherence>;
+
+// PERIOD PROGRESS
+
+export type PeriodProgress = {
+	current: number;
+	target: number;
+	percentage: number;
+};

@@ -1,8 +1,7 @@
 import { useRecentAdherenceMap } from "@/features/habits/hooks/derived/useRecentAdherenceMap";
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
-import { calculateTrendDirection } from "@/lib/calculateTrendDirection";
-import { calculatePlantHealth } from "@/lib/plant-health/calculatePlantHealth";
-import { sanitizePlantHealth } from "@/lib/plant-health/sanitizePlantHealth";
+import { calculatePlantHealth, sanitizePlantHealth } from "@/lib/plant";
+import { calculateTrendDirection } from "@/lib/trend/calculateTrendDirection";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { PlantHealth } from "@/types/plant.types";
 import { useMemo } from "react";

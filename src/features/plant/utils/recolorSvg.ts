@@ -1,4 +1,4 @@
-import { hexToRgbString } from "@/lib/helpers/hexToRgbString";
+import { hexToRgbString } from "@/lib/ui";
 import { ORIGINAL_PLANT_COLORS } from "../constants/plant-colors";
 
 const escape = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

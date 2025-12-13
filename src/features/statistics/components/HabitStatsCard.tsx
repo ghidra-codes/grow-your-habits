@@ -1,6 +1,6 @@
 import { useHabitAdherence } from "@/features/habits/hooks/derived/useHabitAdherence";
 import { useRecentAdherence } from "@/features/habits/hooks/derived/useRecentAdherence";
-import { calculateTrendDirection } from "@/lib/calculateTrendDirection";
+import { calculateTrendDirection } from "@/lib/trend/calculateTrendDirection";
 import type { FrequencyType, HabitWithLogs } from "@/types/habit.types";
 import type { TimelineModesMap, TimelineViewMode } from "@/types/statistic.types";
 import ProgressBar from "@/ui/ProgressBar";

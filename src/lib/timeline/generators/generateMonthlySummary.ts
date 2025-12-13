@@ -1,6 +1,6 @@
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { MonthlySummary } from "@/types/statistic.types";
-import { addMonths, endOfMonth, getMonth, getYear, isAfter, startOfMonth } from "date-fns";
+import { addMonths, endOfMonth, getMonth, getYear, startOfDay, startOfMonth } from "date-fns";
 
 export const generateMonthlySummary = (habit: HabitWithLogs): MonthlySummary[] => {
 	if (habit.frequency_type !== "monthly") return [];
@@ -9,22 +9,21 @@ export const generateMonthlySummary = (habit: HabitWithLogs): MonthlySummary[] =
 	const logs = (habit.logs ?? []).map((l) => new Date(l.log_date));
 
 	const createdAt = new Date(habit.created_at);
-	const today = new Date();
+	const today = startOfDay(new Date());
 
 	let cursor = startOfMonth(createdAt);
 	const result: MonthlySummary[] = [];
 
-	while (!isAfter(cursor, today)) {
+	while (cursor <= today) {
 		const start = startOfMonth(cursor);
 		const end = endOfMonth(cursor);
+		const nextMonthStart = addMonths(start, 1);
 
 		const completed = logs.filter((l) => l >= start && l <= end).length;
 
-		const isPastMonth = today > end;
-
 		let status: "completed" | "missed" | "pending";
 		if (completed >= target) status = "completed";
-		else if (isPastMonth) status = "missed";
+		else if (today >= nextMonthStart) status = "missed";
 		else status = "pending";
 
 		result.push({

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { achievementsKey } from "@/lib/helpers/queryKeys";
+import { achievementsKey } from "@/lib/data/queryKeys";
 import type { UserAchievement } from "@/types/achievement.types";
 import { getAchievements } from "../../data/achievements";
 

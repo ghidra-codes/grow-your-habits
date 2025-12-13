@@ -1,6 +1,6 @@
-import { differenceInDays, eachDayOfInterval, getDaysInMonth, startOfDay } from "date-fns";
 import type { HabitWithLogs } from "@/types/habit.types";
-import { getDailyCompletionMap } from "./getDailyCompletionMap";
+import { differenceInDays, eachDayOfInterval, getDaysInMonth, startOfDay } from "date-fns";
+import { getDailyCompletionMap } from "../habits/getDailyCompletionMap";
 
 /**
  * Weighted lifetime adherence:
@@ -41,9 +41,7 @@ export const getWeightedLifetimeAdherence = (habit: HabitWithLogs) => {
 		let expected = 0;
 
 		// DAILY
-		if (habit.frequency_type === "daily") {
-			expected = 1;
-		}
+		if (habit.frequency_type === "daily") expected = 1;
 
 		// WEEKLY
 		if (habit.frequency_type === "weekly") {

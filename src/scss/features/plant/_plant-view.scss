@@ -43,13 +43,14 @@
 		}
 
 		.plant-info {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+
 			border-top: 2px solid $rich-black-lightest;
 			background-color: $rich-black-lighter;
 			padding: 0.75rem 0.75rem 0.5rem 0.75rem;
 
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-start;
 			font-family: $secondary-font;
 			@include fluid-type(small-text);
 			color: $off-white;
@@ -57,12 +58,6 @@
 			span {
 				font-weight: 700;
 				color: $jet-brighter;
-			}
-
-			.plant-growth-info {
-				display: flex;
-				flex-direction: column;
-				gap: 0.25rem;
 			}
 		}
 	}

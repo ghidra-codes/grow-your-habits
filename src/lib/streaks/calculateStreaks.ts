@@ -1,7 +1,7 @@
 import type { HabitWithLogs } from "@/types/habit.types";
-import { calculateDailyStreak } from "./streaks/calculateDailyStreak";
-import { calculateWeeklyStreak } from "./streaks/calculateWeeklyStreak";
-import { calculateMonthlyStreak } from "./streaks/calculateMonthlyStreak";
+import { calculateDailyStreak } from "./calculateDailyStreak";
+import { calculateWeeklyStreak } from "./calculateWeeklyStreak";
+import { calculateMonthlyStreak } from "./calculateMonthlyStreak";
 
 const STREAK_PROCESSORS = {
 	daily: calculateDailyStreak,

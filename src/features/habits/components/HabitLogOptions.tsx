@@ -1,11 +1,10 @@
-import { useConfetti } from "@/ui/hooks/useConfetti";
+import { generateCurrentPeriod, getTodayDate } from "@/lib/dates";
+import { hasLoggedToday } from "@/lib/habits";
 import type { HabitWithLogs } from "@/types/habit.types";
-import { generateCurrentPeriod } from "@/lib/date-picker/generateCurrentPeriod";
-import { getTodayDate } from "@/lib/helpers/getTodayDate";
+import { useConfetti } from "@/ui/hooks/useConfetti";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import HabitDatePicker from "./HabitDatePicker";
-import { hasLoggedToday } from "@/lib/helpers/hasLoggedToday";
 
 const HabitLogOptions = ({
 	habit,

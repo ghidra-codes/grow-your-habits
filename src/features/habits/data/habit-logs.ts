@@ -1,6 +1,6 @@
 import type { HabitLog, HabitLogInsert } from "@/types/habit.types";
 import type { ServiceResponse } from "@/types/service.types";
-import { supabase } from "@/lib/supabase-client";
+import { supabase } from "@/lib/supabase/supabase-client";
 
 /*
  * Creates a habit log for the current day.

@@ -1,6 +1,6 @@
 import { getHabits } from "@/features/habits/data/habits";
 import type { HabitWithLogs } from "@/types/habit.types";
-import { habitsKey } from "@/lib/helpers/queryKeys";
+import { habitsKey } from "@/lib/data/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 export const useHabitsQuery = (userId: string) =>

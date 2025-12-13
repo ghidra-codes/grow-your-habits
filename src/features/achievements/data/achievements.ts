@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase-client";
+import { supabase } from "@/lib/supabase/supabase-client";
 import type { UserAchievement, UserAchievementInsert } from "@/types/achievement.types";
 import type { ServiceResponse } from "@/types/service.types";
 

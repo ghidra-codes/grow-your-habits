@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { calculateDailyAdherence, calculatePeriodAdherence } from "@/lib/adherence";
 import type { AdherenceMap, HabitWithLogs } from "@/types/habit.types";
-import { calculateHabitAdherence } from "@/lib/calculateHabitAdherence";
+import { useMemo } from "react";
 
 export const useHabitAdherenceMap = (habits: HabitWithLogs[]): AdherenceMap => {
 	return useMemo(() => {
@@ -8,7 +8,10 @@ export const useHabitAdherenceMap = (habits: HabitWithLogs[]): AdherenceMap => {
 
 		const adherenceMap: AdherenceMap = {};
 
-		for (const habit of habits) adherenceMap[habit.id] = calculateHabitAdherence(habit);
+		for (const habit of habits) {
+			if (habit.frequency_type === "daily") adherenceMap[habit.id] = calculateDailyAdherence(habit);
+			else adherenceMap[habit.id] = calculatePeriodAdherence(habit);
+		}
 
 		return adherenceMap;
 	}, [habits]);

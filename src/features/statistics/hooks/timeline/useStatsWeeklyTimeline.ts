@@ -1,8 +1,7 @@
-import { useMemo } from "react";
+import { generateWeeklySummary, splitTimelineSummary } from "@/lib/timeline";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { WeeklySummary, WeeklySummaryTimeline } from "@/types/statistic.types";
-import { splitTimelineSummary } from "@/lib/helpers/timeline/splitTimelineSummary";
-import { generateWeeklySummary } from "@/lib/timeline/generateWeeklySummary";
+import { useMemo } from "react";
 
 export const useStatsWeeklyTimeline = (habit: HabitWithLogs): WeeklySummaryTimeline =>
 	useMemo(() => splitTimelineSummary<WeeklySummary>(generateWeeklySummary(habit), 4), [habit]);

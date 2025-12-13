@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { updatePlantHealth } from "@/features/plant/data/plant-state";
-import { useIncrementDeathCount } from "../mutations/useIncrementDeathCount";
-import { plantStateKey } from "@/lib/helpers/queryKeys";
+import { plantStateKey } from "@/lib/data/queryKeys";
+import { getPlantStageFromGrowth } from "@/lib/plant";
 import type { PlantEntry, PlantState } from "@/types/plant.types";
-import { getPlantStageFromGrowth } from "@/lib/plant-growth/getPlantStageFromGrowth";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useRef } from "react";
+import { useIncrementDeathCount } from "../mutations/useIncrementDeathCount";
 
 const useSyncPlantHealth = (
 	userId: string,

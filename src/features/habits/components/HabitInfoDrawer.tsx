@@ -11,7 +11,7 @@ interface HabitInfoDrawerProps {
 }
 
 const HabitInfoDrawer: React.FC<HabitInfoDrawerProps> = ({ habit, habitAdherence }) => {
-	const { logCount, expected, missed, onTrack } = habitAdherence;
+	const { logCount, expected, missed, period } = habitAdherence;
 
 	return (
 		<motion.div
@@ -45,10 +45,9 @@ const HabitInfoDrawer: React.FC<HabitInfoDrawerProps> = ({ habit, habitAdherence
 				<li>
 					<TbClockX size={24} className="missed-icon" />
 					<div className="offset">
-						<span>Missed days: </span> {missed}
+						<span>Missed {period}s: </span> {missed}
 					</div>
 				</li>
-				<li>{onTrack ? "You're on track. Nice work!" : "You're a bit behind. Keep going!"}</li>
 			</ul>
 		</motion.div>
 	);

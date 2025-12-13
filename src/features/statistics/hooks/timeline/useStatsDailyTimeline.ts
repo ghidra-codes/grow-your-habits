@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import {
+	generateMonthlyTimeline,
+	generateWeeklyTimeline,
+	splitTimelineIntoMonths,
+	splitTimelineIntoWeeks,
+} from "@/lib/timeline";
 import type { HabitWithLogs } from "@/types/habit.types";
 import type { DailyPeriodTimeline, TimelineViewMode } from "@/types/statistic.types";
-import { splitTimelineIntoMonths } from "@/lib/helpers/timeline/splitTimelineIntoMonths";
-import { splitTimelineIntoWeeks } from "@/lib/helpers/timeline/splitTimelineIntoWeeks";
-import { generateMonthlyTimeline } from "@/lib/timeline/generateMonthlyTimeline";
-import { generateWeeklyTimeline } from "@/lib/timeline/generateWeeklyTimeline";
+import { useMemo } from "react";
 
 const DAILY_PROCESSORS = {
 	weekly: {

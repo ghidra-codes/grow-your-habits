@@ -1,6 +1,6 @@
-import { mapHexToNormalized } from "@/lib/helpers/mapHexToNormalized";
-import { ORIGINAL_PLANT_COLORS } from "../constants/plant-colors";
+import { mapHexToNormalized } from "@/lib/ui";
 import type { Animation } from "@lottiefiles/lottie-types";
+import { ORIGINAL_PLANT_COLORS } from "../constants/plant-colors";
 
 type RGBA = [number, number, number, number];
 

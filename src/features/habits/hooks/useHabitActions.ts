@@ -6,7 +6,7 @@ import { useDeleteHabit } from "./mutations/useDeleteHabit";
 import { useUpdateHabit } from "./mutations/useUpdateHabit";
 import { getPlantState, initPlantState } from "@/features/plant/data/plant-state";
 import { useQueryClient } from "@tanstack/react-query";
-import { plantStateKey } from "@/lib/helpers/queryKeys";
+import { plantStateKey } from "@/lib/data/queryKeys";
 
 export const useHabitActions = (
 	userId: string,

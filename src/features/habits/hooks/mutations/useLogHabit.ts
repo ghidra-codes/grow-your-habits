@@ -1,5 +1,5 @@
 import type { HabitLog, HabitWithLogs } from "@/types/habit.types";
-import { habitsKey } from "@/lib/helpers/queryKeys";
+import { habitsKey } from "@/lib/data/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createHabitLog } from "../../data/habit-logs";
 import type { LogCtx, LogVars, ServiceResponse } from "@/types/service.types";

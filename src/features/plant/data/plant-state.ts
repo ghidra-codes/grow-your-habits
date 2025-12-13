@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase-client";
+import { supabase } from "@/lib/supabase/supabase-client";
 import type { PlantState, PlantStateInsert, PlantStateUpdate } from "@/types/plant.types";
 import type { ServiceResponse } from "@/types/service.types";
 import { startOfDay, subDays } from "date-fns";

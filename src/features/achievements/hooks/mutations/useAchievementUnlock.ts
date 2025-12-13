@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { achievementsKey } from "@/lib/helpers/queryKeys";
+import { achievementsKey } from "@/lib/data/queryKeys";
 import { unlockAchievement } from "../../data/achievements";
 
 export const useUnlockAchievement = (userId: string) => {

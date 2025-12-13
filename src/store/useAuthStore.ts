@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase-client";
+import { supabase } from "@/lib/supabase/supabase-client";
 import type { Session, User } from "@supabase/supabase-js";
 import { create } from "zustand";
 

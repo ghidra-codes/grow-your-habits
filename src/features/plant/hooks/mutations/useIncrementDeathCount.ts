@@ -1,6 +1,6 @@
 import { incrementDeathCount } from "@/features/plant/data/plant-state";
-import { plantStateKey } from "@/lib/helpers/queryKeys";
-import { getPlantStageFromGrowth } from "@/lib/plant-growth/getPlantStageFromGrowth";
+import { plantStateKey } from "@/lib/data/queryKeys";
+import { getPlantStageFromGrowth } from "@/lib/plant";
 import type { PlantEntry } from "@/types/plant.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

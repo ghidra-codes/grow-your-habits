@@ -1,12 +1,13 @@
 import type { AdherenceMap, Habit, HabitWithLogs } from "@/types/habit.types";
 import AdherenceCircle from "@/ui/AdherenceCircle";
 import Checkbox from "@/ui/Checkbox";
-import { getTodayDate } from "@/lib/helpers/getTodayDate";
-import { hasLoggedToday } from "@/lib/helpers/hasLoggedToday";
+import { getTodayDate } from "@/lib/dates";
+import { hasLoggedToday } from "@/lib/habits";
 import { AnimatePresence } from "motion/react";
 import { FaCaretDown } from "react-icons/fa";
 import HabitInfoDrawer from "./HabitInfoDrawer";
 import { useConfetti } from "@/ui/hooks/useConfetti";
+import { getCurrentPeriodProgress } from "@/lib/habits/getPeriodProgress";
 
 interface HabitListItemProps {
 	habits: HabitWithLogs[];
@@ -66,6 +67,7 @@ const HabitListItem: React.FC<HabitListItemProps> = ({
 				const isExpanded = expandedIds.has(habit.id);
 				const isDoneDaily = habit.frequency_type === "daily" ? hasLoggedToday(habit) : false;
 				const disabled = isMutating || confettiLock;
+				const progress = getCurrentPeriodProgress(habit);
 
 				return (
 					<li
@@ -102,6 +104,7 @@ const HabitListItem: React.FC<HabitListItemProps> = ({
 							<div className="checkbox-wrapper" onClick={(e) => e.stopPropagation()}>
 								<Checkbox
 									checked={isDoneDaily}
+									progress={progress?.percentage}
 									disabled={disabled}
 									onClick={(e) => handleChecked(habit, isDoneDaily, e.currentTarget)}
 								/>

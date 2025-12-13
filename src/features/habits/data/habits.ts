@@ -1,7 +1,7 @@
 import type { FrequencyType, Habit } from "@/types/habit.types";
 import type { ServiceResponse } from "@/types/service.types";
-import { normalizeHabit, normalizeHabitWithLogs } from "@/lib/helpers/normalizeHabit";
-import { supabase } from "@/lib/supabase-client";
+import { normalizeHabit, normalizeHabitWithLogs } from "@/lib/habits";
+import { supabase } from "@/lib/supabase/supabase-client";
 
 /**
  * Fetches all habits, their logs and for the for a given user ID.

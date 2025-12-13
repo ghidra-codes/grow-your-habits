@@ -1,6 +1,7 @@
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
-import { getPointsToNextStage } from "@/lib/plant-growth/getPointsToNextStage";
+import { getPointsToNextStage } from "@/lib/plant";
 import { usePlantAnimActions, usePlantAnimEnabled } from "@/store/usePlantAnimationStore";
+import FloatingParticles from "@/ui/FloatingParticles";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import PlantAnimation from "./components/PlantAnimation";
 import PlantSvgAnimated from "./components/PlantSvgAnimated";
@@ -9,7 +10,6 @@ import { usePlantHealth } from "./hooks/derived/usePlantHealth";
 import { usePlantStateQuery } from "./hooks/queries/usePlantStateQuery";
 import { getHealthGlowColor } from "./utils/getHealthGlowColor";
 import { getPlantColorProfile } from "./utils/getPlantColorProfile";
-import FloatingParticles from "@/ui/FloatingParticles";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
@@ -49,17 +49,14 @@ const PlantView = () => {
 				</div>
 
 				<div className="plant-info">
-					<div className="plant-growth-info">
-						<div className="plant-growth-score">
-							<span>GROWTH SCORE:</span> {state.growth_score}
-						</div>
-						<div className="points-to-next-stage">
-							<span>POINTS TO NEXT:</span> {pointsToNextStage ?? "-"}
-						</div>
-					</div>
-
 					<div className="plant-stage">
 						<span>PLANT STAGE:</span> {GROWTH_STAGES[stage].name}
+					</div>
+					<div className="plant-growth-score">
+						<span>GROWTH SCORE:</span> {state.growth_score}
+					</div>
+					<div className="points-to-next-stage">
+						<span>POINTS TO NEXT:</span> {pointsToNextStage ?? "-"}
 					</div>
 				</div>
 			</div>

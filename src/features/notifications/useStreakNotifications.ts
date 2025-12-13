@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
 import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
 import { useNotificationActions } from "@/store/useNotificationStore";
-import { NOTIF_MSG, NOTIF_TYPE, STREAK_THRESHOLDS, STREAK_UNITS } from "./config/notifications";
+import type { StreakTier } from "@/types/notification.types";
+import { useEffect } from "react";
+import { NOTIF_MSG, NOTIF_TYPE, STREAK_TIERS, STREAK_UNITS } from "./config/notifications";
 
 const useStreakNotifications = () => {
 	const userId = useUserIdRequired();
@@ -18,36 +19,39 @@ const useStreakNotifications = () => {
 		const prevKey = `streak_prev_${userId}`;
 		const notifiedKey = `streak_notified_${userId}`;
 
-		// Load persisted maps
-		const prevRaw = localStorage.getItem(prevKey);
-		const notifiedRaw = localStorage.getItem(notifiedKey);
+		const prevMap: Record<string, number> = JSON.parse(localStorage.getItem(prevKey) ?? "{}");
 
-		const prevMap: Record<string, number> = prevRaw ? JSON.parse(prevRaw) : {};
-		const notifiedMap: Record<string, boolean> = notifiedRaw ? JSON.parse(notifiedRaw) : {};
+		const notifiedMap: Record<string, number[]> = JSON.parse(localStorage.getItem(notifiedKey) ?? "{}");
 
-		// Process habits
 		for (const habit of habits) {
 			const habitId = habit.id;
 			const freq = habit.frequency_type;
 
 			const current = streakMap[habitId]?.currentStreak ?? 0;
 			const previous = prevMap[habitId] ?? 0;
-			const hasBeenNotified = notifiedMap[habitId] ?? false;
 
-			const threshold = STREAK_THRESHOLDS[freq];
+			// Reset tiers if streak breaks
+			if (current === 0) notifiedMap[habitId] = [];
+
 			const unit = STREAK_UNITS[freq];
+			const notifiedTiers = notifiedMap[habitId] ?? [];
 
-			// Fire notification only when streak increased and threshold met
-			if (current > previous && current >= threshold && !hasBeenNotified) {
-				push(NOTIF_MSG.streak(current, unit), NOTIF_TYPE.success, "streak");
-				notifiedMap[habitId] = true;
+			for (const tier of STREAK_TIERS) {
+				const tierKey = tier as StreakTier;
+
+				const crossedTier = previous < tier && current >= tier && !notifiedTiers.includes(tier);
+
+				if (!crossedTier) continue;
+
+				// Send notification and mark tier as notified
+				push(NOTIF_MSG.streak[tierKey](current, unit), NOTIF_TYPE.success, "streak");
+
+				notifiedTiers.push(tier);
 			}
 
-			// Update previous streak
 			prevMap[habitId] = current;
 		}
 
-		// Persist updated maps
 		localStorage.setItem(prevKey, JSON.stringify(prevMap));
 		localStorage.setItem(notifiedKey, JSON.stringify(notifiedMap));
 	}, [habits, streakMap, userId, push]);

@@ -1,6 +1,10 @@
 import { useMemo } from "react";
-import { calculateHabitAdherence } from "@/lib/calculateHabitAdherence";
+import { calculateDailyAdherence, calculatePeriodAdherence } from "@/lib/adherence";
 import type { HabitWithLogs, HabitAdherence } from "@/types/habit.types";
 
 export const useHabitAdherence = (habit: HabitWithLogs): HabitAdherence =>
-	useMemo(() => calculateHabitAdherence(habit), [habit]);
+	useMemo(() => {
+		if (habit.frequency_type === "daily") return calculateDailyAdherence(habit);
+
+		return calculatePeriodAdherence(habit);
+	}, [habit]);

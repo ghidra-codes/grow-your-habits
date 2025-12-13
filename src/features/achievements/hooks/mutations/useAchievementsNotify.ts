@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifyAchievements } from "../../data/achievements";
-import { achievementsKey } from "@/lib/helpers/queryKeys";
+import { achievementsKey } from "@/lib/data/queryKeys";
 
 const useAchievementsNotify = (userId: string) => {
 	const queryClient = useQueryClient();

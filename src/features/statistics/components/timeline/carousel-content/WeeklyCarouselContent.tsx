@@ -1,5 +1,5 @@
 import type { WeeklySummaryTimeline } from "@/types/statistic.types";
-import { padNumber } from "@/lib/helpers/padNumber";
+import { padNumber } from "@/lib/ui";
 import { format, parseISO } from "date-fns";
 import { FaAngleDoubleRight } from "react-icons/fa";
 

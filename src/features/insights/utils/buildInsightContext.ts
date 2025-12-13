@@ -1,4 +1,4 @@
-import { getDailyCompletionMap } from "@/lib/helpers/getDailyCompletionMap";
+import { getDailyCompletionMap } from "@/lib/habits";
 import type { AdherenceMap, HabitWithLogs, RecentAdherenceMap } from "@/types/habit.types";
 import type { HabitRef, InsightContext } from "@/types/insight.types";
 import type { StreakMap } from "@/types/statistic.types";

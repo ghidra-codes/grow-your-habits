@@ -1,11 +1,11 @@
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
 import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
-import { useCalculatedPlantHealth } from "./useCalculatedPlantHealth";
-import { usePlantStateQuery } from "../queries/usePlantStateQuery";
-import useSyncPlantHealth from "./useSyncPlantHealth";
-import { useMemo } from "react";
-import { useNotificationActions } from "@/store/useNotificationStore";
 import { NOTIF_MSG, NOTIF_TYPE } from "@/features/notifications/config/notifications";
+import { useNotificationActions } from "@/store/useNotificationStore";
+import { useMemo } from "react";
+import { usePlantStateQuery } from "../queries/usePlantStateQuery";
+import { useCalculatedPlantHealth } from "./useCalculatedPlantHealth";
+import useSyncPlantHealth from "./useSyncPlantHealth";
 
 export const usePlantHealth = () => {
 	const userId = useUserIdRequired();

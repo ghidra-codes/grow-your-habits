@@ -1,8 +1,8 @@
 import { updateHabit } from "@/features/habits/data/habits";
 import type { HabitWithLogs, UpdateHabitPayload } from "@/types/habit.types";
-import { habitsKey } from "@/lib/helpers/queryKeys";
+import { habitsKey } from "@/lib/data/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { normalizeHabit } from "@/lib/helpers/normalizeHabit";
+import { normalizeHabit } from "@/lib/habits";
 
 export const useUpdateHabit = (userId: string, onUpdated: (habit: HabitWithLogs | null) => void) => {
 	const queryClient = useQueryClient();
