@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
+import { useClickOutside } from "./hooks/useClickOutside";
 
 interface Option<T extends string> {
 	label: string;
@@ -22,11 +23,14 @@ const Select = <T extends string>({
 	className,
 }: SelectProps<T>) => {
 	const [open, setOpen] = useState(false);
+	const rootRef = useRef<HTMLDivElement | null>(null);
 
 	const selectedLabel = options.find((opt) => opt.value === value)?.label ?? "Select";
 
+	useClickOutside(rootRef, () => setOpen(false));
+
 	return (
-		<div className={`select ${className ?? ""}`}>
+		<div ref={rootRef} className={`select ${className ?? ""}`}>
 			<button
 				type="button"
 				className={`select-trigger ${open ? "open" : ""}`}

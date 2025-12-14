@@ -7,6 +7,7 @@ import Select from "@/ui/Select";
 import { useState } from "react";
 import { FaCheckCircle, FaLock, FaRegCheckCircle, FaUnlock } from "react-icons/fa";
 import { FILTER_OPTIONS } from "./config/achievements-filter";
+import ErrorMessage from "@/ui/ErrorMessage";
 
 const AchievementsView = () => {
 	const userId = useUserIdRequired();
@@ -15,9 +16,17 @@ const AchievementsView = () => {
 
 	const context = useAchievementContext(userId);
 
-	const { achievements, isLoading } = useAchievements(userId, context, filter);
+	const { achievements, isLoading, isError, error } = useAchievements(userId, context, filter);
 
 	if (isLoading) return <LoadingSpinner />;
+	if (isError)
+		return (
+			<ErrorMessage
+				title="Unable to load achievements"
+				message="There was a problem loading your achievements. Please try again."
+				errorMessage={error?.message}
+			/>
+		);
 
 	return (
 		<div className="achievements-view">

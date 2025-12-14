@@ -1,0 +1,42 @@
+@use "../abstracts/index" as *;
+
+.error-message-wrapper {
+	@include flex-center;
+	padding: 0.75rem 1rem;
+	flex-direction: column;
+	border-radius: 0.5rem;
+	background: rgba($alert-red, 0.2);
+	border: 2px solid $alert-red;
+	max-width: 460px;
+	margin: 2rem auto;
+	text-align: center;
+	gap: 0.5rem;
+}
+
+.error-message-title {
+	margin: 0;
+	font-weight: 600;
+	font-family: $base-font;
+}
+
+.error-message-text {
+	opacity: 0.9;
+	@include fluid-type(small-text);
+}
+
+.error-message {
+	margin: 0.25rem 0 0.5rem 0;
+	padding: 0.25rem 0.5rem;
+	background-color: rgba($rich-black-light, 0.8);
+	border-radius: 0.2rem;
+	font-size: 0.64rem;
+	letter-spacing: 0.05rem;
+}
+
+.error-message-retry-btn {
+	background: $accent-gold;
+	color: $rich-black-light;
+	padding: 0.5rem 1rem;
+	border-radius: 0.375rem;
+	cursor: pointer;
+}

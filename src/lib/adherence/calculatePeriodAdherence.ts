@@ -2,8 +2,15 @@ import type { HabitAdherence, HabitWithLogs } from "@/types/habit.types";
 import { differenceInDays, endOfMonth, startOfDay, startOfMonth, startOfWeek } from "date-fns";
 import { generateCurrentPeriod } from "../dates";
 import { generateMonthlySummary, generateWeeklySummary } from "../timeline";
-import { getWeightedLifetimeAdherence } from "./getWeightedLifetimeAdherence";
+import { getWeightedPeriodAdherence } from "./getWeightedPeriodAdherence";
 
+/**
+ * Adherence philosophy:
+ * - Past units are evaluated
+ * - Current unit can help but never hurt
+ * - Recent behavior matters more than old
+ * - Adherence reflects consistency, not effort
+ */
 export const calculatePeriodAdherence = (habit: HabitWithLogs): HabitAdherence => {
 	if (habit.frequency_type === "daily") {
 		throw new Error("calculatePeriodAdherence called for daily habit");
@@ -15,7 +22,7 @@ export const calculatePeriodAdherence = (habit: HabitWithLogs): HabitAdherence =
 	const { period } = generateCurrentPeriod(habit);
 	const doneSoFar = period.filter((d) => d.status === "completed").length;
 
-	let goalUntilToday = 0;
+	let expected = 0;
 
 	if (habit.frequency_type === "weekly") {
 		const target = habit.target_per_week ?? 0;
@@ -26,7 +33,7 @@ export const calculatePeriodAdherence = (habit: HabitWithLogs): HabitAdherence =
 		const daysPassed = differenceInDays(today, effectiveStart) + 1;
 		const progress = Math.min(1, daysPassed / 7);
 
-		goalUntilToday = Math.ceil(progress * target);
+		expected = Math.ceil(progress * target);
 	}
 
 	if (habit.frequency_type === "monthly") {
@@ -40,10 +47,11 @@ export const calculatePeriodAdherence = (habit: HabitWithLogs): HabitAdherence =
 		const daysPassed = differenceInDays(today, effectiveStart) + 1;
 		const progress = Math.min(1, daysPassed / daysInMonth);
 
-		goalUntilToday = Math.ceil(progress * target);
+		expected = Math.ceil(progress * target);
 	}
 
 	let missed = 0;
+	let percentage = 0;
 
 	if (habit.frequency_type === "weekly") {
 		const summaries = generateWeeklySummary(habit);
@@ -51,6 +59,8 @@ export const calculatePeriodAdherence = (habit: HabitWithLogs): HabitAdherence =
 		missed = summaries
 			.filter((w) => w.status === "missed")
 			.reduce((sum, w) => sum + Math.max(0, w.target - w.completed), 0);
+
+		percentage = getWeightedPeriodAdherence(summaries);
 	}
 
 	if (habit.frequency_type === "monthly") {
@@ -59,14 +69,14 @@ export const calculatePeriodAdherence = (habit: HabitWithLogs): HabitAdherence =
 		missed = summaries
 			.filter((m) => m.status === "missed")
 			.reduce((sum, m) => sum + Math.max(0, m.target - m.completed), 0);
-	}
 
-	const percentage = getWeightedLifetimeAdherence(habit);
+		percentage = getWeightedPeriodAdherence(summaries);
+	}
 
 	return {
 		habitId: habit.id,
 		period: habit.frequency_type === "weekly" ? "week" : "month",
-		expected: goalUntilToday,
+		expected,
 		logCount: doneSoFar,
 		missed,
 		percentage,

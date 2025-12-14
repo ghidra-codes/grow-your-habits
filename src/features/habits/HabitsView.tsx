@@ -14,6 +14,7 @@ import { useHabitActions } from "./hooks/useHabitActions";
 import { useHabitModal } from "./hooks/useHabitModal";
 import HabitLogOptions from "./components/HabitLogOptions";
 import useHabitLogModal from "./hooks/useHabitLogModal";
+import ErrorMessage from "@/ui/ErrorMessage";
 
 const HabitsView = () => {
 	const [selectedHabit, setSelectedHabit] = useState<Habit | null>(null);
@@ -45,7 +46,14 @@ const HabitsView = () => {
 	);
 
 	if (isLoading) return <LoadingSpinner />;
-	if (isError) return <p>{error?.message}</p>;
+	if (isError)
+		return (
+			<ErrorMessage
+				title="Unable to load your habits"
+				message="There was a problem loading your habits. Please try again."
+				errorMessage={error?.message}
+			/>
+		);
 
 	return (
 		<>

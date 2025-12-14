@@ -42,6 +42,8 @@ export type MonthlySummaryTimeline = (MonthlySummary | null)[][];
 
 export type SummaryTimeline = WeeklySummaryTimeline | MonthlySummaryTimeline;
 
+export type SummaryPeriod = WeeklySummary | MonthlySummary;
+
 // TIMELINE MAP
 export interface TimelineMap {
 	daily: Record<string, DailyPeriodTimeline>;

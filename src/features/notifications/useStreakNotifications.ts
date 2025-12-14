@@ -34,7 +34,11 @@ const useStreakNotifications = () => {
 			if (current === 0) notifiedMap[habitId] = [];
 
 			const unit = STREAK_UNITS[freq];
-			const notifiedTiers = notifiedMap[habitId] ?? [];
+			let notifiedTiers = Array.isArray(notifiedMap[habitId]) ? notifiedMap[habitId] : [];
+
+			if (current === 0) notifiedTiers = [];
+
+			notifiedMap[habitId] = notifiedTiers;
 
 			for (const tier of STREAK_TIERS) {
 				const tierKey = tier as StreakTier;

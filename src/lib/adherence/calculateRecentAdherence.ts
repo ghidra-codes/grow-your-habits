@@ -7,6 +7,7 @@ import { getDailyCompletionMap } from "../habits/getDailyCompletionMap";
  * Calculates short-term adherence (last 7 and last 30 days) based on the habit's frequency.
  */
 export const calculateRecentAdherence = (habit: HabitWithLogs) => {
+	const frequency = habit.frequency_type;
 	const dailyMap = getDailyCompletionMap(habit);
 
 	const today = startOfDay(new Date());
@@ -19,11 +20,7 @@ export const calculateRecentAdherence = (habit: HabitWithLogs) => {
 
 		if (intervalEnd < start) return 100;
 
-		const actualInterval = eachDayOfInterval({
-			start,
-			end: intervalEnd,
-		});
-
+		const actualInterval = eachDayOfInterval({ start, end: intervalEnd });
 		const daysActive = actualInterval.length;
 
 		if (daysActive === 0) return 100;
@@ -32,38 +29,28 @@ export const calculateRecentAdherence = (habit: HabitWithLogs) => {
 		let expectedOpportunities = 0;
 
 		// DAILY
-
-		if (habit.frequency_type === "daily") {
+		if (frequency === "daily") {
 			expectedOpportunities = daysActive;
 
 			for (const day of actualInterval) {
 				const key = day.toISOString().slice(0, 10);
-				if ((dailyMap[key] ?? 0) === 1) completed++;
+				if (dailyMap[key] === 1) completed++;
 			}
 		}
 
-		// WEEKLY/MONTHLY
+		// WEEKLY / MONTHLY
+		if (frequency === "weekly" || frequency === "monthly") {
+			const target = frequency === "weekly" ? habit.target_per_week ?? 1 : habit.target_per_month ?? 1;
 
-		if (habit.frequency_type === "weekly" || habit.frequency_type === "monthly") {
-			const target =
-				habit.frequency_type === "weekly" ? habit.target_per_week ?? 1 : habit.target_per_month ?? 1;
+			expectedOpportunities = Math.min(target, daysActive);
 
-			const totalDaysInCycle = habit.frequency_type === "weekly" ? 7 : 30;
-
-			const progressRatio = daysActive / totalDaysInCycle;
-
-			expectedOpportunities = Math.ceil(progressRatio * target);
-
-			const logsInPeriod = (habit.logs ?? []).filter((l) => {
-				const logDay = startOfDay(new Date(l.log_date)).getTime();
-				return logDay >= start.getTime() && logDay <= intervalEnd.getTime();
+			completed = actualInterval.filter((day) => {
+				const key = day.toISOString().slice(0, 10);
+				return dailyMap[key] === 1;
 			}).length;
 
-			completed = logsInPeriod;
-			expectedOpportunities = Math.max(1, expectedOpportunities);
+			if (expectedOpportunities === 0) return 100;
 		}
-
-		expectedOpportunities = Math.max(expectedOpportunities, 1);
 
 		return Math.min(100, (completed / expectedOpportunities) * 100);
 	};

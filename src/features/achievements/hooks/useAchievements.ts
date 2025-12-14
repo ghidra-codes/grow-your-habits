@@ -15,7 +15,7 @@ export const useAchievements = (
 	context: AchievementContext,
 	filter: AchievementFilters = "all"
 ) => {
-	const { data: unlocked = [], isLoading } = useAchievementsQuery(userId);
+	const { data: unlocked = [], isLoading, isError, error } = useAchievementsQuery(userId);
 	const { mutate: unlock } = useUnlockAchievement(userId);
 
 	const [pendingUnlocks, setPendingUnlocks] = useState<string[]>([]);
@@ -101,5 +101,7 @@ export const useAchievements = (
 		pendingUnlocks,
 		unlockedMap,
 		isLoading,
+		isError,
+		error,
 	};
 };

@@ -10,6 +10,7 @@ import { usePlantHealth } from "./hooks/derived/usePlantHealth";
 import { usePlantStateQuery } from "./hooks/queries/usePlantStateQuery";
 import { getHealthGlowColor } from "./utils/getHealthGlowColor";
 import { getPlantColorProfile } from "./utils/getPlantColorProfile";
+import ErrorMessage from "@/ui/ErrorMessage";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
@@ -25,7 +26,14 @@ const PlantView = () => {
 	const pointsToNextStage = getPointsToNextStage(data?.state.growth_score ?? 0, data?.stage ?? 0);
 
 	if (isLoading || !data) return <LoadingSpinner />;
-	if (isError) return <div>Error: {error?.message}</div>;
+	if (isError)
+		return (
+			<ErrorMessage
+				title="Unable to load your plant"
+				message="There was a problem loading your plant state. Please try again."
+				errorMessage={error?.message}
+			/>
+		);
 
 	const { stage, state } = data;
 
