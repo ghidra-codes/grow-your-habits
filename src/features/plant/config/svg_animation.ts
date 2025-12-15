@@ -1,4 +1,12 @@
-export const SVG_ANIMATION_CONFIG = {
+import type { PlantStageOrZero } from "@/types/plant.types";
+
+type SvgAnimationConfig = {
+	scale: number;
+	rotate: number;
+	duration: number;
+};
+
+export const SVG_ANIMATION_CONFIG: Record<PlantStageOrZero, SvgAnimationConfig> = {
 	0: { scale: 1, rotate: 1, duration: 0 },
 	1: { scale: 1.01, rotate: 1.003, duration: 4 },
 	2: { scale: 1.013, rotate: 1.003, duration: 4 },

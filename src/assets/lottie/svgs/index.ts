@@ -5,11 +5,4 @@ import plant3 from "./plant-3.svg?raw";
 import plant4 from "./plant-4.svg?raw";
 import plant5 from "./plant-5.svg?raw";
 
-export const PLANT_SVGS = {
-	0: plant0,
-	1: plant1,
-	2: plant2,
-	3: plant3,
-	4: plant4,
-	5: plant5,
-} as const;
+export const PLANT_SVGS = [plant0, plant1, plant2, plant3, plant4, plant5] as const;

@@ -1,14 +1,15 @@
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { useState, type ReactNode } from "react";
+import { MdInfoOutline } from "react-icons/md";
 
 type ToolTipProps = {
 	content: ReactNode;
-	children: ReactNode;
 	side?: "top" | "right" | "bottom" | "left";
 	sideOffset?: number;
+	iconSize?: number;
 };
 
-const Tooltip = ({ content, children, side = "top", sideOffset = 6 }: ToolTipProps) => {
+const Tooltip = ({ content, side = "top", sideOffset = 4, iconSize = 22 }: ToolTipProps) => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -20,7 +21,11 @@ const Tooltip = ({ content, children, side = "top", sideOffset = 6 }: ToolTipPro
 					setOpen((prev) => !prev);
 				}}
 			>
-				{children}
+				<div onClick={(e) => e.stopPropagation()}>
+					<button className="info-icon" onPointerDownCapture={(e) => e.stopPropagation()}>
+						<MdInfoOutline size={iconSize} />
+					</button>
+				</div>
 			</RadixTooltip.Trigger>
 
 			<RadixTooltip.Portal>

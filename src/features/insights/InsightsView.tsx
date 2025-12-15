@@ -46,7 +46,12 @@ const InsightsView = () => {
 
 	return (
 		<div className="insights-container">
-			<h2>Insights</h2>
+			<h2 className="view-heading">Insights</h2>
+
+			<div className="insights-description">
+				<p>Here are some insights based on your habits and plant growth.</p>
+				<p>Click a card to learn more.</p>
+			</div>
 
 			{insights.length === 0 && <div>No insights available.</div>}
 

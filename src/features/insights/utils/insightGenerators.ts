@@ -33,14 +33,6 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 		};
 	},
 
-	"weekly-consistency": (ctx) => {
-		return {
-			id: "weekly-consistency",
-			type: "neutral",
-			message: `You completed ${ctx.weeklyTotal} habits this week.`,
-		};
-	},
-
 	"weekly-growth": (ctx) => {
 		const growth = ctx.weeklyGrowthChange;
 
@@ -88,6 +80,14 @@ export const insightGenerators: Record<InsightID, (ctx: InsightContext) => Insig
 			id: "best-streak-habit",
 			type: "positive",
 			message: `Your best streak is with "${ctx.bestStreakHabit.name}" (${ctx.bestStreakHabit.longestStreak} in a row).`,
+		};
+	},
+
+	"weekly-consistency": (ctx) => {
+		return {
+			id: "weekly-consistency",
+			type: "neutral",
+			message: `You completed ${ctx.weeklyTotal} habits this week.`,
 		};
 	},
 

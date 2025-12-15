@@ -166,67 +166,49 @@ export const incrementDeathCount = async (userId: string): Promise<ServiceRespon
 };
 
 /**
- * Returns this week's growth change compared to last week.
+ * Returns growth points gained during the last 7 days.
  */
 export const getWeeklyGrowthChange = async (userId: string): Promise<number> => {
 	const today = startOfDay(new Date());
 	const weekStart = subDays(today, 6);
-	const lastWeekStart = subDays(today, 13);
 
 	const { data, error } = await supabase
 		.from("plant_growth_logs")
 		.select("date, growth_score")
 		.eq("user_id", userId)
-		.gte("date", lastWeekStart.toISOString())
+		.gte("date", weekStart.toISOString())
 		.lte("date", today.toISOString())
 		.order("date", { ascending: true });
 
 	if (error) throw error;
+	if (!data || data.length < 2) return 0;
 
-	const thisWeek: number[] = [];
-	const lastWeek: number[] = [];
+	const startScore = data[0].growth_score;
+	const endScore = data[data.length - 1].growth_score;
 
-	for (const log of data ?? []) {
-		const day = startOfDay(new Date(log.date));
-
-		if (day >= weekStart && day <= today) thisWeek.push(log.growth_score);
-		else if (day >= lastWeekStart && day < weekStart) lastWeek.push(log.growth_score);
-	}
-
-	const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
-
-	return sum(thisWeek) - sum(lastWeek);
+	return Math.max(0, endScore - startScore);
 };
 
 /**
- * Returns this month's growth change compared to last month.
+ * Returns growth points gained during the last 30 days.
  */
 export const getMonthlyGrowthChange = async (userId: string): Promise<number> => {
 	const today = startOfDay(new Date());
 	const monthStart = subDays(today, 29);
-	const lastMonthStart = subDays(today, 59);
 
 	const { data, error } = await supabase
 		.from("plant_growth_logs")
 		.select("date, growth_score")
 		.eq("user_id", userId)
-		.gte("date", lastMonthStart.toISOString())
+		.gte("date", monthStart.toISOString())
 		.lte("date", today.toISOString())
 		.order("date", { ascending: true });
 
 	if (error) throw error;
+	if (!data || data.length < 2) return 0;
 
-	const thisMonth: number[] = [];
-	const lastMonth: number[] = [];
+	const startScore = data[0].growth_score;
+	const endScore = data[data.length - 1].growth_score;
 
-	for (const log of data ?? []) {
-		const day = startOfDay(new Date(log.date));
-
-		if (day >= monthStart && day <= today) thisMonth.push(log.growth_score);
-		else if (day >= lastMonthStart && day < monthStart) lastMonth.push(log.growth_score);
-	}
-
-	const sum = (arr: number[]) => arr.reduce((a, b) => a + b, 0);
-
-	return sum(thisMonth) - sum(lastMonth);
+	return Math.max(0, endScore - startScore);
 };

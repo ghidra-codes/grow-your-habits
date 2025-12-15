@@ -2,10 +2,27 @@
 
 .insights-container {
 	h2 {
-		font-family: $secondary-font;
 		color: $green-light;
-		margin-top: 1.5rem;
-		padding-bottom: 1rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.insights-description {
+		width: fit-content;
+		padding: 0.5rem 0.75rem;
+		background-color: $rich-black-surface;
+		border-radius: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		@include fluid-type(small-text);
+		color: rgba($off-white, 0.8);
+
+		p:last-of-type {
+			margin-bottom: 0.25rem;
+			color: $jet-brighter;
+			font-weight: 500;
+		}
 	}
 
 	.insights-list {

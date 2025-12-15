@@ -4,7 +4,7 @@
 	position: absolute;
 	inset: 0;
 	height: 142px;
-	max-width: 400px;
+	max-width: 500px;
 	padding: 1.25rem 0.75rem;
 
 	border-radius: 0.5rem;
@@ -32,15 +32,16 @@
 		top: 0.6rem;
 		right: 0.55rem;
 		transform: translateZ(0);
-
-		.info-icon {
-			@include flex-center;
-		}
 	}
 
 	span {
 		font-family: $secondary-font;
 		@include fluid-type(small-text);
 		margin: 0;
+	}
+
+	@include respond(lg) {
+		padding: 1.5rem 1rem;
+		height: 160px;
 	}
 }

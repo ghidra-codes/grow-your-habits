@@ -2,9 +2,8 @@ import { updateHabit } from "@/features/habits/data/habits";
 import type { HabitWithLogs, UpdateHabitPayload } from "@/types/habit.types";
 import { habitsKey } from "@/lib/data/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { normalizeHabit } from "@/lib/habits";
 
-export const useUpdateHabit = (userId: string, onUpdated: (habit: HabitWithLogs | null) => void) => {
+export const useUpdateHabit = (userId: string, onUpdated: (habit: HabitWithLogs) => void) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
@@ -22,30 +21,16 @@ export const useUpdateHabit = (userId: string, onUpdated: (habit: HabitWithLogs 
 			return data;
 		},
 
-		onSuccess: async (updatedHabit) => {
+		onSuccess: (updatedHabit) => {
 			if (!updatedHabit) return;
 
-			const normalized: HabitWithLogs = {
-				...normalizeHabit(updatedHabit),
-				logs: [],
-			};
+			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (prev = []) =>
+				prev
+					.map((h) => (h.id === updatedHabit.id ? updatedHabit : h))
+					.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+			);
 
-			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (prev = []) => {
-				const withoutOld = prev.filter((h) => h.id !== normalized.id);
-
-				return [...withoutOld, normalized].sort(
-					(a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-				);
-			});
-
-			await queryClient.invalidateQueries({
-				queryKey: habitsKey(userId),
-				refetchType: "active",
-			});
-
-			onUpdated(normalized);
+			onUpdated(updatedHabit);
 		},
-
-		onError: (err) => console.error("Failed to update habit:", err),
 	});
 };

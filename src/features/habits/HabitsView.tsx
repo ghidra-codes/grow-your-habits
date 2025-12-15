@@ -1,6 +1,6 @@
 import { useClickOutside } from "@/ui/hooks/useClickOutside";
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
-import type { Habit } from "@/types/habit.types";
+import type { HabitWithLogs } from "@/types/habit.types";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
 import { useState } from "react";
@@ -15,9 +15,10 @@ import { useHabitModal } from "./hooks/useHabitModal";
 import HabitLogOptions from "./components/HabitLogOptions";
 import useHabitLogModal from "./hooks/useHabitLogModal";
 import ErrorMessage from "@/ui/ErrorMessage";
+import { useStatsModalActions } from "@/store/useStatsModalStore";
 
 const HabitsView = () => {
-	const [selectedHabit, setSelectedHabit] = useState<Habit | null>(null);
+	const [selectedHabit, setSelectedHabit] = useState<HabitWithLogs | null>(null);
 	const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
 	const userId = useUserIdRequired();
@@ -28,6 +29,7 @@ const HabitsView = () => {
 
 	// Modal management
 	const { isOpen, modalMode, openModal, closeModal, initialFormValues } = useHabitModal(selectedHabit);
+	const { open } = useStatsModalActions();
 
 	const {
 		isOpen: isLogModalOpen,
@@ -58,11 +60,13 @@ const HabitsView = () => {
 	return (
 		<>
 			<div className="habits-container">
+				<h2 className="view-heading">Habits</h2>
 				<HabitsControlPanel
 					selectedHabit={selectedHabit}
 					onAdd={() => openModal("add")}
 					onEdit={() => openModal("edit")}
 					onDelete={() => handleDeleteHabit()}
+					onOpenStats={() => selectedHabit && open(selectedHabit)}
 				/>
 
 				{habits && habits.length > 0 && (

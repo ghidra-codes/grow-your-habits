@@ -6,13 +6,19 @@ import HabitStatsCard from "./components/HabitStatsCard";
 import type { EmblaCarouselType } from "embla-carousel";
 import { useState } from "react";
 import ErrorMessage from "@/ui/ErrorMessage";
+import { useStatsModalHabit } from "@/store/useStatsModalStore";
 
 const StatsModalView = () => {
 	const userId = useUserIdRequired();
+
+	const focused = useStatsModalHabit();
 	const { data: habits = [], isLoading, isError, error } = useHabitsQuery(userId);
 
 	const [timelineModes, setTimelineModes] = useState({});
 	const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | null>(null);
+
+	// If a habit is focused, order it first
+	const ordered = focused ? [focused, ...habits.filter((habit) => habit.id !== focused.id)] : habits;
 
 	if (isLoading) return <LoadingSpinner />;
 	if (isError)
@@ -26,7 +32,7 @@ const StatsModalView = () => {
 
 	return (
 		<HabitStatsCarousel onApi={setEmblaApi}>
-			{habits.map((habit) => {
+			{ordered.map((habit) => {
 				const frequency = habit.frequency_type;
 
 				return (

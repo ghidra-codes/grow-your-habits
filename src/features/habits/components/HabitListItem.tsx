@@ -1,4 +1,4 @@
-import type { AdherenceMap, Habit, HabitWithLogs } from "@/types/habit.types";
+import type { AdherenceMap, HabitWithLogs } from "@/types/habit.types";
 import AdherenceCircle from "@/ui/AdherenceCircle";
 import Checkbox from "@/ui/Checkbox";
 import { getTodayDate } from "@/lib/dates";
@@ -11,8 +11,8 @@ import { getCurrentPeriodProgress } from "@/lib/habits/getPeriodProgress";
 
 interface HabitListItemProps {
 	habits: HabitWithLogs[];
-	onSelect: (habit: Habit | null) => void;
-	selectedHabit: Habit | null;
+	onSelect: (habit: HabitWithLogs | null) => void;
+	selectedHabit: HabitWithLogs | null;
 	onToggleHabit: (habit: HabitWithLogs, date: string) => void;
 	expandedIds: Set<string>;
 	setExpandedIds: React.Dispatch<React.SetStateAction<Set<string>>>;

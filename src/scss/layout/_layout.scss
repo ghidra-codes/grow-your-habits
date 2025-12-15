@@ -9,6 +9,17 @@
 		max-width: 1525px;
 		margin: 0 auto;
 	}
+
+	.view-heading {
+		color: $green-light;
+		margin-top: 1.5rem;
+		font-weight: 700;
+		text-align: center;
+
+		@include respond(lg) {
+			text-align: left;
+		}
+	}
 }
 
 .divider-line {

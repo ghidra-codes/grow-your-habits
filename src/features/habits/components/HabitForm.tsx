@@ -22,7 +22,7 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isSubmitting },
 		watch,
 		control,
 	} = useForm<FormValues>({
@@ -37,6 +37,8 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 	});
 
 	const onSubmit = async (data: FormValues) => {
+		if (isSubmitting) return;
+
 		const actionFn = isEditMode ? onUpdateHabit : onAddHabit;
 
 		await actionFn({
@@ -145,11 +147,11 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 			)}
 
 			<div className={`form-actions ${isRangeType ? "form-actions-shifted" : ""}`}>
-				<button type="button" onClick={onCancel} className="form-btn-cancel">
+				<button type="button" onClick={onCancel} className="form-btn-cancel" disabled={isSubmitting}>
 					Cancel
 				</button>
 
-				<button type="submit" className="form-btn-confirm">
+				<button type="submit" className="form-btn-confirm" disabled={isSubmitting}>
 					Save
 				</button>
 			</div>

@@ -1,31 +1,36 @@
 @use "../abstracts/index" as *;
 
 .tooltip {
-	background: $green-tint;
+	background: $slate-blue;
 	padding: 0.35rem 0.75rem;
 	border-radius: 0.5rem;
 	max-width: 240px;
-	border: 1px solid $jet;
-	font-size: 0.85rem;
+	border: 1px solid $off-white;
+	font-size: 0.95rem;
 	line-height: 1.35;
 	font-weight: 500;
-	color: $rich-black-darker;
 	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-	z-index: 999;
-	animation: tooltip-fade 150ms ease-out;
+	z-index: 9999;
+
+	.info-icon {
+		@include flex-center;
+	}
 }
 
 .tooltip-arrow {
-	fill: $green-tint;
+	fill: $off-white;
 }
 
-@keyframes tooltip-fade {
-	from {
-		opacity: 0;
-		transform: translateY(-4px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
+.stats-tooltip-container {
+	@include flex-center;
+	flex-direction: column;
+	gap: 0.5rem;
+
+	.stats-tooltip-item {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 0.5rem;
 	}
 }

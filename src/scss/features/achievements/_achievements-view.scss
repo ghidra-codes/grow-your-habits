@@ -10,16 +10,13 @@
 		gap: 0.5rem;
 
 		p {
-			margin: 0;
 			opacity: 0.8;
 			font-family: $secondary-font;
 		}
 	}
 
 	h2 {
-		font-family: $secondary-font;
-		color: $green-light;
-		margin: 1.5rem 0 0.75rem 0;
+		margin-bottom: 0.75rem;
 	}
 
 	.achievements-content {
@@ -58,8 +55,7 @@
 				flex-direction: column;
 				gap: 0.5rem;
 
-				h3,
-				p {
+				h3 {
 					margin: 0;
 				}
 

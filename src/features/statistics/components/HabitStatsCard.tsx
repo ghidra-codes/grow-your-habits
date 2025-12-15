@@ -13,6 +13,7 @@ import useEmblaNavigation from "../hooks/useEmblaNavigation";
 import { useStatsStreak } from "../hooks/useStatsStreak";
 import StreakBar from "./StreakBar";
 import TimelineRenderer from "./timeline/TimelineRenderer";
+import Tooltip from "@/ui/Tooltip";
 
 interface HabitStatsCardProps {
 	habit: HabitWithLogs;
@@ -142,6 +143,25 @@ const HabitStatsCard = ({
 
 			<div className="stats-section-heading">
 				<h2>TIMELINE</h2>
+
+				<Tooltip
+					content={
+						<div className="stats-tooltip-container">
+							<div className="stats-tooltip-item">
+								<div className="week-day__dot week-day__dot--pending" /> <span>Pending</span>
+							</div>
+							<div className="stats-tooltip-item">
+								<div className="week-day__dot week-day__dot--completed" />{" "}
+								<span>Completed</span>
+							</div>
+							<div className="stats-tooltip-item">
+								<div className="week-day__dot week-day__dot--missed" /> <span>Missed</span>
+							</div>
+						</div>
+					}
+					side="top"
+				/>
+
 				<div className="divider" />
 			</div>
 

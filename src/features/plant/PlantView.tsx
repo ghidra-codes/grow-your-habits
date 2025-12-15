@@ -11,6 +11,8 @@ import { usePlantStateQuery } from "./hooks/queries/usePlantStateQuery";
 import { getHealthGlowColor } from "./utils/getHealthGlowColor";
 import { getPlantColorProfile } from "./utils/getPlantColorProfile";
 import ErrorMessage from "@/ui/ErrorMessage";
+import PlantSvgPreview from "./components/PlantSvgPreview";
+import { getHealthColor } from "./utils/getHealthColor";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
@@ -41,32 +43,64 @@ const PlantView = () => {
 
 	return (
 		<div className="plant-view">
-			<div className="plant-wrapper">
-				<div className="plant-render-container">
-					{hasSeenAnim && stage !== 0 && profile ? (
-						<PlantAnimation stage={stage} onComplete={handleLottieComplete} profile={profile} />
-					) : (
-						<PlantSvgAnimated
-							stage={stage}
-							glowColor={getHealthGlowColor(plantHealth)}
-							profile={profile}
-						/>
-					)}
+			<h2 className="view-heading">Your Plant</h2>
 
-					<FloatingParticles />
+			<div className="plant-growth-path">
+				<span className="path-dot active" />
+				<span className="path-line" />
+				<span className="path-dot upcoming" />
+			</div>
+
+			<div className="plant-view-content">
+				<div className="plant-wrapper">
+					<div className="plant-render-container">
+						{hasSeenAnim && stage !== 0 && profile ? (
+							<PlantAnimation
+								stage={stage}
+								onComplete={handleLottieComplete}
+								profile={profile}
+							/>
+						) : (
+							<PlantSvgAnimated
+								stage={stage}
+								glowColor={getHealthGlowColor(plantHealth)}
+								profile={profile}
+							/>
+						)}
+
+						<FloatingParticles />
+					</div>
+
+					<div className="plant-info">
+						<div className="plant-stat primary">
+							<span className="label">Stage</span>
+							<span className="divider" />
+							<span className="value">{GROWTH_STAGES[stage].name}</span>
+						</div>
+
+						<div className="plant-stat">
+							<span className="label">Growth Score</span>
+							<span className="divider" />
+							<span className="value">{state.growth_score}</span>
+						</div>
+
+						<div className="plant-stat">
+							<span className="label">Points to Next</span>
+							<span className="divider" />
+							<span className="value">{pointsToNextStage ?? "—"}</span>
+						</div>
+
+						<div className="plant-stat health">
+							<span className="label">Plant Health</span>
+							<span className="divider" />
+							<span className="value" style={{ color: getHealthColor(plantHealth) }}>
+								{plantHealth}%
+							</span>
+						</div>
+					</div>
 				</div>
 
-				<div className="plant-info">
-					<div className="plant-stage">
-						<span>PLANT STAGE:</span> {GROWTH_STAGES[stage].name}
-					</div>
-					<div className="plant-growth-score">
-						<span>GROWTH SCORE:</span> {state.growth_score}
-					</div>
-					<div className="points-to-next-stage">
-						<span>POINTS TO NEXT:</span> {pointsToNextStage ?? "-"}
-					</div>
-				</div>
+				<PlantSvgPreview stage={stage} />
 			</div>
 		</div>
 	);

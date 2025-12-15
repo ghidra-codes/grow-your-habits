@@ -16,25 +16,26 @@ export const INSIGHTS_CONFIG: ReadonlyArray<InsightConfig> = [
 		title: "Your weakest habit",
 		description: "The habit with the lowest adherence.",
 	},
-	{
-		id: "weekly-consistency",
-		title: "Your weekly consistency",
-		description: "How many total habit completions you logged in the past week.",
-	},
+
 	{
 		id: "weekly-growth",
 		title: "Plant growth this week",
-		description: "How your plant grew or declined based on last week's habit activity.",
+		description: "How your plant grew based on last week's habit activity.",
 	},
 	{
 		id: "monthly-growth",
 		title: "Plant growth this month",
-		description: "How your plant grew or declined over the past month.",
+		description: "How your plant grew based on last month's habit activity.",
 	},
 	{
 		id: "best-streak-habit",
 		title: "Your best streak",
 		description: "The habit with your longest recorded streak.",
+	},
+	{
+		id: "weekly-consistency",
+		title: "Your weekly consistency",
+		description: "How many total habit completions you logged in the past week.",
 	},
 	{
 		id: "monthly-consistency",

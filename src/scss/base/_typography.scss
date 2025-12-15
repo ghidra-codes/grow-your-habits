@@ -8,6 +8,7 @@ h1 {
 
 h2 {
 	@include fluid-type(h2);
+	font-family: $secondary-font;
 }
 
 h3 {
@@ -24,7 +25,7 @@ p {
 h1,
 h2,
 h3 {
-	letter-spacing: 0.02em;
+	letter-spacing: 0.05em;
 }
 
 select,

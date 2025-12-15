@@ -1,8 +1,7 @@
 import type { Insight } from "@/types/insight.types";
-import Tooltip from "@/ui/ToolTip";
+import Tooltip from "@/ui/Tooltip";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { MdInfoOutline } from "react-icons/md";
 
 const InsightCard = ({
 	insight,
@@ -69,13 +68,7 @@ const InsightCard = ({
 			style={{ zIndex: 100 - index }}
 		>
 			<div className="insights-icon-anchor">
-				<Tooltip content={insight.description} side="top" sideOffset={4}>
-					<div onClick={(e) => e.stopPropagation()}>
-						<button className="info-icon" onPointerDownCapture={(e) => e.stopPropagation()}>
-							<MdInfoOutline size={22} />
-						</button>
-					</div>
-				</Tooltip>
+				<Tooltip content={insight.description} side="top" />
 			</div>
 
 			<h3>{insight.title}</h3>

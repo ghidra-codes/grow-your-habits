@@ -1,12 +1,12 @@
-import type { FrequencyType, Habit } from "@/types/habit.types";
+import type { FrequencyType, HabitWithLogs } from "@/types/habit.types";
 import type { ServiceResponse } from "@/types/service.types";
-import { normalizeHabit, normalizeHabitWithLogs } from "@/lib/habits";
+import { normalizeHabitWithLogs } from "@/lib/habits";
 import { supabase } from "@/lib/supabase/supabase-client";
 
 /**
- * Fetches all habits, their logs and for the for a given user ID.
+ * Fetches all habits and their logs for a given user ID.
  */
-export const getHabits = async (userId: string) => {
+export const getHabits = async (userId: string): Promise<ServiceResponse<HabitWithLogs[]>> => {
 	const { data, error } = await supabase
 		.from("habits")
 		.select(
@@ -19,7 +19,7 @@ export const getHabits = async (userId: string) => {
 			frequency_type,
 			target_per_week,
 			target_per_month,
-			habit_logs!left (
+			habit_logs (
 				id,
 				log_date
 			)
@@ -29,11 +29,14 @@ export const getHabits = async (userId: string) => {
 
 	if (error) return { data: null, error };
 
-	return { data: data?.map(normalizeHabitWithLogs), error: null };
+	return {
+		data: data.map(normalizeHabitWithLogs),
+		error: null,
+	};
 };
 
 /**
- * Inserts a new habit record into the database.
+ * Inserts a new habit record and returns it with logs.
  */
 export const addHabit = async (
 	name: string,
@@ -42,7 +45,7 @@ export const addHabit = async (
 	frequency_type: FrequencyType,
 	target_per_week: number | null,
 	target_per_month: number | null
-): Promise<ServiceResponse<Habit>> => {
+): Promise<ServiceResponse<HabitWithLogs>> => {
 	const { data, error } = await supabase
 		.from("habits")
 		.insert({
@@ -53,19 +56,34 @@ export const addHabit = async (
 			target_per_week,
 			target_per_month,
 		})
-		.select()
+		.select(
+			`
+			id,
+			name,
+			created_at,
+			user_id,
+			description,
+			frequency_type,
+			target_per_week,
+			target_per_month,
+			habit_logs (
+				id,
+				log_date
+			)
+		`
+		)
 		.single();
 
-	if (error) {
-		console.error("Habits DB Insertion Error:", error);
-		return { data: null, error };
-	}
+	if (error) return { data: null, error };
 
-	return { data: normalizeHabit(data), error };
+	return {
+		data: normalizeHabitWithLogs(data),
+		error: null,
+	};
 };
 
-/*
- * Updates an existing habit by its ID.
+/**
+ * Updates an existing habit and returns it with logs.
  */
 export const updateHabit = async (
 	habitId: string,
@@ -74,7 +92,7 @@ export const updateHabit = async (
 	frequency_type: FrequencyType,
 	target_per_week: number | null,
 	target_per_month: number | null
-): Promise<ServiceResponse<Habit>> => {
+): Promise<ServiceResponse<HabitWithLogs>> => {
 	const { data, error } = await supabase
 		.from("habits")
 		.update({
@@ -85,26 +103,41 @@ export const updateHabit = async (
 			target_per_month,
 		})
 		.eq("id", habitId)
-		.select()
+		.select(
+			`
+			id,
+			name,
+			created_at,
+			user_id,
+			description,
+			frequency_type,
+			target_per_week,
+			target_per_month,
+			habit_logs (
+				id,
+				log_date
+			)
+		`
+		)
 		.single();
 
 	if (error) return { data: null, error };
 
-	return { data: normalizeHabit(data), error: null };
+	return {
+		data: normalizeHabitWithLogs(data),
+		error: null,
+	};
 };
 
-/*
+/**
  * Deletes a habit by its ID.
  */
-export const deleteHabit = async (habitId: string): Promise<ServiceResponse<Habit[]>> => {
-	const { data, error } = await supabase.from("habits").delete().select().eq("id", habitId);
+export const deleteHabit = async (habitId: string): Promise<ServiceResponse<null>> => {
+	const { error } = await supabase.from("habits").delete().eq("id", habitId);
 
-	if (error) {
-		console.error("Habits DB Deletion Error:", error);
-		return { data: null, error };
-	}
+	if (error) return { data: null, error };
 
-	return { data: (data ?? []).map(normalizeHabit), error: null };
+	return { data: null, error: null };
 };
 
 /**
@@ -112,7 +145,7 @@ export const deleteHabit = async (habitId: string): Promise<ServiceResponse<Habi
  * Used to determine whether the plant should be initialized.
  */
 export const checkHasHadHabits = async (userId: string): Promise<boolean> => {
-	const { data, error } = await supabase
+	const { count, error } = await supabase
 		.from("habits")
 		.select("id", { count: "exact", head: true })
 		.eq("user_id", userId);
@@ -122,5 +155,5 @@ export const checkHasHadHabits = async (userId: string): Promise<boolean> => {
 		return false;
 	}
 
-	return (data?.length ?? 0) > 0;
+	return (count ?? 0) > 0;
 };

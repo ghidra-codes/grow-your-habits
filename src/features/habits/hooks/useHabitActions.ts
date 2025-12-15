@@ -1,4 +1,4 @@
-import type { Habit, HabitPayload, HabitWithLogs } from "@/types/habit.types";
+import type { HabitPayload, HabitWithLogs } from "@/types/habit.types";
 import { useDeleteHabitLog } from "./mutations/useDeleteHabitLog";
 import { useLogHabit } from "./mutations/useLogHabit";
 import { useAddHabit } from "./mutations/useAddHabit";
@@ -10,8 +10,8 @@ import { plantStateKey } from "@/lib/data/queryKeys";
 
 export const useHabitActions = (
 	userId: string,
-	selectedHabit: Habit | null,
-	setSelectedHabit: (habit: Habit | null) => void,
+	selectedHabit: HabitWithLogs | null,
+	setSelectedHabit: (habit: HabitWithLogs | null) => void,
 	closeModal: () => void
 ) => {
 	const queryClient = useQueryClient();

@@ -42,7 +42,7 @@ const Navbar = () => {
 						</Link>
 					</motion.div>
 				</li>
-				<li className="nav-list-item" onClick={open}>
+				<li className="nav-list-item" onClick={() => open()}>
 					<span className="nav-label">STATS</span>
 					<motion.button className="nav-link" {...tapSpring}>
 						<LuChartLine />
