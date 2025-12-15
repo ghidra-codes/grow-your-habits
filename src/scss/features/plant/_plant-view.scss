@@ -65,6 +65,7 @@
 			grid-template-columns: 1fr 1px 1fr;
 			background: $rich-black-lighter;
 			border-top: 2px solid $rich-black-lightest;
+			border-radius: 0 0 0.5rem 0.5rem;
 
 			.plant-stat {
 				display: contents;

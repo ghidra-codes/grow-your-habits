@@ -49,8 +49,8 @@ export const useInsights = ({ habits, weeklyGrowthChange, monthlyGrowthChange }:
 		}).filter((i): i is Insight => i !== null);
 
 		// Shuffle and limit to 3
-		if (generated.length <= 3) return generated;
-		return seededShuffle(generated, seed).slice(0, 3);
+		if (generated.length <= 4) return generated;
+		return seededShuffle(generated, seed).slice(0, 4);
 	}, [habits, weeklyGrowthChange, monthlyGrowthChange, adherenceMap, recentMap, streakMap, seed]);
 
 	return insights;

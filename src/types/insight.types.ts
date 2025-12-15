@@ -44,3 +44,9 @@ export type InsightContext = {
 	bestStreakHabit: (HabitRef & { longestStreak: number }) | null;
 	mostImprovedHabit: (HabitRef & { improvement: number }) | null;
 };
+
+export type InsightConfidence = {
+	level: "low" | "medium" | "high";
+	label: string;
+	daysTracked: number;
+};
