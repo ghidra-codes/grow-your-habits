@@ -1,7 +1,7 @@
 import type { HabitWithLogs } from "@/types/habit.types";
 import { useState } from "react";
 
-const useHabitLogModal = () => {
+export const useHabitLogModal = () => {
 	const [logOptionsHabit, setLogOptionsHabit] = useState<HabitWithLogs | null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -22,5 +22,3 @@ const useHabitLogModal = () => {
 		closeModal,
 	};
 };
-
-export default useHabitLogModal;

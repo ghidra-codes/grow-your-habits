@@ -1,7 +1,7 @@
 import type { EmblaCarouselType } from "embla-carousel";
 import { useEffect, useState } from "react";
 
-const useEmblaNavigation = (emblaApi: EmblaCarouselType | null) => {
+export const useEmblaNavigation = (emblaApi: EmblaCarouselType | null) => {
 	const [canPrev, setCanPrev] = useState(false);
 	const [canNext, setCanNext] = useState(false);
 
@@ -29,5 +29,3 @@ const useEmblaNavigation = (emblaApi: EmblaCarouselType | null) => {
 
 	return { canPrev, canNext, onPrev, onNext };
 };
-
-export default useEmblaNavigation;

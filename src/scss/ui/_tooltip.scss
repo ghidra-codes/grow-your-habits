@@ -34,3 +34,8 @@
 		gap: 0.5rem;
 	}
 }
+
+.nav-tooltip-content {
+	@include flex-center;
+	gap: 0.5rem;
+}

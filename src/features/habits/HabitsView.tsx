@@ -1,21 +1,21 @@
-import { useClickOutside } from "@/ui/hooks/useClickOutside";
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
+import { useStatsModalActions } from "@/store/useStatsModalStore";
 import type { HabitWithLogs } from "@/types/habit.types";
+import ErrorMessage from "@/ui/ErrorMessage";
+import { useClickOutside } from "@/ui/hooks/useClickOutside";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
 import { useState } from "react";
 import HabitForm from "./components/HabitForm";
 import HabitListItem from "./components/HabitListItem";
+import HabitLogOptions from "./components/HabitLogOptions";
 import HabitsControlPanel from "./components/HabitsControlPanel";
 import { modalModeConfig } from "./config/modal-mode";
 import { useHabitAdherenceMap } from "./hooks/derived/useHabitAdherenceMap";
 import { useHabitsQuery } from "./hooks/queries/useHabitsQuery";
 import { useHabitActions } from "./hooks/useHabitActions";
+import { useHabitLogModal } from "./hooks/useHabitLogModal";
 import { useHabitModal } from "./hooks/useHabitModal";
-import HabitLogOptions from "./components/HabitLogOptions";
-import useHabitLogModal from "./hooks/useHabitLogModal";
-import ErrorMessage from "@/ui/ErrorMessage";
-import { useStatsModalActions } from "@/store/useStatsModalStore";
 
 const HabitsView = () => {
 	const [selectedHabit, setSelectedHabit] = useState<HabitWithLogs | null>(null);
@@ -61,13 +61,22 @@ const HabitsView = () => {
 		<>
 			<div className="habits-container">
 				<h2 className="view-heading">Habits</h2>
+
 				<HabitsControlPanel
 					selectedHabit={selectedHabit}
 					onAdd={() => openModal("add")}
 					onEdit={() => openModal("edit")}
 					onDelete={() => handleDeleteHabit()}
 					onOpenStats={() => selectedHabit && open(selectedHabit)}
+					hasHabits={!!habits && habits.length > 0}
 				/>
+
+				{habits && habits.length === 0 && (
+					<div className="habits-empty-state">
+						<p>No habits found.</p>
+						<p>Add a habit to get started.</p>
+					</div>
+				)}
 
 				{habits && habits.length > 0 && (
 					<ul className="habits-list">

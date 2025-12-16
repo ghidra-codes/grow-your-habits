@@ -5,15 +5,15 @@ import type { FrequencyType, HabitWithLogs } from "@/types/habit.types";
 import type { TimelineModesMap, TimelineViewMode } from "@/types/statistic.types";
 import ProgressBar from "@/ui/ProgressBar";
 import Select from "@/ui/Select";
+import Tooltip from "@/ui/tooltip/Tooltip";
 import type { EmblaCarouselType } from "embla-carousel";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { PiArrowFatLineDown, PiArrowFatLineUp, PiArrowFatRight } from "react-icons/pi";
 import { FREQUENCY_LABELS } from "../constants/stats-card";
-import useEmblaNavigation from "../hooks/useEmblaNavigation";
+import { useEmblaNavigation } from "../hooks/useEmblaNavigation";
 import { useStatsStreak } from "../hooks/useStatsStreak";
 import StreakBar from "./StreakBar";
 import TimelineRenderer from "./timeline/TimelineRenderer";
-import Tooltip from "@/ui/Tooltip";
 
 interface HabitStatsCardProps {
 	habit: HabitWithLogs;
@@ -145,6 +145,7 @@ const HabitStatsCard = ({
 				<h2>TIMELINE</h2>
 
 				<Tooltip
+					id={`stats-timeline-legend-${habit.id}`}
 					content={
 						<div className="stats-tooltip-container">
 							<div className="stats-tooltip-item">

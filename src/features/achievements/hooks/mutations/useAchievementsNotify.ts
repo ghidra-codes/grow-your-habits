@@ -1,8 +1,8 @@
+import { achievementsKey } from "@/lib/data/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifyAchievements } from "../../data/achievements";
-import { achievementsKey } from "@/lib/data/queryKeys";
 
-const useAchievementsNotify = (userId: string) => {
+export const useAchievementsNotify = (userId: string) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
@@ -14,4 +14,3 @@ const useAchievementsNotify = (userId: string) => {
 		onError: (error) => console.error("Failed to mark achievements as notified", error),
 	});
 };
-export default useAchievementsNotify;

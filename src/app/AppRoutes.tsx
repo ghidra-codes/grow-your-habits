@@ -1,11 +1,12 @@
-import { Routes, Route } from "react-router";
-import Layout from "./Layout";
-import PlantView from "@/features/plant/PlantView";
-import HabitsView from "@/features/habits/HabitsView";
+import AchievementsView from "@/features/achievements/AchievementsView";
 import LoginView from "@/features/auth/LoginView";
 import RegisterView from "@/features/auth/RegisterView";
-import AchievementsView from "@/features/achievements/AchievementsView";
+import HabitsView from "@/features/habits/HabitsView";
 import InsightsView from "@/features/insights/InsightsView";
+import StatsAndInsightsGuard from "@/features/plant/guards/StatsAndInsightsGuard";
+import PlantView from "@/features/plant/PlantView";
+import { Route, Routes } from "react-router";
+import Layout from "./Layout";
 
 const AppRoutes = () => {
 	return (
@@ -19,7 +20,10 @@ const AppRoutes = () => {
 				<Route index element={<PlantView />} />
 				<Route path="habits" element={<HabitsView />} />
 				<Route path="achievements" element={<AchievementsView />} />
-				<Route path="insights" element={<InsightsView />} />
+
+				<Route element={<StatsAndInsightsGuard />}>
+					<Route path="insights" element={<InsightsView />} />
+				</Route>
 
 				<Route path="*" element={<h2>404: Page Not Found</h2>} />
 			</Route>

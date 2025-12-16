@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef } from "react";
 import { useIncrementDeathCount } from "../mutations/useIncrementDeathCount";
 
-const useSyncPlantHealth = (
+export const useSyncPlantHealth = (
 	userId: string,
 	plantHealth: number,
 	calculated: number,
@@ -129,5 +129,3 @@ const useSyncPlantHealth = (
 		setPlantCache,
 	]);
 };
-
-export default useSyncPlantHealth;

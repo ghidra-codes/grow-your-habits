@@ -1,5 +1,5 @@
 import type { Insight } from "@/types/insight.types";
-import Tooltip from "@/ui/Tooltip";
+import Tooltip from "@/ui/tooltip/Tooltip";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -68,7 +68,7 @@ const InsightCard = ({
 			style={{ zIndex: 100 - index }}
 		>
 			<div className="insights-icon-anchor">
-				<Tooltip content={insight.description} side="top" />
+				<Tooltip id={`insight-${insight.id}`} content={insight.description} side="top" />
 			</div>
 
 			<h3>{insight.title}</h3>

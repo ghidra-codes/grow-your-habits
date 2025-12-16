@@ -6,7 +6,7 @@ import type { StreakTier } from "@/types/notification.types";
 import { useEffect } from "react";
 import { NOTIF_MSG, NOTIF_TYPE, STREAK_TIERS, STREAK_UNITS } from "./config/notifications";
 
-const useStreakNotifications = () => {
+export const useStreakNotifications = () => {
 	const userId = useUserIdRequired();
 	const { data: habits = [] } = useHabitsQuery(userId);
 	const streakMap = useStatsStreakMap(habits);
@@ -60,5 +60,3 @@ const useStreakNotifications = () => {
 		localStorage.setItem(notifiedKey, JSON.stringify(notifiedMap));
 	}, [habits, streakMap, userId, push]);
 };
-
-export default useStreakNotifications;

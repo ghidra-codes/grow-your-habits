@@ -1,8 +1,10 @@
 import type { HabitLog, HabitWithLogs } from "@/types/habit.types";
-import { habitsKey } from "@/lib/data/queryKeys";
+import { habitsKey, plantStateKey } from "@/lib/data/queryKeys";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteHabitLog } from "../../data/habit-logs";
 import type { LogCtx, LogVars, ServiceResponse } from "@/types/service.types";
+import { updatePlantHealth } from "@/features/plant/data/plant-state";
+import { BASELINE_HEALTH } from "@/features/plant/config/health";
 
 export const useDeleteHabitLog = (userId: string) => {
 	const queryClient = useQueryClient();
@@ -39,16 +41,27 @@ export const useDeleteHabitLog = (userId: string) => {
 		},
 
 		onSuccess: (_result, { habitId, date }) => {
-			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (old = []) =>
-				old.map((habit) =>
+			queryClient.setQueryData<HabitWithLogs[]>(habitsKey(userId), (old = []) => {
+				const updated = old.map((habit) =>
 					habit.id !== habitId
 						? habit
 						: {
 								...habit,
-								logs: (habit.logs ?? []).filter((log) => log.log_date !== date),
+								logs: habit.logs.filter((log) => log.log_date !== date),
 						  }
-				)
-			);
+				);
+
+				const hasAnyLogsLeft = updated.some((h) => h.logs.length > 0);
+
+				// RESET SERVER HEALTH TO BASELINE
+				if (!hasAnyLogsLeft) {
+					void updatePlantHealth(userId, BASELINE_HEALTH).then(() => {
+						queryClient.invalidateQueries({ queryKey: plantStateKey(userId) });
+					});
+				}
+
+				return updated;
+			});
 		},
 	});
 };

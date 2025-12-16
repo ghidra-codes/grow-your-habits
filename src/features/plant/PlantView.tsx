@@ -13,12 +13,15 @@ import { getPlantColorProfile } from "./utils/getPlantColorProfile";
 import ErrorMessage from "@/ui/ErrorMessage";
 import PlantSvgPreview from "./components/PlantSvgPreview";
 import { getHealthColor } from "./utils/getHealthColor";
+import { Link } from "react-router";
 
 const PlantView = () => {
 	const userId = useUserIdRequired();
 
 	const { data, isLoading, isError, error } = usePlantStateQuery(userId);
 	const plantHealth = usePlantHealth();
+
+	const isInitialized = data?.isInitialized ?? false;
 
 	const hasSeenAnim = usePlantAnimEnabled();
 	const { disable } = usePlantAnimActions();
@@ -54,6 +57,16 @@ const PlantView = () => {
 			<div className="plant-view-content">
 				<div className="plant-wrapper">
 					<div className="plant-render-container">
+						{!isInitialized && (
+							<div className="plant-uninitialized-overlay">
+								<p>This soil is ready for something to grow.</p>
+								<p>Create your first habit to plant the seed.</p>
+
+								<Link to="/habits" className="add-habit-btn">
+									Add a habit
+								</Link>
+							</div>
+						)}
 						{hasSeenAnim && stage !== 0 && profile ? (
 							<PlantAnimation
 								stage={stage}
@@ -68,7 +81,7 @@ const PlantView = () => {
 							/>
 						)}
 
-						<FloatingParticles />
+						{stage !== 0 && <FloatingParticles />}
 					</div>
 
 					<div className="plant-info">
@@ -93,8 +106,13 @@ const PlantView = () => {
 						<div className="plant-stat health">
 							<span className="label">Plant Health</span>
 							<span className="divider" />
-							<span className="value" style={{ color: getHealthColor(plantHealth) }}>
-								{plantHealth}%
+							<span
+								className="value"
+								style={{
+									color: isInitialized ? getHealthColor(plantHealth) : undefined,
+								}}
+							>
+								{isInitialized ? `${plantHealth}%` : "—"}
 							</span>
 						</div>
 					</div>

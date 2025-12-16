@@ -34,6 +34,7 @@ export const useHabitActions = (
 		// Ensure plant_state exists
 		const { data: plant_state } = await getPlantState(userId);
 		if (!plant_state) {
+			// Need to know if this has ran globally, maybe create a zustand store for plant init state?
 			await initPlantState(userId);
 			await queryClient.invalidateQueries({ queryKey: plantStateKey(userId) });
 		}

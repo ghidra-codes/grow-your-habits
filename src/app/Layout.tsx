@@ -6,6 +6,7 @@ import Modal from "@/ui/Modal";
 import Navbar from "@/ui/Navbar";
 import { Navigate, Outlet } from "react-router";
 import AppEvents from "@/features/notifications/AppEvents";
+import { TooltipProvider } from "@/ui/tooltip/TooltipContext";
 
 const Layout = () => {
 	const session = useAuthSession();
@@ -20,25 +21,27 @@ const Layout = () => {
 
 	return (
 		<div className="app-container">
-			<Navbar />
+			<TooltipProvider>
+				<Navbar />
 
-			<AppEvents />
+				<AppEvents />
 
-			<main>
-				<div className="content-wrapper">
-					<Outlet />
-				</div>
-			</main>
+				<main>
+					<div className="content-wrapper">
+						<Outlet />
+					</div>
+				</main>
 
-			<Modal
-				isOpen={isOpen}
-				handleClose={close}
-				title="Statistics"
-				description="Your habit performance data"
-				containerClass="statistics-content-container"
-			>
-				<StatsModalView />
-			</Modal>
+				<Modal
+					isOpen={isOpen}
+					handleClose={close}
+					title="Statistics"
+					description="Your habit performance data"
+					containerClass="statistics-content-container"
+				>
+					<StatsModalView />
+				</Modal>
+			</TooltipProvider>
 		</div>
 	);
 };

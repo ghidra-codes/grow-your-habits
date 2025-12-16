@@ -98,7 +98,7 @@ export const updatePlantHealth = async (
 		return { data: null, error: existingErr };
 	}
 
-	// IF MISSING, CREATE INITIAL ROW (use upsert to be safe)
+	// IF MISSING, CREATE INITIAL ROW
 	if (!existing) {
 		const payload = {
 			user_id: userId,
@@ -131,7 +131,7 @@ export const updatePlantHealth = async (
 		updated_at: new Date().toISOString(),
 	};
 
-	// REVIVAL CASE: prevHealth === 0 && newHealth > 0
+	// REVIVAL CASE
 	if (prevHealth === 0 && newHealth > 0) {
 		const gain = getDailyGrowthAmount(newHealth);
 		updates.growth_score = prevGrowth + gain;

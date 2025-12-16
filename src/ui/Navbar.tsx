@@ -1,18 +1,22 @@
 import { usePlantHealth } from "@/features/plant/hooks/derived/usePlantHealth";
+import { useStatsAndInsightsAccess } from "@/features/plant/hooks/derived/useStatsAndInsightsAccess";
 import { supabase } from "@/lib/supabase/supabase-client";
 import { useStatsModalActions } from "@/store/useStatsModalStore";
 import { motion } from "motion/react";
+import { FaLock } from "react-icons/fa";
 import { LuChartLine, LuLeaf, LuLightbulb, LuListChecks, LuLogOut, LuTrophy } from "react-icons/lu";
 import { Link, useLocation } from "react-router";
 import { tapSpring } from "./motion/motion-presets";
 import PlantHealthBar from "./PlantHealthBar";
+import Tooltip from "./tooltip/Tooltip";
 
 const Navbar = () => {
 	const plantHealth = usePlantHealth();
 
-	const { pathname } = useLocation();
-
 	const { open } = useStatsModalActions();
+	const { hasAccess } = useStatsAndInsightsAccess();
+
+	const { pathname } = useLocation();
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -42,19 +46,56 @@ const Navbar = () => {
 						</Link>
 					</motion.div>
 				</li>
-				<li className="nav-list-item" onClick={() => open()}>
+				<li className="nav-list-item">
 					<span className="nav-label">STATS</span>
-					<motion.button className="nav-link" {...tapSpring}>
-						<LuChartLine />
-					</motion.button>
+
+					{hasAccess ? (
+						<motion.button className="nav-link" {...tapSpring} onClick={() => open()}>
+							<LuChartLine />
+						</motion.button>
+					) : (
+						<Tooltip
+							id="stats-locked"
+							content={
+								<div className="nav-tooltip-content">
+									<FaLock size={22} />
+									<span>Create and log a habit to unlock statistics</span>
+								</div>
+							}
+							side="right"
+						>
+							<span className="nav-link disabled">
+								<LuChartLine />
+							</span>
+						</Tooltip>
+					)}
 				</li>
+
 				<li className={`nav-list-item ${isActive("/insights") ? "active" : ""}`}>
 					<span className="nav-label">INSIGHT</span>
-					<motion.div className="link-wrapper" {...tapSpring}>
-						<Link to="/insights" className="nav-link">
-							<LuLightbulb />
-						</Link>
-					</motion.div>
+
+					{hasAccess ? (
+						<motion.div className="link-wrapper" {...tapSpring}>
+							<Link to="/insights" className="nav-link">
+								<LuLightbulb />
+							</Link>
+						</motion.div>
+					) : (
+						<Tooltip
+							id="insights-locked"
+							content={
+								<div className="nav-tooltip-content">
+									<FaLock size={22} />
+									<span>Create and log a habit to unlock insights</span>
+								</div>
+							}
+							side="right"
+						>
+							<span className="nav-link disabled">
+								<LuLightbulb />
+							</span>
+						</Tooltip>
+					)}
 				</li>
 				<li className={`nav-list-item ${isActive("/achievements") ? "active" : ""}`}>
 					<span className="nav-label">BADGES</span>

@@ -6,12 +6,12 @@ import type { HabitWithLogs } from "@/types/habit.types";
 import type { PlantHealth } from "@/types/plant.types";
 import { useMemo } from "react";
 
-export const useCalculatedPlantHealth = (habits: HabitWithLogs[]): PlantHealth => {
+export const useCalculatedPlantHealth = (habits: HabitWithLogs[], hasHabitLogs: boolean): PlantHealth => {
 	const streakMap = useStatsStreakMap(habits ?? []);
 	const recentMap = useRecentAdherenceMap(habits ?? []);
 
 	return useMemo(() => {
-		if (!habits.length) return sanitizePlantHealth(0);
+		if (!hasHabitLogs) return sanitizePlantHealth(0);
 
 		const scores: number[] = [];
 
@@ -31,5 +31,5 @@ export const useCalculatedPlantHealth = (habits: HabitWithLogs[]): PlantHealth =
 		const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
 
 		return sanitizePlantHealth(Math.round(avg));
-	}, [habits, streakMap, recentMap]);
+	}, [habits, streakMap, recentMap, hasHabitLogs]);
 };

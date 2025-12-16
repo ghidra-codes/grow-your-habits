@@ -1,11 +1,11 @@
-import useAchievementsNotify from "@/features/achievements/hooks/mutations/useAchievementsNotify";
+import { useAchievementsNotify } from "@/features/achievements/hooks/mutations/useAchievementsNotify";
 import { useAchievementContext } from "@/features/achievements/hooks/useAchievementContext";
 import { useAchievements } from "@/features/achievements/hooks/useAchievements";
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
 import { useNotificationActions } from "@/store/useNotificationStore";
+import type { Achievement } from "@/types/achievement.types";
 import { useEffect, useRef } from "react";
 import { NOTIF_MSG, NOTIF_TYPE } from "./config/notifications";
-import type { Achievement } from "@/types/achievement.types";
 
 type NotifiableAchievement = {
 	entryId: string;

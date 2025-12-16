@@ -1,6 +1,6 @@
 import { mapHexToNormalized } from "@/lib/ui";
-import type { Animation } from "@lottiefiles/lottie-types";
 import { ORIGINAL_PLANT_COLORS } from "../constants/plant-colors";
+import type { LottieAnimation } from "@/types/lottie.types";
 
 type RGBA = [number, number, number, number];
 
@@ -31,7 +31,7 @@ const isColorProp = (value: unknown): value is ColorValue => {
 	return true;
 };
 
-export const recolorLottie = (json: Animation, profile: Record<string, string>): Animation => {
+export const recolorLottie = (json: LottieAnimation, profile: Record<string, string>): LottieAnimation => {
 	const originalMap: Record<string, RGBA> = {};
 	const targetMap: Record<string, RGBA> = {};
 
