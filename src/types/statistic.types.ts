@@ -77,3 +77,21 @@ export type StreakMap = Record<string, Streak>;
 // TREND
 
 export type TrendDirection = "improving" | "stable" | "declining";
+
+// TIMELINE CAROUSEL PROPS
+
+export type TimelineCarouselProps =
+	| {
+			frequency: "daily";
+			data: DailyPeriodTimeline;
+			mode: TimelineViewMode;
+			compact: boolean;
+	  }
+	| {
+			frequency: "weekly";
+			data: WeeklySummaryTimeline;
+	  }
+	| {
+			frequency: "monthly";
+			data: MonthlySummaryTimeline;
+	  };

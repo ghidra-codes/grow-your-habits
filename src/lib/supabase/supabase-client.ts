@@ -1,5 +1,5 @@
+import type { Database } from "@/types/supabase.types";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "../types/supabase.types";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
