@@ -20,4 +20,5 @@
 	background: $rich-black-surface;
 	transition: all 0.3s ease;
 	border: 1px solid $rich-black-lightest;
+	min-height: clamp(14px, 2.5vh, 20px);
 }

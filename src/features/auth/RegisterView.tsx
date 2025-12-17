@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { supabase } from "@/lib/supabase/supabase-client";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { register } from "./data/auth";
+import { getErrorMsg } from "@/lib/errors/getErrorMsg";
 
 interface RegisterFormData {
 	email: string;
@@ -11,26 +11,23 @@ interface RegisterFormData {
 const RegisterView = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const navigate = useNavigate();
+	const [success, setSuccess] = useState(false);
 
-	const { register, handleSubmit } = useForm<RegisterFormData>();
+	const { register: formRegister, handleSubmit } = useForm<RegisterFormData>();
 
 	const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
 		setLoading(true);
 		setError(null);
+		setSuccess(false);
 
-		const { error: authError } = await supabase.auth.signUp({
-			email: data.email,
-			password: data.password,
-		});
-
-		if (authError) {
-			setError(authError.message);
-		} else {
-			navigate("/");
+		try {
+			await register(data);
+			setSuccess(true);
+		} catch (err) {
+			setError(getErrorMsg(err));
+		} finally {
+			setLoading(false);
 		}
-
-		setLoading(false);
 	};
 
 	return (
@@ -41,25 +38,38 @@ const RegisterView = () => {
 				<input
 					type="email"
 					placeholder="Email"
-					{...register("email", { required: "Email is required" })}
+					{...formRegister("email", { required: "Email is required" })}
 					required
+					disabled={success}
 				/>
 				<input
 					type="password"
 					placeholder="Password (min 6 characters)"
-					{...register("password", { required: "Password is required" })}
+					{...formRegister("password", {
+						required: "Password is required",
+					})}
 					required
+					disabled={success}
 				/>
 
-				<p className={`auth-error ${!error && "hidden"}`}>{error}</p>
+				{/* MESSAGE */}
+				<p
+					className={`auth-message ${error ? "auth-error" : "auth-success"} ${
+						!error && !success ? "hidden" : ""
+					}`}
+				>
+					{error ?? "We’ve sent you a confirmation email."}
+				</p>
 
-				<button type="submit" disabled={loading}>
-					{loading ? "Creating Account..." : "Register"}
+				<button type="submit" disabled={loading || success}>
+					{success ? "Check your email" : loading ? "Creating Account..." : "Register"}
 				</button>
 
-				<div className="auth-link">
-					Already have an account? <a href="/login">Log in</a>
-				</div>
+				{!success && (
+					<div className="auth-link">
+						Already have an account? <a href="/login">Log in</a>
+					</div>
+				)}
 			</form>
 		</div>
 	);

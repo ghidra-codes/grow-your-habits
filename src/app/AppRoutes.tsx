@@ -1,4 +1,5 @@
 import AchievementsView from "@/features/achievements/AchievementsView";
+import ConfirmEmailView from "@/features/auth/ConfirmEmailView";
 import LoginView from "@/features/auth/LoginView";
 import RegisterView from "@/features/auth/RegisterView";
 import HabitsView from "@/features/habits/HabitsView";
@@ -14,6 +15,7 @@ const AppRoutes = () => {
 			{/* PUBLIC ROUTES (Login, Register) */}
 			<Route path="/login" element={<LoginView />} />
 			<Route path="/register" element={<RegisterView />} />
+			<Route path="/confirm-email" element={<ConfirmEmailView />} />
 
 			{/* PROTECTED ROUTES */}
 			<Route path="/" element={<Layout />}>

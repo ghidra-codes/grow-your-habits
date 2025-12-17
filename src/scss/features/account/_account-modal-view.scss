@@ -1,0 +1,153 @@
+@use "../../abstracts/index" as *;
+
+/* MODAL WRAPPER */
+.account-modal-container {
+	top: 20px;
+	max-width: 680px;
+	background-color: $rich-black-light;
+	padding: 1.5rem 1.25rem;
+	border-radius: 0.8rem;
+	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
+	overflow-y: auto;
+
+	.account-section-heading {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		.divider {
+			flex: 1;
+			height: 1px;
+			background-color: rgba($green-tint, 0.85);
+		}
+
+		h3 {
+			margin: 0;
+			padding-left: 0.25rem;
+			color: $green-tint;
+			font-weight: 700;
+		}
+	}
+
+	.account-hint {
+		color: $jet-brighter;
+		@include fluid-type(small-text);
+		padding-left: 0.25rem;
+
+		span {
+			font-weight: 500;
+			color: $off-white;
+		}
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+
+		.input-group {
+			display: flex;
+			flex-direction: column;
+
+			input {
+				width: 100%;
+				padding: 1rem;
+				background-color: $rich-black-surface;
+				border: 1px solid $rich-black-surface-light;
+				border-radius: 0.5rem;
+				color: $off-white;
+				transition: all 0.2s ease;
+
+				&::placeholder {
+					color: rgba($off-white, 0.5);
+				}
+
+				&:focus {
+					outline: none;
+					border-color: $green-primary;
+					background-color: $rich-black-surface-light;
+				}
+			}
+
+			button {
+				width: 55%;
+				margin-top: 1.25rem;
+				background-color: $slate-blue;
+				align-self: flex-start;
+				border-radius: 0.5rem;
+				border: none;
+				padding: 0.8rem 1.35rem;
+				@include fluid-type(button-text);
+				transition: all 0.25s ease;
+
+				@include respond(lg) {
+					width: 40%;
+				}
+
+				&:hover {
+					border-color: $rich-black-surface-light;
+					background: $rich-black-surface;
+					color: $off-white;
+				}
+			}
+
+			.form-success-text,
+			.form-error-text {
+				display: flex;
+				align-items: center;
+				@include fluid-type(small-text);
+				padding-left: 0.25rem;
+				min-height: 2.05rem;
+
+				margin: 0;
+
+				opacity: 1;
+				visibility: visible;
+				transition: all 0.2s ease;
+
+				&.hidden {
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
+
+			.form-error-text {
+				color: $accent-gold;
+			}
+
+			.form-success-text {
+				color: $green-primary;
+			}
+		}
+	}
+
+	.account-modal-section {
+		margin-top: 1.25rem;
+
+		&.password {
+			margin-top: 2.25rem;
+		}
+	}
+
+	.account-logout-button {
+		width: 100%;
+		@include flex-center;
+		gap: 0.5rem;
+
+		margin-top: 3rem;
+		padding: 0.5rem 0.75rem;
+
+		color: $alert-red;
+		background: transparent;
+
+		border: 2px solid $alert-red;
+		border-radius: 0.5rem;
+		opacity: 1;
+
+		transition: opacity 0.2s ease;
+
+		&:active,
+		&:hover {
+			opacity: 0.7;
+		}
+	}
+}

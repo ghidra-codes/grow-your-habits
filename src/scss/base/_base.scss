@@ -30,6 +30,10 @@ body {
 html,
 body {
 	background-color: $rich-black;
+
+	@include respond(lg) {
+		background: linear-gradient(to left, $rich-black-darker, $rich-black 40%);
+	}
 }
 
 main {

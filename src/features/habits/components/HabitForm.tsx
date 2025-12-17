@@ -67,6 +67,7 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 						},
 					})}
 				/>
+
 				<p className={`form-error-text ${!errors.name ? "hidden" : ""}`}>{errors.name?.message}</p>
 			</div>
 
@@ -81,6 +82,7 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 					})}
 					rows={3}
 				/>
+
 				<p className={`form-error-text ${!errors.description ? "hidden" : ""}`}>
 					{errors.description?.message}
 				</p>

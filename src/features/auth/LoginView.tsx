@@ -1,7 +1,8 @@
-import { supabase } from "@/lib/supabase/supabase-client";
+import { getErrorMsg } from "@/lib/errors/getErrorMsg";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { login } from "./data/auth";
 
 interface LoginFormData {
 	email: string;
@@ -20,18 +21,14 @@ const LoginView = () => {
 		setLoading(true);
 		setError(null);
 
-		const { error: authError } = await supabase.auth.signInWithPassword({
-			email: data.email,
-			password: data.password,
-		});
-
-		if (authError) {
-			setError(authError.message);
-		} else {
+		try {
+			await login(data);
 			navigate("/");
+		} catch (err) {
+			setError(getErrorMsg(err));
+		} finally {
+			setLoading(false);
 		}
-
-		setLoading(false);
 	};
 
 	return (
@@ -52,7 +49,7 @@ const LoginView = () => {
 					required
 				/>
 
-				<p className={`auth-error ${!error && "hidden"}`}>{error}</p>
+				<p className={`auth-message auth-error ${!error && "hidden"}`}>{error}</p>
 
 				<button type="submit" disabled={loading}>
 					{loading ? "Logging In..." : "Log In"}

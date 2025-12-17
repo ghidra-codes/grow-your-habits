@@ -16,6 +16,16 @@
 	border-radius: 0.8rem;
 	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
 
+	&.confirm-email-view {
+		@include flex-center;
+		flex-direction: column;
+		text-align: center;
+
+		h2 {
+			margin: 0 0 1rem 0;
+		}
+	}
+
 	h2 {
 		@include fluid-type(h1);
 		color: $green-light;
@@ -72,17 +82,26 @@
 	}
 }
 
-.auth-error {
+.auth-message {
 	@include flex-center;
 	margin: 0;
 	height: 2.5rem;
-	padding: 0.5rem 0;
+	padding: 0.5rem 0.75rem;
 	border-radius: 0.5rem;
 	@include fluid-type(small-text);
-	background-color: rgba($alert-red, 0.2);
-	color: $alert-red;
-	border: 1px solid $alert-red;
 	transition: opacity 0.3s ease;
+
+	&.auth-error {
+		background-color: rgba($alert-red, 0.2);
+		color: $alert-red;
+		border: 1px solid $alert-red;
+	}
+
+	&.auth-success {
+		background-color: rgba($green-primary, 0.2);
+		color: $green-primary;
+		border: 1px solid $green-primary;
+	}
 
 	&.hidden {
 		visibility: hidden;
@@ -105,4 +124,14 @@
 			text-decoration: underline;
 		}
 	}
+}
+
+.auth-redirect-text {
+	width: 100%;
+	@include fluid-type(large-text);
+	opacity: 0.9;
+	color: $off-white;
+	font-weight: 500;
+	margin-top: 1rem;
+	text-align: center;
 }

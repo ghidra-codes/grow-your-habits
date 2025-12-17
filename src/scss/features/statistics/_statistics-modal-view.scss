@@ -4,7 +4,7 @@
 
 .statistics-content-container {
 	width: calc(100% - 20px);
-	max-width: 600px;
+	max-width: 680px;
 	background-color: $rich-black-light;
 	padding: 1.5rem 1.25rem;
 	border-radius: 0.8rem;
@@ -54,10 +54,9 @@
 			flex: 1;
 			height: 1px;
 			background-color: rgba($green-tint, 0.85);
-			border-radius: 1rem;
 		}
 
-		h2 {
+		h3 {
 			margin: 0;
 			padding-left: 0.25rem;
 			color: $green-tint;
@@ -94,10 +93,12 @@
 		}
 	}
 
-	h3 {
+	p {
 		margin: 0;
 		color: $jet-brighter;
 		padding-left: 0.25rem;
+		font-weight: 500;
+		@include fluid-type(large-text);
 
 		span {
 			color: $off-white;
@@ -117,6 +118,14 @@
 		margin: 0.75rem 0;
 	}
 
+	.habit-name {
+		color: $jet-brighter;
+
+		span {
+			color: $off-white;
+		}
+	}
+
 	.timeline-container {
 		width: 100%;
 		border-radius: 0.5rem;
@@ -129,6 +138,14 @@
 			align-items: center;
 			gap: 2rem;
 			padding: 0.75rem 0.5rem 0.5rem 0.5rem;
+
+			p {
+				margin: 0;
+				color: $jet-brighter;
+				font-weight: 600;
+				font-family: $secondary-font;
+				@include fluid-type(large-text);
+			}
 
 			.select.timeline-mode-select {
 				.select-trigger {
@@ -150,7 +167,7 @@
 	.progressbar-container {
 		margin-top: 0.5rem;
 
-		h3 {
+		p {
 			margin-bottom: 0.25rem;
 		}
 
@@ -197,8 +214,11 @@
 			}
 		}
 
-		h3 {
-			padding: 0;
+		h4 {
+			margin: 0;
+			opacity: 0.9;
+
+			@include fluid-type(large-text);
 		}
 	}
 }

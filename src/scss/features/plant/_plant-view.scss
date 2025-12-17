@@ -95,6 +95,10 @@
 			@include respond(sm) {
 				padding-bottom: 1rem;
 			}
+
+			@include respond(lg) {
+				padding-top: 0;
+			}
 		}
 
 		.plant-info {
@@ -134,7 +138,7 @@
 					@include fluid-type(small-text);
 					color: $off-white;
 					white-space: nowrap;
-					opacity: 0.8;
+					opacity: 0.9;
 				}
 
 				&:not(:last-child) {
@@ -144,6 +148,9 @@
 					}
 				}
 			}
+		}
+		@include respond(lg) {
+			margin-bottom: 2rem;
 		}
 	}
 

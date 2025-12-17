@@ -3,7 +3,7 @@
 .streak-container {
 	display: flex;
 	flex-direction: column;
-	gap: 1.5rem;
+	gap: 2rem;
 	margin-bottom: 1rem;
 
 	.current-streak {
@@ -46,7 +46,7 @@
 
 			&__segment {
 				flex: 1 1 0%;
-				font-size: clamp(1.4rem, 4vw, 2.4rem);
+				font-size: clamp(1.4rem, 3vw, 2.15rem);
 				line-height: 1;
 				transform: scale(1.2);
 				overflow: hidden;

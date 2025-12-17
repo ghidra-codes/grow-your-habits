@@ -81,25 +81,25 @@ const HabitStatsCard = ({
 				</button>
 			</div>
 
-			<h3 className="habit-name">
+			<h4 className="habit-name">
 				Habit name:
 				<span>{habit.name}</span>
-			</h3>
+			</h4>
 
 			{/* STREAKS */}
 			<div className="stats-section-heading">
-				<h2>STREAKS</h2>
+				<h3>STREAKS</h3>
 				<div className="divider" />
 			</div>
 			<div className="streak-container">
 				<div className="current-streak">
 					<div className="streak-info">
-						<h3>
+						<p>
 							Current streak:{" "}
 							<span>
 								{streak.currentStreak || 0} {FREQUENCY_LABELS[frequency]}
 							</span>
-						</h3>
+						</p>
 
 						{streak.currentStreak > 12 && (
 							<span className="streak-overflow-label">+{streak.currentStreak - 12}</span>
@@ -110,31 +110,31 @@ const HabitStatsCard = ({
 				</div>
 
 				<div className="longest-streak">
-					<h3>
+					<p>
 						Longest streak:{" "}
 						<span>
 							{streak.longestStreak || 0} {FREQUENCY_LABELS[frequency]}
 						</span>
-					</h3>
+					</p>
 				</div>
 			</div>
 
 			{/* ADHERENCE */}
 			<div className="stats-section-heading">
-				<h2>ADHERENCE</h2>
+				<h3>ADHERENCE</h3>
 				<div className="divider" />
 			</div>
 
 			{ADHERENCE_STATS.map((stat) => (
 				<div className="progressbar-container" key={stat.label}>
-					<h3>{stat.label}:</h3>
+					<p>{stat.label}:</p>
 					<ProgressBar value={stat.value} indicatorClass={stat.class || ""} />
 				</div>
 			))}
 
 			{/* TREND */}
 			<div className="trend-container">
-				<h3>Trend:</h3>
+				<h4>Trend:</h4>
 				<div className={`trend-info trend-${trend}`}>
 					{TREND_ICONS[trend]}
 					<span className="trend-label">{trend}</span>
@@ -142,7 +142,7 @@ const HabitStatsCard = ({
 			</div>
 
 			<div className="stats-section-heading">
-				<h2>TIMELINE</h2>
+				<h3>TIMELINE</h3>
 
 				<Tooltip
 					id={`stats-timeline-legend-${habit.id}`}
@@ -169,7 +169,7 @@ const HabitStatsCard = ({
 			{/* TIMELINE */}
 			<div className="timeline-container">
 				<div className="timeline-info">
-					<h3>Mode:</h3>
+					<p>Mode:</p>
 
 					{frequency === "daily" && (
 						<Select<TimelineViewMode>
