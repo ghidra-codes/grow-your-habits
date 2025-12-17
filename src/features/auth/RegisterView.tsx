@@ -65,11 +65,17 @@ const RegisterView = () => {
 					{success ? "Check your email" : loading ? "Creating Account..." : "Register"}
 				</button>
 
-				{!success && (
-					<div className="auth-link">
-						Already have an account? <a href="/login">Log in</a>
-					</div>
-				)}
+				<div className="auth-link">
+					{!success ? (
+						<>
+							Already have an account? <a href="/login">Log in</a>
+						</>
+					) : (
+						<>
+							Back to <a href="/login">Log in</a>
+						</>
+					)}
+				</div>
 			</form>
 		</div>
 	);
