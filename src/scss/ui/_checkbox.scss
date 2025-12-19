@@ -17,6 +17,10 @@
 	}
 }
 
+.checkbox:focus-visible {
+	outline-offset: 3px;
+}
+
 .checkbox-icon {
 	@include flex-center;
 	opacity: 0;

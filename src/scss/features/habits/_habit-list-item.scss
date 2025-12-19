@@ -65,6 +65,7 @@
 	.habit-info-drawer {
 		overflow: hidden;
 		padding-left: 0.5rem;
+		opacity: 0.975;
 
 		p {
 			margin-top: 1rem;
@@ -89,7 +90,7 @@
 				display: flex;
 				align-items: center;
 				gap: 0.5rem;
-				@include fluid-type(p);
+				@include fluid-type(caption);
 				list-style: none;
 
 				.done-icon {

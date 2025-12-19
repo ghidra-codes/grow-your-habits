@@ -56,9 +56,15 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} noValidate>
 			<div className="input-group">
+				<label htmlFor="habit-name" className="sr-only">
+					Habit name
+				</label>
 				<input
+					id="habit-name"
 					type="text"
 					placeholder="Habit name"
+					aria-invalid={!!errors.name}
+					aria-describedby={errors.name ? "habit-name-error" : undefined}
 					{...register("name", {
 						required: "Name is required",
 						maxLength: {
@@ -68,12 +74,24 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 					})}
 				/>
 
-				<p className={`form-error-text ${!errors.name ? "hidden" : ""}`}>{errors.name?.message}</p>
+				<p
+					id="habit-name-error"
+					className={`form-error-text ${!errors.name ? "hidden" : ""}`}
+					role="alert"
+				>
+					{errors.name?.message}
+				</p>
 			</div>
 
 			<div className="input-group">
+				<label htmlFor="habit-description" className="sr-only">
+					Description
+				</label>
 				<textarea
+					id="habit-description"
 					placeholder="Description (optional)"
+					aria-invalid={!!errors.description}
+					aria-describedby={errors.description ? "habit-description-error" : undefined}
 					{...register("description", {
 						maxLength: {
 							value: 120,
@@ -83,7 +101,11 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 					rows={3}
 				/>
 
-				<p className={`form-error-text ${!errors.description ? "hidden" : ""}`}>
+				<p
+					id="habit-description-error"
+					className={`form-error-text ${!errors.description ? "hidden" : ""}`}
+					role="alert"
+				>
 					{errors.description?.message}
 				</p>
 			</div>
@@ -108,8 +130,11 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 				<div className="input-group">
 					<input
 						type="number"
-						placeholder="Times per week"
 						className="frequency-input"
+						placeholder="Times per week"
+						aria-required="true"
+						aria-invalid={!!errors.target_per_week}
+						aria-describedby={errors.target_per_week ? "target-week-error" : undefined}
 						min={1}
 						max={7}
 						{...register("target_per_week", {
@@ -120,7 +145,11 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 						})}
 					/>
 
-					<p className={`form-error-text ${!errors.target_per_week ? "hidden" : ""}`}>
+					<p
+						id="target-week-error"
+						className={`form-error-text ${!errors.target_per_week ? "hidden" : ""}`}
+						role="alert"
+					>
 						{errors.target_per_week?.message}
 					</p>
 				</div>
@@ -132,6 +161,9 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 						type="number"
 						placeholder="Times per month"
 						className="frequency-input"
+						aria-required="true"
+						aria-invalid={!!errors.target_per_month}
+						aria-describedby={errors.target_per_month ? "target-month-error" : undefined}
 						min={1}
 						max={30}
 						{...register("target_per_month", {
@@ -142,7 +174,11 @@ const HabitForm = ({ onAddHabit, onUpdateHabit, onCancel, isEditMode, initialVal
 						})}
 					/>
 
-					<p className={`form-error-text ${!errors.target_per_month ? "hidden" : ""}`}>
+					<p
+						id="target-month-error"
+						className={`form-error-text ${!errors.target_per_month ? "hidden" : ""}`}
+						role="alert"
+					>
 						{errors.target_per_month?.message}
 					</p>
 				</div>

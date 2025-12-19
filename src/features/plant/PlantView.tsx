@@ -48,17 +48,11 @@ const PlantView = () => {
 		<div className="plant-view">
 			<h2 className="view-heading">Your Plant</h2>
 
-			<div className="plant-growth-path">
-				<span className="path-dot active" />
-				<span className="path-line" />
-				<span className="path-dot upcoming" />
-			</div>
-
 			<div className="plant-view-content">
 				<div className="plant-wrapper">
 					<div className="plant-render-container">
 						{!isInitialized && (
-							<div className="plant-uninitialized-overlay">
+							<div className="plant-uninitialized-overlay" role="status" aria-live="polite">
 								<p>This soil is ready for something to grow.</p>
 								<p>Create your first habit to plant the seed.</p>
 
@@ -85,7 +79,7 @@ const PlantView = () => {
 					</div>
 
 					<div className="plant-info">
-						<div className="plant-stat primary">
+						<div className="plant-stat">
 							<span className="label">Stage</span>
 							<span className="divider" />
 							<span className="value">{GROWTH_STAGES[stage].name}</span>
@@ -103,7 +97,7 @@ const PlantView = () => {
 							<span className="value">{pointsToNextStage ?? "—"}</span>
 						</div>
 
-						<div className="plant-stat health">
+						<div className="plant-stat">
 							<span className="label">Plant Health</span>
 							<span className="divider" />
 							<span

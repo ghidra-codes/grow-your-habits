@@ -23,7 +23,7 @@ const PlantHealthBar = ({ health }: PlantHealthBarProps) => {
 	];
 
 	return (
-		<div className="health-bar">
+		<div className="health-bar" aria-hidden="true">
 			{colors.map((color, i) => {
 				const isFilled = i < filled;
 

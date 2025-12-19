@@ -14,7 +14,7 @@ const PlantSvgPreview = ({ stage }: PlantSvgPreviewProps) => {
 	const blackedOut = blackoutSvg(raw);
 
 	return (
-		<div className="next-stage-preview-container">
+		<div className="next-stage-preview-container" aria-hidden="true">
 			<span className="preview-eyebrow">Upcoming</span>
 			<h3 className="preview-title">Next Growth Stage</h3>
 

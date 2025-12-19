@@ -7,7 +7,7 @@ const NotificationProvider = () => {
 	const { next, close } = useNotificationActions();
 
 	return (
-		<div className="notification-stack">
+		<div className="notification-stack" aria-live="polite" aria-atomic="true">
 			<AnimatePresence mode="wait" onExitComplete={next}>
 				{current && <NotificationItem key={current.id} n={current} close={close} />}
 			</AnimatePresence>

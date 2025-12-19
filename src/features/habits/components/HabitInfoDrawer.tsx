@@ -15,6 +15,8 @@ const HabitInfoDrawer: React.FC<HabitInfoDrawerProps> = ({ habit, habitAdherence
 
 	return (
 		<motion.div
+			role="region"
+			aria-label={`${habit.name} information`}
 			className="habit-info-drawer"
 			initial={{ height: 0 }}
 			animate={{ height: "auto" }}
@@ -33,17 +35,17 @@ const HabitInfoDrawer: React.FC<HabitInfoDrawerProps> = ({ habit, habitAdherence
 
 			<ul>
 				<li>
-					<MdDoneOutline size={22} className="done-icon" />
+					<MdDoneOutline size={22} className="done-icon" aria-hidden />
 					<span>Done so far: </span>
 					{logCount}
 				</li>
 				<li>
-					<GoGoal size={22} className="goal-icon" />
+					<GoGoal size={22} className="goal-icon" aria-hidden />
 					<span>Goal until today: </span>
 					{expected}
 				</li>
 				<li>
-					<TbClockX size={24} className="missed-icon" />
+					<TbClockX size={24} className="missed-icon" aria-hidden />
 					<div className="offset">
 						<span>Missed {period}s: </span> {missed}
 					</div>

@@ -20,9 +20,9 @@ const AccountModal = () => {
 
 	return (
 		<>
-			<section className="account-modal-section email">
+			<section className="account-modal-section email" aria-labelledby="account-email-heading">
 				<div className="account-section-heading">
-					<h3>Email</h3>
+					<h3 id="account-email-heading">Email</h3>
 					<div className="divider" />
 				</div>
 
@@ -33,9 +33,9 @@ const AccountModal = () => {
 				<ChangeEmailForm />
 			</section>
 
-			<section className="account-modal-section password">
+			<section className="account-modal-section password" aria-labelledby="account-password-heading">
 				<div className="account-section-heading">
-					<h3>Password</h3>
+					<h3 id="account-password-heading">Password</h3>
 					<div className="divider" />
 				</div>
 
@@ -44,7 +44,7 @@ const AccountModal = () => {
 
 			<div>
 				<button className="account-logout-button" onClick={handleLogout} type="button">
-					<LuLogOut size={20} />
+					<LuLogOut size={20} aria-hidden />
 					<span>Log out</span>
 				</button>
 			</div>

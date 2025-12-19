@@ -1,6 +1,10 @@
 @use "../../abstracts/index" as *;
 
 .habit-form-container {
+	top: 20px;
+	width: calc(100% - 20px);
+	max-width: 640px;
+	max-height: calc(100vh - 40px);
 	padding: 1.5rem 1.25rem;
 	background-color: $rich-black-light;
 	border-radius: 0.8rem;

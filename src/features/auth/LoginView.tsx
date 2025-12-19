@@ -36,22 +36,39 @@ const LoginView = () => {
 			<form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
 				<h2>LOGIN</h2>
 
+				<label htmlFor="email" className="sr-only">
+					Email
+				</label>
 				<input
 					type="email"
 					placeholder="Email"
+					aria-invalid={!!error}
+					aria-describedby={error ? "login-error" : undefined}
 					{...register("email", { required: "Email is required" })}
 					required
 				/>
+
+				<label htmlFor="password" className="sr-only">
+					Password
+				</label>
 				<input
 					type="password"
 					placeholder="Password"
+					aria-invalid={!!error}
+					aria-describedby={error ? "login-error" : undefined}
 					{...register("password", { required: "Password is required" })}
 					required
 				/>
 
-				<p className={`auth-message auth-error ${!error && "hidden"}`}>{error}</p>
+				<p
+					id="login-error"
+					role="alert"
+					className={`auth-message auth-error ${!error ? "hidden" : ""}`}
+				>
+					{error}
+				</p>
 
-				<button type="submit" disabled={loading}>
+				<button type="submit" disabled={loading} aria-label="Log in">
 					{loading ? "Logging In..." : "Log In"}
 				</button>
 

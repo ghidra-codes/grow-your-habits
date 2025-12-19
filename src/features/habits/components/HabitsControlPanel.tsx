@@ -5,6 +5,7 @@ import { FaChartLine } from "react-icons/fa6";
 import { AnimatePresence, motion } from "motion/react";
 import { PiArrowFatDownFill } from "react-icons/pi";
 import { useState } from "react";
+import { useStatsAndInsightsAccess } from "@/features/plant/hooks/derived/useStatsAndInsightsAccess";
 
 interface HabitsControlPanelProps {
 	selectedHabit: Habit | null;
@@ -23,6 +24,7 @@ const HabitsControlPanel = ({
 	onDelete,
 	onOpenStats,
 }: HabitsControlPanelProps) => {
+	const { hasAccess } = useStatsAndInsightsAccess();
 	const [showAddHint, setShowAddHint] = useState(true);
 
 	return (
@@ -31,7 +33,7 @@ const HabitsControlPanel = ({
 				<div className="no-habit-selected-actions">
 					<div className="control-action">
 						<span className="control-label">ADD</span>
-						<button className="add-habit-btn" onClick={onAdd}>
+						<button className="add-habit-btn" onClick={onAdd} aria-label="Add new habit">
 							<span className="icon-slot">
 								<FaRegPlusSquare size={26} />
 							</span>
@@ -77,7 +79,11 @@ const HabitsControlPanel = ({
 				<div className="habit-selected-actions">
 					<div className="control-action">
 						<span className="control-label">DELETE</span>
-						<button className="delete-habit-btn" onClick={onDelete}>
+						<button
+							className="delete-habit-btn"
+							onClick={onDelete}
+							aria-label="Delete selected habit"
+						>
 							<span className="icon-slot">
 								<FaRegTrashAlt size={25} />
 							</span>
@@ -86,7 +92,7 @@ const HabitsControlPanel = ({
 
 					<div className="control-action">
 						<span className="control-label">EDIT</span>
-						<button className="edit-habit-btn" onClick={onEdit}>
+						<button className="edit-habit-btn" onClick={onEdit} aria-label="Edit selected habit">
 							<span className="icon-slot">
 								<FaRegEdit size={28} />
 							</span>
@@ -95,7 +101,12 @@ const HabitsControlPanel = ({
 
 					<div className="control-action">
 						<span className="control-label">STATS</span>
-						<button className="stats-habit-btn" onClick={onOpenStats}>
+						<button
+							className="stats-habit-btn"
+							onClick={onOpenStats}
+							aria-label="View habit statistics"
+							disabled={!hasAccess}
+						>
 							<span className="icon-slot">
 								<FaChartLine size={26} />
 							</span>

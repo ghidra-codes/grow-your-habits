@@ -41,7 +41,7 @@ const PlantSvgAnimated = ({ stage, glowColor, profile }: PlantSvgAnimatedProps) 
 	};
 
 	return (
-		<div className={`plant-glow-wrapper ${ready ? "visible" : ""}`} style={style}>
+		<div className={`plant-glow-wrapper ${ready ? "visible" : ""}`} style={style} aria-hidden="true">
 			<div
 				ref={wrapperRef}
 				className="plant-svg-wrapper"

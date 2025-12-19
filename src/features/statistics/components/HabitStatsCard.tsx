@@ -8,7 +8,7 @@ import Select from "@/ui/Select";
 import Tooltip from "@/ui/tooltip/Tooltip";
 import type { EmblaCarouselType } from "embla-carousel";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
-import { PiArrowFatLineDown, PiArrowFatLineUp, PiArrowFatRight } from "react-icons/pi";
+import { PiArrowFatLineDown, PiArrowFatLineUp, PiArrowFatRight, PiTrophyDuotone } from "react-icons/pi";
 import { FREQUENCY_LABELS } from "../constants/stats-card";
 import { useEmblaNavigation } from "../hooks/useEmblaNavigation";
 import { useStatsStreak } from "../hooks/useStatsStreak";
@@ -52,9 +52,9 @@ const HabitStatsCard = ({
 	];
 
 	const TREND_ICONS = {
-		improving: <PiArrowFatLineUp className="trend-icon__improving" size={21} />,
-		stable: <PiArrowFatRight className="trend-icon__stable" size={21} />,
-		declining: <PiArrowFatLineDown className="trend-icon__declining" size={21} />,
+		improving: <PiArrowFatLineUp className="trend-icon__improving" size={21} aria-hidden />,
+		stable: <PiArrowFatRight className="trend-icon__stable" size={21} aria-hidden />,
+		declining: <PiArrowFatLineDown className="trend-icon__declining" size={21} aria-hidden />,
 	};
 
 	return (
@@ -66,7 +66,7 @@ const HabitStatsCard = ({
 					disabled={!canPrev}
 					aria-label="Previous habit"
 				>
-					<FaAngleLeft size={32} />
+					<FaAngleLeft size={32} aria-hidden />
 				</button>
 
 				<h2>{habit.name}</h2>
@@ -77,11 +77,11 @@ const HabitStatsCard = ({
 					disabled={!canNext}
 					aria-label="Next habit"
 				>
-					<FaAngleRight size={32} />
+					<FaAngleRight size={32} aria-hidden />
 				</button>
 			</div>
 
-			<h4 className="habit-name">
+			<h4 className="habit-name" aria-hidden>
 				Habit name:
 				<span>{habit.name}</span>
 			</h4>
@@ -110,12 +110,11 @@ const HabitStatsCard = ({
 				</div>
 
 				<div className="longest-streak">
-					<p>
-						Longest streak:{" "}
-						<span>
-							{streak.longestStreak || 0} {FREQUENCY_LABELS[frequency]}
-						</span>
-					</p>
+					<p>Longest streak: </p>
+					<span>
+						{streak.longestStreak || 0} {FREQUENCY_LABELS[frequency]}
+						<PiTrophyDuotone size={21} aria-hidden />
+					</span>
 				</div>
 			</div>
 
@@ -169,12 +168,13 @@ const HabitStatsCard = ({
 			{/* TIMELINE */}
 			<div className="timeline-container">
 				<div className="timeline-info">
-					<p>Mode:</p>
+					<p id={`timeline-mode-label-${habit.id}`}>Mode:</p>
 
 					{frequency === "daily" && (
 						<Select<TimelineViewMode>
 							value={mode}
 							className="timeline-mode-select"
+							aria-labelledby={`timeline-mode-label-${habit.id}`}
 							onChange={(value) =>
 								setTimelineModes((prev) => ({
 									...prev,

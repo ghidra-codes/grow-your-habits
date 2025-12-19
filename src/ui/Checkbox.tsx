@@ -14,7 +14,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ checked, disabled, progress, onClic
 
 	return (
 		<RadixCheckbox.Root checked={isComplete} disabled={disabled} className="checkbox" asChild>
-			<button onClick={onClick} type="button">
+			<button type="button" tabIndex={disabled ? -1 : 0} onClick={onClick}>
 				{isProgressMode && <span className="checkbox-fill" style={{ height: `${progress}%` }} />}
 
 				<RadixCheckbox.Indicator className="checkbox-icon">

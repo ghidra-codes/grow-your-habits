@@ -32,7 +32,7 @@ const Navbar = () => {
 						<span className="nav-label">PLANT</span>
 
 						<motion.div className="link-wrapper" {...tapSpring}>
-							<Link to="/" className="nav-link">
+							<Link to="/" className="nav-link" aria-label="Plant view">
 								<LuLeaf />
 							</Link>
 						</motion.div>
@@ -41,7 +41,7 @@ const Navbar = () => {
 						<span className="nav-label">HABITS</span>
 
 						<motion.div className="link-wrapper" {...tapSpring}>
-							<Link to="/habits" className="nav-link">
+							<Link to="/habits" className="nav-link" aria-label="Habits">
 								<LuListChecks />
 							</Link>
 						</motion.div>
@@ -50,7 +50,12 @@ const Navbar = () => {
 						<span className="nav-label">STATS</span>
 
 						{hasAccess ? (
-							<motion.button className="nav-link" {...tapSpring} onClick={() => open()}>
+							<motion.button
+								className="nav-link"
+								aria-label="Open statistics"
+								{...tapSpring}
+								onClick={() => open()}
+							>
 								<LuChartLine />
 							</motion.button>
 						) : (
@@ -64,7 +69,7 @@ const Navbar = () => {
 								}
 								side="right"
 							>
-								<span className="nav-link disabled">
+								<span className="nav-link disabled" aria-label="Statistics locked">
 									<LuChartLine />
 								</span>
 							</Tooltip>
@@ -76,7 +81,7 @@ const Navbar = () => {
 
 						{hasAccess ? (
 							<motion.div className="link-wrapper" {...tapSpring}>
-								<Link to="/insights" className="nav-link">
+								<Link to="/insights" className="nav-link" aria-label="Insights">
 									<LuLightbulb />
 								</Link>
 							</motion.div>
@@ -91,7 +96,7 @@ const Navbar = () => {
 								}
 								side="right"
 							>
-								<span className="nav-link disabled">
+								<span className="nav-link disabled" aria-label="Insights locked">
 									<LuLightbulb />
 								</span>
 							</Tooltip>
@@ -105,16 +110,24 @@ const Navbar = () => {
 							</Link>
 						</motion.div>
 					</li>
-					<li className="nav-list-item" onClick={() => setIsAccountOpen(true)}>
+					<li className="nav-list-item">
 						<span className="nav-label">ACCOUNT</span>
-						<motion.button className="nav-link" {...tapSpring}>
+						<motion.button
+							className="nav-link"
+							aria-label="Account settings"
+							{...tapSpring}
+							onClick={() => setIsAccountOpen(true)}
+						>
 							<LuSettings className="logout-icon" />
 						</motion.button>
 					</li>
 				</ul>
 
 				<div className="plant-health-wrapper">
-					<span className="nav-label">PLANT HEALTH - {plantHealth}%</span>
+					<span className="nav-label" aria-live="polite">
+						PLANT HEALTH - {plantHealth}%
+					</span>
+
 					<PlantHealthBar health={plantHealth} />
 				</div>
 			</nav>

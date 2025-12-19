@@ -8,6 +8,7 @@ import { FaCaretDown } from "react-icons/fa";
 import HabitInfoDrawer from "./HabitInfoDrawer";
 import { useConfetti } from "@/ui/hooks/useConfetti";
 import { getCurrentPeriodProgress } from "@/lib/habits/getPeriodProgress";
+import { onActivate } from "@/lib/a11y/keyboard";
 
 interface HabitListItemProps {
 	habits: HabitWithLogs[];
@@ -72,28 +73,44 @@ const HabitListItem: React.FC<HabitListItemProps> = ({
 				return (
 					<li
 						key={habit.id}
+						role="button"
+						aria-label={`Select habit ${habit.name}`}
+						aria-selected={isSelected}
+						tabIndex={0}
 						className={`habit-item ${isSelected ? "selected" : ""}`}
 						onClick={(e) => {
 							e.stopPropagation();
 							onSelect(habit);
 						}}
+						onKeyDown={onActivate(() => onSelect(habit))}
 					>
 						{/* HEADER ROW */}
 						<div className="habit-item-content-wrapper">
 							<div className="habit-item-content">
-								<div
+								<button
+									type="button"
 									className="item-circle-wrapper"
+									aria-expanded={isExpanded}
+									aria-controls={`habit-details-${habit.id}`}
+									aria-label={
+										isExpanded ? "Collapse habit details" : "Expand habit details"
+									}
 									onClick={(e) => {
 										e.stopPropagation();
 										handleToggleExpand(habit.id);
 									}}
+									onKeyDown={onActivate(() => handleToggleExpand(habit.id))}
 								>
 									<FaCaretDown
 										size={18}
 										className={isExpanded ? "caret rotated" : "caret"}
 									/>
-									<AdherenceCircle percentage={adherenceMap[habit.id].percentage || 0} />
-								</div>
+
+									<AdherenceCircle
+										aria-live="polite"
+										percentage={adherenceMap[habit.id].percentage || 0}
+									/>
+								</button>
 
 								<div className="habit-item-text">
 									<strong>{habit.name}</strong>
@@ -101,13 +118,26 @@ const HabitListItem: React.FC<HabitListItemProps> = ({
 								</div>
 							</div>
 
-							<div className="checkbox-wrapper" onClick={(e) => e.stopPropagation()}>
+							<div
+								className="checkbox-wrapper"
+								onClick={(e) => e.stopPropagation()}
+								onKeyDown={(e) => e.stopPropagation()}
+							>
 								<Checkbox
+									aria-describedby={
+										habit.frequency_type !== "daily" ? `log-hint-${habit.id}` : undefined
+									}
 									checked={isDoneDaily}
 									progress={progress?.percentage}
 									disabled={disabled}
 									onClick={(e) => handleChecked(habit, isDoneDaily, e.currentTarget)}
 								/>
+
+								{habit.frequency_type !== "daily" && (
+									<span id={`log-hint-${habit.id}`} className="sr-only">
+										Opens log options
+									</span>
+								)}
 							</div>
 						</div>
 

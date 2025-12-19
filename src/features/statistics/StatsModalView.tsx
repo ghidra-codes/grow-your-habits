@@ -31,7 +31,7 @@ const StatsModalView = () => {
 		);
 
 	return (
-		<HabitStatsCarousel onApi={setEmblaApi}>
+		<HabitStatsCarousel onApi={setEmblaApi} aria-label="Habit statistics carousel">
 			{ordered.map((habit) => {
 				const frequency = habit.frequency_type;
 

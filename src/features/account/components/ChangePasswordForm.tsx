@@ -36,11 +36,24 @@ const ChangePasswordForm = () => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="input-group">
-				<p className={`${formMessageClass} ${!error && !success ? "hidden" : ""}`}>{formMessage}</p>
+				<p
+					id="password-form-message"
+					className={`${formMessageClass} ${!error && !success ? "hidden" : ""}`}
+					role="alert"
+				>
+					{formMessage}
+				</p>
+
+				<label htmlFor="new-password" className="sr-only">
+					New password
+				</label>
 
 				<input
+					id="new-password"
 					type="password"
 					placeholder="New password"
+					aria-invalid={!!error}
+					aria-describedby={error || success ? "password-form-message" : undefined}
 					{...register("password", { required: true, minLength: 6 })}
 				/>
 

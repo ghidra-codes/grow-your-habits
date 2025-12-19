@@ -1,3 +1,4 @@
+import { onActivate } from "@/lib/a11y/keyboard";
 import type { Insight } from "@/types/insight.types";
 import Tooltip from "@/ui/tooltip/Tooltip";
 import { motion } from "motion/react";
@@ -41,7 +42,10 @@ const InsightCard = ({
 
 	return (
 		<motion.li
+			role="button"
 			layout={false}
+			className="insights-card"
+			aria-disabled={isDisabled}
 			onClick={index === 0 ? handleClick : undefined}
 			initial={{ y: 0 }}
 			animate={{
@@ -64,8 +68,9 @@ const InsightCard = ({
 				boxShadow: { duration: 0.3 },
 			}}
 			whileTap={!isDisabled ? { y: 5, rotate: -0.5 } : undefined}
-			className="insights-card"
+			tabIndex={!isDisabled ? 0 : -1}
 			style={{ zIndex: 100 - index }}
+			onKeyDown={isDisabled ? undefined : onActivate(handleClick)}
 		>
 			<div className="insights-icon-anchor">
 				<Tooltip id={`insight-${insight.id}`} content={insight.description} side="top" />

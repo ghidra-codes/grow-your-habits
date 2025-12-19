@@ -46,11 +46,24 @@ const ChangeEmailForm = () => {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="input-group">
-				<p className={`${formMessageClass} ${!error && !success ? "hidden" : ""}`}>{formMessage}</p>
+				<p
+					id="email-form-message"
+					className={`${formMessageClass} ${!error && !success ? "hidden" : ""}`}
+					role="alert"
+				>
+					{formMessage}
+				</p>
+
+				<label htmlFor="new-email" className="sr-only">
+					New email address
+				</label>
 
 				<input
+					id="new-email"
 					type="email"
 					placeholder="New email address"
+					aria-invalid={!!error}
+					aria-describedby={error || success ? "email-form-message" : undefined}
 					{...register("email", { required: true })}
 				/>
 

@@ -12,12 +12,21 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
 	errorMessage,
 }) => {
 	return (
-		<div className="error-message-wrapper" role="alert">
+		<div className="error-message-wrapper" role="alert" aria-live="assertive" aria-atomic="true">
 			<h3 className="error-message-title">{title}</h3>
 			<p className="error-message-text">{message}</p>
-			<small className="error-message">{errorMessage}</small>
 
-			<button className="error-message-retry-btn" onClick={() => window.location.reload()}>
+			{errorMessage && (
+				<small className="error-message" aria-hidden="true">
+					{errorMessage}
+				</small>
+			)}
+
+			<button
+				className="error-message-retry-btn"
+				onClick={() => window.location.reload()}
+				aria-label="Retry loading the page"
+			>
 				Retry
 			</button>
 		</div>

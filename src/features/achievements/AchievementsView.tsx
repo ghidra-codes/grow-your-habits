@@ -34,23 +34,25 @@ const AchievementsView = () => {
 
 			<div className="achievements-content">
 				<div className="achievements-filter">
-					<p>Filter:</p>
+					<p id="achievement-filter-label">Filter:</p>
 
 					<Select<AchievementFilters>
+						aria-labelledby="achievement-filter-label"
 						options={FILTER_OPTIONS}
 						value={filter}
 						onChange={setFilter}
 					/>
 				</div>
 
-				<div className="achievements-list">
+				<ul className="achievements-list" aria-label="Achievement badges">
 					{achievements.map((achievement) => (
-						<div
+						<li
 							key={achievement.id}
 							className={`achievement-card ${achievement.unlocked ? "unlocked" : "locked"}`}
+							aria-disabled={!achievement.unlocked}
 						>
 							<div className="achievement-badge">
-								<img src={achievement.badge} alt={achievement.title} />
+								<img src={achievement.badge} alt={`${achievement.title} badge`} />
 							</div>
 
 							<div className="achievement-info">
@@ -59,9 +61,17 @@ const AchievementsView = () => {
 
 									<div className="achievement-checkmark">
 										{achievement.unlocked ? (
-											<FaCheckCircle className="checkmark__unlocked" size={24} />
+											<FaCheckCircle
+												className="checkmark__unlocked"
+												size={24}
+												aria-hidden
+											/>
 										) : (
-											<FaRegCheckCircle className="checkmark__locked" size={24} />
+											<FaRegCheckCircle
+												className="checkmark__locked"
+												size={24}
+												aria-hidden
+											/>
 										)}
 									</div>
 								</div>
@@ -71,17 +81,22 @@ const AchievementsView = () => {
 								<p className="achievement-date">
 									{achievement.unlocked && achievement.unlockedAt ? (
 										<>
-											<FaUnlock size={14} />{" "}
-											{new Date(achievement.unlockedAt).toLocaleDateString()}
+											<FaUnlock size={14} aria-hidden />{" "}
+											<time dateTime={achievement.unlockedAt}>
+												{new Date(achievement.unlockedAt).toLocaleDateString()}
+											</time>
 										</>
 									) : (
-										<FaLock size={14} />
+										<>
+											<FaLock size={14} aria-hidden />
+											<span className="sr-only">Locked</span>
+										</>
 									)}
 								</p>
 							</div>
-						</div>
+						</li>
 					))}
-				</div>
+				</ul>
 			</div>
 		</div>
 	);

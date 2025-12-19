@@ -28,7 +28,7 @@ const PlantAnimation = ({ onComplete, stage, profile }: Props) => {
 	const key = `plant-stage-${stage}`;
 
 	return (
-		<div className="plant-lottie-wrapper">
+		<div className="plant-lottie-wrapper" aria-hidden="true">
 			<Lottie
 				key={key}
 				animationData={animData}

@@ -5,6 +5,7 @@ import { useConfetti } from "@/ui/hooks/useConfetti";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import HabitDatePicker from "./HabitDatePicker";
+import { onActivate } from "@/lib/a11y/keyboard";
 
 const HabitLogOptions = ({
 	habit,
@@ -21,7 +22,9 @@ const HabitLogOptions = ({
 
 	const completedToday = hasLoggedToday(habit);
 
-	const handleOnSelectToday = (e: React.MouseEvent<HTMLDivElement>) => {
+	const handleOnSelectToday = (
+		e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+	) => {
 		setSelectionMode("today");
 
 		if (completedToday) {
@@ -61,7 +64,7 @@ const HabitLogOptions = ({
 
 	return (
 		<div className="habit-log-options">
-			<div className="log-options">
+			<div className="log-options" role="radiogroup" aria-label="Log habit">
 				{/* LOG TODAY */}
 				<div
 					className={`radio-option ${completedToday ? "completed" : ""} ${
@@ -75,7 +78,16 @@ const HabitLogOptions = ({
 						readOnly
 					/>
 
-					<div className="radio-circle" onClick={handleOnSelectToday}></div>
+					<div
+						className="radio-circle"
+						onClick={handleOnSelectToday}
+						role="radio"
+						tabIndex={0}
+						aria-describedby={confirmUndoToday ? "undo-hint" : undefined}
+						aria-checked={completedToday || selectionMode === "today"}
+						onKeyDown={(e) => onActivate(() => handleOnSelectToday(e))(e)}
+					/>
+
 					<span>
 						{completedToday
 							? confirmUndoToday
@@ -83,6 +95,12 @@ const HabitLogOptions = ({
 								: "Today (completed)"
 							: "Today"}
 					</span>
+
+					{confirmUndoToday && (
+						<span id="undo-hint" className="sr-only" aria-live="polite">
+							Click again to undo today's log
+						</span>
+					)}
 				</div>
 
 				{/* LOG PAST DATE */}
@@ -94,7 +112,14 @@ const HabitLogOptions = ({
 						readOnly
 					/>
 
-					<div className="radio-circle" onClick={() => setSelectionMode("past")}></div>
+					<div
+						className="radio-circle"
+						role="radio"
+						tabIndex={0}
+						aria-checked={selectionMode === "past"}
+						onClick={() => setSelectionMode("past")}
+						onKeyDown={onActivate(() => setSelectionMode("past"))}
+					/>
 					<span>Past date</span>
 				</div>
 			</div>

@@ -5,11 +5,11 @@ import { PiFireSimpleFill } from "react-icons/pi";
 const NotificationIcon = ({ category }: { category: NotificationCategory }) => {
 	switch (category) {
 		case "plant":
-			return <FaLeaf />;
+			return <FaLeaf aria-hidden />;
 		case "streak":
-			return <PiFireSimpleFill />;
+			return <PiFireSimpleFill aria-hidden />;
 		case "achievement":
-			return <FaTrophy />;
+			return <FaTrophy aria-hidden />;
 		default:
 			return null;
 	}
