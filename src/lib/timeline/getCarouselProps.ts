@@ -1,6 +1,5 @@
-import type { TimelineMap, TimelineViewMode } from "@/types/statistic.types";
-import type { TimelineCarouselProps } from "@/types/carousel.types";
 import type { HabitWithLogs } from "@/types/habit.types";
+import type { TimelineCarouselProps, TimelineMap, TimelineViewMode } from "@/types/statistic.types";
 
 export const getCarouselProps = (
 	habit: HabitWithLogs,
