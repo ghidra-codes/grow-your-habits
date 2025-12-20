@@ -7,7 +7,7 @@ const ConfirmEmailView = () => {
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			navigate("/", { replace: true });
-		}, 1000000);
+		}, 2000);
 
 		return () => clearTimeout(timer);
 	}, [navigate]);
