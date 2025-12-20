@@ -82,14 +82,13 @@
 			margin: auto;
 			max-width: 400px;
 			max-height: 500px;
-			overflow: hidden;
 
 			.plant-particles {
 				position: absolute;
 				inset: 0;
 				pointer-events: none;
 				z-index: 5;
-				overflow: hidden;
+				clip-path: inset(0);
 			}
 
 			.plant-particle {

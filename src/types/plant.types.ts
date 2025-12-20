@@ -22,3 +22,5 @@ export type PlantEntry = {
 
 /** A number between 0 and 100 */
 export type PlantHealth = number;
+
+export type PlantHealthThresholds = "critical" | "normal" | "thriving";

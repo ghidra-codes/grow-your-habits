@@ -3,9 +3,9 @@
 .insights-card {
 	position: absolute;
 	inset: 0;
-	height: 142px;
+	height: 175px;
 	max-width: 500px;
-	padding: 1.25rem 0.75rem;
+	padding: 2.25rem 0.75rem 1.25rem 0.75rem;
 
 	border-radius: 0.5rem;
 	background: linear-gradient(
@@ -30,7 +30,7 @@
 	.insights-icon-anchor {
 		position: absolute;
 		top: 0.6rem;
-		right: 0.55rem;
+		right: 0.5rem;
 		transform: translateZ(0);
 	}
 

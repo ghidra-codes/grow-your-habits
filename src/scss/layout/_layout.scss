@@ -3,7 +3,7 @@
 .app-container {
 	display: flex;
 	overflow-x: hidden;
-	height: 100vh;
+	min-height: var(--vvh, 100dvh);
 
 	.content-wrapper {
 		max-width: 1525px;
@@ -24,12 +24,10 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		height: 100vh;
+		height: 100%;
 
 		width: var(--sidebar-width);
-
 		background-color: $rich-black-lightest;
-
 		pointer-events: none;
 		z-index: 0;
 	}

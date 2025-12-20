@@ -14,9 +14,10 @@
 
 .plant-svg-wrapper {
 	position: relative;
+	background-color: transparent;
 	width: 100%;
 	height: 100%;
-	background-color: transparent;
+	overflow: hidden;
 	z-index: 1;
 
 	--sway-scale: 1.025;

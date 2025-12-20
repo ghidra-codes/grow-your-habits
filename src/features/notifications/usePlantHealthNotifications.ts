@@ -1,9 +1,12 @@
-import { useEffect } from "react";
-import { useNotificationActions } from "@/store/useNotificationStore";
-import { usePlantStateQuery } from "@/features/plant/hooks/queries/usePlantStateQuery";
 import { useUserIdRequired } from "@/features/auth/hooks/useUserIdRequired";
-import { usePlantDeathNotification } from "./usePlantDeathNotification";
+import { usePlantStateQuery } from "@/features/plant/hooks/queries/usePlantStateQuery";
+import { getHealthBand } from "@/lib/plant/health/getHealthBand";
+import { isHealthBand } from "@/lib/plant/health/isHealthBand";
+import { useNotificationActions } from "@/store/useNotificationStore";
+import type { PlantHealthThresholds } from "@/types/plant.types";
+import { useEffect } from "react";
 import { NOTIF_MSG, NOTIF_TYPE } from "./config/notifications";
+import { usePlantDeathNotification } from "./usePlantDeathNotification";
 
 export const usePlantHealthNotifications = () => {
 	const userId = useUserIdRequired();
@@ -13,33 +16,33 @@ export const usePlantHealthNotifications = () => {
 
 	usePlantDeathNotification(userId);
 
+	const BAND_KEY = `plant_health_band_${userId}`;
+
 	useEffect(() => {
 		if (!data) return;
 
 		const serverHealth = data.state.last_submitted_health;
-		if (serverHealth === undefined || serverHealth === null) return;
+		if (serverHealth == null) return;
 
-		const key = `plant_health_prev_server_${userId}`;
-		const stored = localStorage.getItem(key);
+		const currentBand = getHealthBand(serverHealth);
 
-		if (stored === null) {
-			localStorage.setItem(key, String(serverHealth));
+		const storedRaw = localStorage.getItem(BAND_KEY);
+		const storedBand: PlantHealthThresholds | null = isHealthBand(storedRaw) ? storedRaw : null;
+
+		if (!storedBand) {
+			localStorage.setItem(BAND_KEY, currentBand);
 			return;
 		}
 
-		const prevServer = Number(stored);
+		if (storedBand === currentBand) return;
 
 		// THRESHOLD CROSSINGS (SERVER ONLY)
 
-		if (serverHealth <= 20 && prevServer > 20) {
-			push(NOTIF_MSG.plant.critical, NOTIF_TYPE.alert, "plant");
-		}
+		if (currentBand === "critical") push(NOTIF_MSG.plant.critical, NOTIF_TYPE.alert, "plant");
 
-		if (serverHealth >= 90 && prevServer < 90) {
-			push(NOTIF_MSG.plant.thriving, NOTIF_TYPE.success, "plant");
-		}
+		if (currentBand === "thriving") push(NOTIF_MSG.plant.thriving, NOTIF_TYPE.success, "plant");
 
 		// Persist
-		localStorage.setItem(key, String(serverHealth));
-	}, [data, userId, push]);
+		localStorage.setItem(BAND_KEY, currentBand);
+	}, [data, userId, push, BAND_KEY]);
 };

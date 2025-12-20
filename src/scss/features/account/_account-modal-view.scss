@@ -71,7 +71,6 @@
 			}
 
 			button {
-				width: 55%;
 				margin-top: 1rem;
 				background-color: $slate-blue;
 				align-self: flex-start;
@@ -80,10 +79,6 @@
 				padding: 0.8rem 1.35rem;
 				@include fluid-type(button-text);
 				transition: all 0.25s ease;
-
-				@include respond(lg) {
-					width: 40%;
-				}
 
 				&:hover {
 					border-color: $rich-black-surface-light;
@@ -146,6 +141,10 @@
 		opacity: 1;
 
 		transition: opacity 0.2s ease;
+
+		svg {
+			color: $alert-red;
+		}
 
 		&:active,
 		&:hover {
