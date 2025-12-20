@@ -124,11 +124,13 @@ const Navbar = () => {
 				</ul>
 
 				<div className="plant-health-wrapper">
-					<span className="nav-label" aria-live="polite">
-						PLANT HEALTH - {plantHealth}%
-					</span>
+					<div className="plant-health-inner">
+						<span className="nav-label" aria-live="polite">
+							PLANT HEALTH - {plantHealth}%
+						</span>
 
-					<PlantHealthBar health={plantHealth} />
+						<PlantHealthBar health={plantHealth} />
+					</div>
 				</div>
 			</nav>
 

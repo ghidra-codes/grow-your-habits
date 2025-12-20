@@ -2,11 +2,11 @@ import { useEffect } from "react";
 
 export const useVisualViewportHeight = () => {
 	useEffect(() => {
-		const update = () => {
-			const height = window.visualViewport?.height ?? window.innerHeight;
-
-			document.documentElement.style.setProperty("--vvh", `${height}px`);
-		};
+		const update = () =>
+			document.documentElement.style.setProperty(
+				"--vvh",
+				`${window.visualViewport?.height ?? window.innerHeight}px`
+			);
 
 		update();
 
