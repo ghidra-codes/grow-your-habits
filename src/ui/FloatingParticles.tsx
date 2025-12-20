@@ -1,31 +1,31 @@
-import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+// import { motion } from "motion/react";
+// import { useEffect, useState } from "react";
 
 const FloatingParticles = () => {
-	const [fadeIn, setFadeIn] = useState(false);
+	// const [fadeIn, setFadeIn] = useState(false);
 
-	const [particles] = useState(() =>
-		Array.from({ length: 8 }).map(() => {
-			const start = 120 + Math.random() * 10;
-			const end = -20 - Math.random() * 10;
-			const duration = 25 + Math.random() * 20;
-			const offset = Math.random();
+	// const [particles] = useState(() =>
+	// 	Array.from({ length: 8 }).map(() => {
+	// 		const start = 120 + Math.random() * 10;
+	// 		const end = -20 - Math.random() * 10;
+	// 		const duration = 25 + Math.random() * 20;
+	// 		const offset = Math.random();
 
-			return {
-				left: Math.random() * 100,
-				size: 2 + Math.random() * 3,
-				start,
-				end,
-				duration,
-				delay: -duration * offset,
-			};
-		})
-	);
+	// 		return {
+	// 			left: Math.random() * 100,
+	// 			size: 2 + Math.random() * 3,
+	// 			start,
+	// 			end,
+	// 			duration,
+	// 			delay: -duration * offset,
+	// 		};
+	// 	})
+	// );
 
-	useEffect(() => {
-		const timer = setTimeout(() => setFadeIn(true), 5000);
-		return () => clearTimeout(timer);
-	}, []);
+	// useEffect(() => {
+	// 	const timer = setTimeout(() => setFadeIn(true), 5000);
+	// 	return () => clearTimeout(timer);
+	// }, []);
 
 	return (
 		<div
