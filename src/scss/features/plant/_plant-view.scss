@@ -65,6 +65,14 @@
 				@include fluid-type(button-text);
 				font-weight: 600;
 			}
+
+			@media (max-width: 480px) {
+				top: 45%;
+
+				p {
+					@include fluid-type(micro-text);
+				}
+			}
 		}
 
 		.plant-render-container {
@@ -186,6 +194,7 @@
 
 		.preview-hint {
 			margin-top: 0.25rem;
+			white-space: nowrap;
 		}
 
 		.next-stage-preview-svg {
