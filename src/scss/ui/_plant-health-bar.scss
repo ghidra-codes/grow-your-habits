@@ -3,22 +3,63 @@
 .health-bar {
 	display: flex;
 	flex-direction: column-reverse;
-	width: 3rem;
+	width: 100%;
+	height: 16rem;
 	padding: 4px;
 	gap: 5px;
 
 	background: $rich-black-surface-light;
 	border-radius: 8px;
 	border: 2px solid $rich-black-lightest;
+
+	@media (max-height: 660px) {
+		height: 12rem;
+	}
 }
 
 .segment {
 	flex: 1;
-	min-height: 20px;
 	border-radius: 4px;
 
-	background: $rich-black-surface;
-	transition: all 0.3s ease;
+	background-color: $rich-black-lighter;
 	border: 1px solid $rich-black-lightest;
-	min-height: clamp(14px, 2.5vh, 20px);
+
+	opacity: 0.35;
+	transition: opacity 0.2s ease;
+
+	&.filled {
+		opacity: 1;
+	}
+}
+
+/* SEGMENT COLOR RAMP */
+.segment.filled.segment-0 {
+	background-color: #d9534f;
+}
+.segment.filled.segment-1 {
+	background-color: #e8703f;
+}
+.segment.filled.segment-2 {
+	background-color: #f08435;
+}
+.segment.filled.segment-3 {
+	background-color: #c1a46c;
+}
+.segment.filled.segment-4 {
+	background-color: #a4b17a;
+}
+.segment.filled.segment-5 {
+	background-color: #8db381;
+}
+.segment.filled.segment-6 {
+	background-color: #77b487;
+}
+.segment.filled.segment-7 {
+	background-color: #63aa7d;
+}
+.segment.filled.segment-8 {
+	background-color: #55966d;
+}
+.segment.filled.segment-9 {
+	background-color: #4e7956;
 }
