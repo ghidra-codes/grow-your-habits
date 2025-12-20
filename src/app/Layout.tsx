@@ -1,12 +1,13 @@
+import AppEvents from "@/features/notifications/AppEvents";
 import StatsModalView from "@/features/statistics/StatsModalView";
 import { useAuthLoading, useAuthSession } from "@/store/useAuthStore";
 import { useStatsModalActions, useStatsModalOpen } from "@/store/useStatsModalStore";
+import { useVisualViewportHeight } from "@/ui/hooks/useVisualViewportHeight";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import Modal from "@/ui/Modal";
 import Navbar from "@/ui/Navbar";
-import { Navigate, Outlet } from "react-router";
-import AppEvents from "@/features/notifications/AppEvents";
 import { TooltipProvider } from "@/ui/tooltip/TooltipContext";
+import { Navigate, Outlet } from "react-router";
 
 const Layout = () => {
 	const session = useAuthSession();
@@ -14,6 +15,8 @@ const Layout = () => {
 
 	const isOpen = useStatsModalOpen();
 	const { close } = useStatsModalActions();
+
+	useVisualViewportHeight();
 
 	if (loading) return <LoadingSpinner />;
 

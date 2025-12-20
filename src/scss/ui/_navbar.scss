@@ -5,10 +5,7 @@
 	left: 0;
 	top: 0;
 
-	/* Fallback for browsers that do not support svh */
-	height: 100vh;
-	height: 100svh;
-
+	height: var(--vvh, 100vh);
 	width: var(--sidebar-width);
 
 	background-color: $rich-black-lightest;
