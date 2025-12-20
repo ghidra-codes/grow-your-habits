@@ -12,8 +12,6 @@
 	padding: 1.25rem 0.5rem 0.75rem 0.25rem;
 	box-shadow: 3px 0 8px rgba(0, 0, 0, 0.2);
 
-	will-change: transform;
-	transform: translateZ(0);
 	z-index: 1;
 
 	ul {
@@ -107,7 +105,6 @@
 
 			transform: translateY(-0.75rem);
 			transition: transform 0.15s ease-out;
-			will-change: transform;
 		}
 	}
 }

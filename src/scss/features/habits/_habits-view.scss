@@ -108,20 +108,22 @@
 			border: none;
 			padding: 0;
 
-			&.add-habit-btn {
+			&.add-habit-btn svg {
 				color: $green-primary;
 			}
 
-			&.edit-habit-btn {
+			&.edit-habit-btn svg {
 				color: $accent-gold;
 			}
 
-			&.delete-habit-btn {
+			&.delete-habit-btn svg {
 				color: $alert-red;
 			}
 
 			&.stats-habit-btn {
-				color: $cyan;
+				svg {
+					color: $cyan;
+				}
 
 				&:disabled {
 					opacity: 0.4;

@@ -35,7 +35,6 @@ body {
 
 main {
 	flex: 1;
-	// Could we color this space the same as the navbar bg?
 	margin-left: var(--sidebar-width);
 
 	overflow-y: auto;
@@ -79,4 +78,8 @@ img {
 	display: inline-block;
 	max-width: 100%;
 	height: auto;
+}
+
+svg {
+	color: $off-white;
 }
