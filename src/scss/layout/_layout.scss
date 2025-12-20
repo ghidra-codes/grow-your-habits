@@ -18,6 +18,20 @@
 			text-align: left;
 		}
 	}
+
+	.nav-backdrop {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100vh;
+
+		width: var(--sidebar-width);
+
+		background-color: $rich-black-lightest;
+
+		pointer-events: none;
+		z-index: 0;
+	}
 }
 
 .divider-line {

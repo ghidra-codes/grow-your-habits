@@ -25,6 +25,7 @@ const Layout = () => {
 	return (
 		<div className="app-container">
 			<TooltipProvider>
+				<div className="nav-backdrop" />
 				<Navbar />
 
 				<AppEvents />
