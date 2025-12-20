@@ -4,8 +4,12 @@
 	position: fixed;
 	left: 0;
 	top: 0;
-	bottom: 0;
-	width: 80px;
+
+	/* Fallback for browsers that do not support svh */
+	height: 100vh;
+	height: 100svh;
+
+	width: var(--sidebar-width);
 
 	background-color: $rich-black-lightest;
 	padding: 1.25rem 0.5rem 0.75rem 0.25rem;
