@@ -20,9 +20,14 @@
 		@include flex-center;
 		flex-direction: column;
 		text-align: center;
+		max-width: 450px;
 
 		h2 {
 			margin: 0 0 1rem 0;
+		}
+
+		.auth-message {
+			white-space: nowrap;
 		}
 	}
 

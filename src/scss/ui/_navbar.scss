@@ -4,7 +4,7 @@
 	position: fixed;
 	left: 0;
 	top: 0;
-	height: 100dvh;
+	bottom: 0;
 	width: 80px;
 
 	background-color: $rich-black-lightest;
@@ -13,7 +13,6 @@
 
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	gap: 1rem;
 
 	will-change: transform;
@@ -95,6 +94,7 @@
 	}
 
 	.plant-health-wrapper {
+		margin-top: auto;
 		display: flex;
 		align-items: center;
 		letter-spacing: 0.06rem;
