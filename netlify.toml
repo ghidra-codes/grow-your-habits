@@ -1,0 +1,7 @@
+# Required for client-side routing (React Router)
+# Prevents 404 on page refresh or direct URL access
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

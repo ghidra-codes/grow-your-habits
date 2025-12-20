@@ -9,7 +9,6 @@
 }
 
 html {
-	scroll-behavior: smooth;
 	-webkit-text-size-adjust: 100%;
 	height: 100%;
 }
@@ -38,7 +37,7 @@ body {
 
 main {
 	flex: 1;
-	margin-left: 75px;
+	margin-left: 80px;
 	padding: 0 map.get($spacing, sm);
 
 	@include respond(sm) {
