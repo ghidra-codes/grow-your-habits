@@ -28,37 +28,27 @@ const FloatingParticles = () => {
 	}, []);
 
 	return (
-		<motion.div
+		<div
 			className="plant-particles"
-			initial={{ opacity: 0 }}
-			animate={{ opacity: fadeIn ? 1 : 0 }}
-			transition={{ duration: 1.6, ease: "easeOut" }}
-			aria-hidden="true"
+			style={{
+				position: "absolute",
+				inset: 0,
+				zIndex: 9999,
+				background: "rgba(255, 0, 0, 0.1)", // DEBUG
+			}}
 		>
-			{particles.map((particle, i) => (
-				<motion.div
-					key={i}
-					className="plant-particle"
-					initial={false}
-					animate={{
-						top: [`${particle.start}%`, `${particle.end}%`],
-						opacity: [0, 0.5, 0],
-					}}
-					transition={{
-						duration: particle.duration,
-						delay: particle.delay,
-						repeat: Infinity,
-						ease: "linear",
-					}}
-					style={{
-						left: `${particle.left}%`,
-						width: particle.size,
-						height: particle.size,
-						top: `${particle.start}%`,
-					}}
-				/>
-			))}
-		</motion.div>
+			<div
+				style={{
+					position: "absolute",
+					top: "50%",
+					left: "50%",
+					width: 8,
+					height: 8,
+					background: "red",
+					transform: "translate(-50%, -50%)",
+				}}
+			/>
+		</div>
 	);
 };
 
