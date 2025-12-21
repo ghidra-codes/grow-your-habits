@@ -17,23 +17,29 @@
 		border-radius: 0.5rem;
 
 		p {
-			@include fluid-type(small-text);
+			font-size: 0.85rem;
 			color: rgba($off-white, 0.8);
+			margin: 0;
+
+			@include respond(sm) {
+				@include fluid-type(small-text);
+			}
+		}
+
+		@include respond(lg) {
 			margin: 0;
 		}
 	}
 
-	.insights-list-wrapper {
-		.insights-list-info {
-			letter-spacing: 0.08em;
-			@include fluid-type(micro-text);
-			opacity: 0.6;
-		}
+	.insights-list-info {
+		letter-spacing: 0.08em;
+		@include fluid-type(micro-text);
+		opacity: 0.6;
+	}
 
-		.insights-list {
-			margin-top: 3.25rem;
-			position: relative;
-		}
+	.insights-list {
+		position: relative;
+		margin-top: 3.25rem;
 	}
 
 	.divider {
@@ -46,7 +52,7 @@
 		width: fit-content;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.25rem;
 		margin: 1.25rem 0;
 		@include fluid-type(small-text);
 		background-color: $rich-black-lighter;

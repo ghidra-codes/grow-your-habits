@@ -59,19 +59,13 @@ const InsightsView = () => {
 
 			<div className="divider" aria-hidden="true" />
 
-			<div className="insights-list-wrapper">
-				<p className="insights-list-info" id="insights-instruction">
-					Click the top card for more insights.
-				</p>
+			<p className="insights-list-info" id="insights-instruction">
+				Click the top card for more insights.
+			</p>
 
-				<ul
-					className="insights-list"
-					aria-label="Insights list"
-					aria-describedby="insights-instruction"
-				>
-					<InsightsList key={insights.map((i) => i.id).join("_")} rawInsights={insights} />
-				</ul>
-			</div>
+			<ul className="insights-list" aria-label="Insights list" aria-describedby="insights-instruction">
+				<InsightsList key={insights.map((i) => i.id).join("_")} rawInsights={insights} />
+			</ul>
 		</div>
 	);
 };
