@@ -49,7 +49,7 @@ const InsightCard = ({
 			onClick={index === 0 ? handleClick : undefined}
 			initial={{ y: 0 }}
 			animate={{
-				y: isAnimating ? 145 : hasEntered ? index * -12 : 0,
+				y: isAnimating ? 175 : hasEntered ? index * -12 : 0,
 				rotate: isAnimating ? -2 : 0,
 				boxShadow: !hasEntered
 					? isTopCard
