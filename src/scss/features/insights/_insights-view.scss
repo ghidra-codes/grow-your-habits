@@ -10,25 +10,16 @@
 
 	.insights-description {
 		width: fit-content;
+		margin: 0 auto;
 		padding: 0.5rem 0.75rem;
 		background-color: $rich-black-surface;
 		border: 1px solid rgba($green-light, 0.8);
 		border-radius: 0.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
 
 		p {
 			@include fluid-type(small-text);
 			color: rgba($off-white, 0.8);
 			margin: 0;
-
-			&:last-of-type {
-				margin-bottom: 0.25rem;
-				color: $jet-brighter;
-				font-weight: 500;
-				font-size: 0.875rem;
-			}
 		}
 	}
 
