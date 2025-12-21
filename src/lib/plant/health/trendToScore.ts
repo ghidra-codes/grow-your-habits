@@ -1,16 +1,10 @@
 import type { TrendDirection } from "@/types/statistic.types";
 
-export const trendToScore = (trend: TrendDirection): number => {
-	switch (trend) {
-		case "improving":
-			return 100;
-		case "strong":
-			return 90;
-		case "stable":
-			return 60;
-		case "declining":
-			return 20;
-		default:
-			return 0;
-	}
+const TREND_SCORE: Record<TrendDirection, number> = {
+	improving: 100,
+	strong: 90,
+	stable: 60,
+	declining: 20,
 };
+
+export const trendToScore = (trend: TrendDirection): number => TREND_SCORE[trend];

@@ -1,7 +1,10 @@
+const MAX_STREAK_FOR_FULL_HEALTH = 12;
+
 export const getStreakHealth = (currentStreak: number): number => {
-	if (currentStreak >= 7) return 100;
+	if (currentStreak <= 0) return 0;
 
-	if (currentStreak >= 3) return 65;
+	const clamped = Math.min(currentStreak, MAX_STREAK_FOR_FULL_HEALTH);
+	const ratio = clamped / MAX_STREAK_FOR_FULL_HEALTH;
 
-	return Math.max(0, currentStreak * 20);
+	return Math.round(ratio * 100);
 };
