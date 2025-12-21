@@ -13,10 +13,11 @@ interface PlantHealthArgs {
 export const calculatePlantHealth = ({ habitId, recentMap, streakMap, trend }: PlantHealthArgs): number => {
 	const adherence = recentMap[habitId]?.last7 ?? 0;
 
+	const inactive = adherence === 0;
+
+	const trendScore = inactive ? 0 : trendToScore(trend);
 	const currentStreak = streakMap[habitId]?.currentStreak ?? 0;
 	const streakHealth = getStreakHealth(currentStreak);
-
-	const trendScore = trendToScore(trend);
 
 	const score = adherence * 0.5 + streakHealth * 0.3 + trendScore * 0.2;
 

@@ -76,7 +76,7 @@ export type StreakMap = Record<string, Streak>;
 
 // TREND
 
-export type TrendDirection = "improving" | "stable" | "declining";
+export type TrendDirection = "strong" | "improving" | "stable" | "declining";
 
 // TIMELINE CAROUSEL PROPS
 

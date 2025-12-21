@@ -77,6 +77,9 @@ export const calculateTrendDirection = (habit: HabitWithLogs, frequency: Frequen
 		recent = getAdherencePercent(recentDays, expectedPerDay, completionMap);
 	}
 
+	// HIGH CONISTENCY OVERRIDE
+	if (recent >= 85 && previous >= 85) return "strong";
+
 	const diff = recent - previous;
 
 	if (diff >= TREND_THRESHOLD) return "improving";

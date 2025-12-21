@@ -1,12 +1,8 @@
+import { getDailyGrowthAmount } from "@/lib/plant/growth";
 import { supabase } from "@/lib/supabase/supabase-client";
 import type { PlantState, PlantStateInsert, PlantStateUpdate } from "@/types/plant.types";
 import type { ServiceResponse } from "@/types/service.types";
 import { startOfDay, subDays } from "date-fns";
-
-const getDailyGrowthAmount = (health: number): number => {
-	if (health < 10) return 0;
-	return Math.round(1 + health / 20);
-};
 
 /**
  * Fetch plant_state row for a specific user.

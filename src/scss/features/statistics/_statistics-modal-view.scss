@@ -221,6 +221,14 @@
 				@include fluid-type(large-text);
 			}
 
+			&.trend-strong {
+				color: $green-secondary;
+
+				svg {
+					color: $green-secondary;
+				}
+			}
+
 			&.trend-improving {
 				color: $green-primary;
 

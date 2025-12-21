@@ -25,6 +25,9 @@ export const usePlantHealth = () => {
 		// SERVER DEATH IS FINAL
 		if (server === 0) return 0;
 
+		// CRITICAL, TRUST SERVER
+		if (server < 20) return server;
+
 		// BASELINE
 		if (!hasHabitLogs) return BASELINE_HEALTH;
 

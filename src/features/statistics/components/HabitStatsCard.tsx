@@ -52,6 +52,7 @@ const HabitStatsCard = ({
 	];
 
 	const TREND_ICONS = {
+		strong: <PiArrowFatRight size={21} aria-hidden />,
 		improving: <PiArrowFatLineUp size={21} aria-hidden />,
 		stable: <PiArrowFatRight size={21} aria-hidden />,
 		declining: <PiArrowFatLineDown size={21} aria-hidden />,
