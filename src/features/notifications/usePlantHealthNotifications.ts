@@ -22,7 +22,8 @@ export const usePlantHealthNotifications = () => {
 		if (!data) return;
 
 		const serverHealth = data.state.last_submitted_health;
-		if (serverHealth == null) return;
+
+		if (serverHealth == null || serverHealth === 0) return;
 
 		const currentBand = getHealthBand(serverHealth);
 

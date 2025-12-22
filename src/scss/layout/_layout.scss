@@ -3,7 +3,7 @@
 .app-container {
 	display: flex;
 	overflow-x: hidden;
-	min-height: var(--vvh, 100dvh);
+	min-height: 100vh;
 
 	.content-wrapper {
 		max-width: 1525px;

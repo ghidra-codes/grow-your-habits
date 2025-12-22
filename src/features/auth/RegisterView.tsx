@@ -25,6 +25,7 @@ const RegisterView = () => {
 			setSuccess(true);
 		} catch (err) {
 			setError(getErrorMsg(err));
+			console.log("err:", err);
 		} finally {
 			setLoading(false);
 		}
