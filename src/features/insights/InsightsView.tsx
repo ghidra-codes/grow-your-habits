@@ -52,7 +52,7 @@ const InsightsView = () => {
 			<h2 className="view-heading">Insights</h2>
 
 			<div className="insights-description">
-				<p>Here are insights based on your habits and plant growth.</p>
+				<p>Based on your habits and plant growth.</p>
 				<p>Insights improve as you log more.</p>
 			</div>
 
