@@ -1,4 +1,3 @@
-import { getDailyCompletionMap } from "@/lib/habits";
 import type { AdherenceMap, HabitWithLogs, RecentAdherenceMap } from "@/types/habit.types";
 import type { HabitRef, InsightContext } from "@/types/insight.types";
 import type { StreakMap } from "@/types/statistic.types";
@@ -28,11 +27,12 @@ export const buildInsightContext = ({
 	const completions: number[] = Array(7).fill(0);
 
 	for (const habit of habits) {
-		for (const [date, done] of Object.entries(getDailyCompletionMap(habit))) {
-			if (!done) continue;
+		for (const log of habit.logs ?? []) {
+			const date = new Date(log.log_date);
 
-			const weekday = startOfDay(new Date(date)).getDay();
+			const weekday = date.getDay();
 			const normalized = weekday === 0 ? 6 : weekday - 1;
+
 			completions[normalized]++;
 		}
 	}
