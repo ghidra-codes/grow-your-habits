@@ -21,11 +21,9 @@ body {
 	font-size: 1.25rem;
 	font-family: "Inter", sans-serif;
 	line-height: 1.6;
-	color: $off-white;
-
 	color-scheme: dark;
-	overflow-x: hidden;
 
+	color: $off-white;
 	background-color: $rich-black;
 
 	@include respond(lg) {
@@ -37,7 +35,6 @@ main {
 	flex: 1;
 	margin-left: var(--sidebar-width);
 
-	overflow-y: auto;
 	overscroll-behavior: contain;
 	-webkit-overflow-scrolling: touch;
 
