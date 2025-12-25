@@ -20,6 +20,7 @@ import { useHabitModal } from "./hooks/useHabitModal";
 const HabitsView = () => {
 	const [selectedHabit, setSelectedHabit] = useState<HabitWithLogs | null>(null);
 	const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+	const [introDismissed, setIntroDismissed] = useState(false);
 
 	const userId = useUserIdRequired();
 
@@ -47,6 +48,17 @@ const HabitsView = () => {
 		setSelectedHabit(null)
 	);
 
+	const dismissIntro = () => {
+		localStorage.setItem("seen_intro", "true");
+		setIntroDismissed(true);
+	};
+
+	const hasHabits = !!habits && habits.length > 0;
+	const hasSeenIntro = localStorage.getItem("seen_intro") === "true";
+
+	const isNewUser = !hasHabits && !hasSeenIntro;
+	const showIntro = isNewUser && !introDismissed;
+
 	if (isLoading) return <LoadingSpinner />;
 	if (isError)
 		return (
@@ -68,17 +80,40 @@ const HabitsView = () => {
 					onEdit={() => openModal("edit")}
 					onDelete={() => handleDeleteHabit()}
 					onOpenStats={() => selectedHabit && open(selectedHabit)}
-					hasHabits={!!habits && habits.length > 0}
+					hasHabits={hasHabits}
 				/>
 
-				{habits && habits.length === 0 && (
+				{!hasHabits && (
 					<div className="habits-empty-state">
-						<p>No habits found.</p>
-						<p>Add a habit to get started.</p>
+						{showIntro ? (
+							<>
+								<h3>Welcome to Grow Your Habits</h3>
+
+								<p>How to get started:</p>
+
+								<ol>
+									<li>Create a habit (e.g. reading)</li>
+									<li>Log it when completed</li>
+									<li>Your plant reflects progress</li>
+									<li>Consistency keeps it healthy</li>
+								</ol>
+
+								<p className="habit-tip">Progress beats perfection.</p>
+
+								<button className="dismiss-intro" onClick={dismissIntro}>
+									Got it
+								</button>
+							</>
+						) : (
+							<>
+								<p>No habits found.</p>
+								<p>Add a habit to get started.</p>
+							</>
+						)}
 					</div>
 				)}
 
-				{habits && habits.length > 0 && (
+				{hasHabits && (
 					<ul className="habits-list">
 						<HabitListItem
 							habits={habits}
