@@ -9,6 +9,9 @@ const STREAK_PROCESSORS = {
 	monthly: calculateMonthlyStreak,
 } as const;
 
+/**
+ * Calculates streak data for a habit based on its frequency type.
+ */
 export const calculateStreaks = (habit: HabitWithLogs) => {
 	const processor = STREAK_PROCESSORS[habit.frequency_type];
 

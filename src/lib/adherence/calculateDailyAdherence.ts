@@ -10,6 +10,10 @@ import { getWeightedDailyConsistency } from "./getWeightedDailyConsistency";
  * - Recent behavior matters more than old
  * - Adherence reflects consistency, not effort
  */
+
+/**
+ * Calculates adherence for daily habits using weighted consistency.
+ */
 export const calculateDailyAdherence = (habit: HabitWithLogs): HabitAdherence => {
 	if (habit.frequency_type !== "daily") {
 		throw new Error("calculateDailyAdherence called for non-daily habit");

@@ -3,6 +3,11 @@ import { ORIGINAL_PLANT_COLORS } from "../constants/plant-colors";
 
 const escape = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+/**
+ * Recolors an SVG string by replacing known plant color values.
+ * Matches both hex and RGB representations to ensure consistent
+ * recoloring across differently formatted SVG sources.
+ */
 export const recolorSvg = (svg: string, profile: Record<string, string>): string => {
 	let output = svg;
 

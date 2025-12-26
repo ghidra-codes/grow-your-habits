@@ -12,6 +12,11 @@ interface PlantSvgAnimatedProps {
 
 type CSSVars = React.CSSProperties & Record<`--${string}`, string>;
 
+/**
+ * Renders an animated SVG representation of the plant with stage-based motion.
+ * Applies dynamic recoloring, glow effects, and CSS-driven sway animations
+ * derived from the current plant stage.
+ */
 const PlantSvgAnimated = ({ stage, glowColor, profile }: PlantSvgAnimatedProps) => {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const [ready, setReady] = useState(false);

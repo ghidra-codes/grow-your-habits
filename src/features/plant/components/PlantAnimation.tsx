@@ -10,6 +10,11 @@ interface Props {
 	profile: Record<string, string>;
 }
 
+/**
+ * Renders a stage-specific Lottie animation for the plant.
+ * Applies dynamic recoloring based on the active color profile and
+ * guarantees the completion callback fires only once per animation.
+ */
 const PlantAnimation = ({ onComplete, stage, profile }: Props) => {
 	const animData = useMemo(() => {
 		const originalJson = PLANT_ANIMATIONS[stage];

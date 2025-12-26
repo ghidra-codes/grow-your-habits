@@ -1,6 +1,9 @@
 import type { EmblaCarouselType } from "embla-carousel";
 import { useEffect, useState } from "react";
 
+/**
+ * Provides navigation state and controls for an Embla carousel instance.
+ */
 export const useEmblaNavigation = (emblaApi: EmblaCarouselType | null) => {
 	const [canPrev, setCanPrev] = useState(false);
 	const [canNext, setCanNext] = useState(false);

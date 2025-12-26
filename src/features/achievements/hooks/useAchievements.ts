@@ -10,6 +10,11 @@ import { ACHIEVEMENTS } from "../config/achievements";
 import { useUnlockAchievement } from "./mutations/useAchievementUnlock";
 import { useAchievementsQuery } from "./queries/useAchievementsQuery";
 
+/**
+ * Manages achievement state, filtering, and unlock detection for a user.
+ * Evaluates achievement conditions against a changing context and triggers
+ * unlock mutations when new achievements are earned.
+ */
 export const useAchievements = (
 	userId: string,
 	context: AchievementContext,

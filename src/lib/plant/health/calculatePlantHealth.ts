@@ -10,6 +10,11 @@ interface PlantHealthArgs {
 	trend: TrendDirection;
 }
 
+/**
+ * Calculates a single habit's contribution to plant health.
+ * Combines recent adherence, current streak strength, and behavioral trend
+ * into a weighted score normalized to a discrete value.
+ */
 export const calculatePlantHealth = ({ habitId, recentMap, streakMap, trend }: PlantHealthArgs): number => {
 	const adherence = recentMap[habitId]?.last7 ?? 0;
 

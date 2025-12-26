@@ -1,5 +1,8 @@
 import { PLANT_RECOLOR_PROFILES } from "../constants/plant-recolor-profiles";
 
+/**
+ * Selects an appropriate plant color profile based on health level.
+ */
 export const getPlantColorProfile = (health: number) => {
 	if (health <= 0) return null;
 

@@ -3,6 +3,11 @@ import { useHabitsQuery } from "@/features/habits/hooks/queries/useHabitsQuery";
 import { hasAnyHabitLogs } from "@/lib/habits/hasAnyHabitLogs";
 import { usePlantStateQuery } from "../queries/usePlantStateQuery";
 
+/**
+ * Determines whether the user has access to statistics and insights views.
+ * Access is granted only once the plant state is initialized and at least
+ * one habit has recorded activity.
+ */
 export const useStatsAndInsightsAccess = () => {
 	const userId = useUserIdRequired();
 

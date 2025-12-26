@@ -6,6 +6,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef } from "react";
 import { useIncrementDeathCount } from "../mutations/useIncrementDeathCount";
 
+/**
+ * Synchronizes derived plant health with the server in a safe and debounced manner.
+ * Handles edge cases such as death, revival, and initialization while keeping
+ * the local cache and persistent state fully consistent.
+ */
 export const useSyncPlantHealth = (
 	userId: string,
 	plantHealth: number,

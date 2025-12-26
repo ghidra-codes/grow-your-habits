@@ -2,6 +2,9 @@ import { AnimatePresence } from "motion/react";
 import { useCurrentNotification, useNotificationActions } from "@/store/useNotificationStore";
 import NotificationItem from "./NotificationItem";
 
+/**
+ * Renders and manages the global notification stack.
+ */
 const NotificationProvider = () => {
 	const current = useCurrentNotification();
 	const { next, close } = useNotificationActions();

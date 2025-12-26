@@ -9,6 +9,12 @@ import { usePlantStateQuery } from "../queries/usePlantStateQuery";
 import { useCalculatedPlantHealth } from "./useCalculatedPlantHealth";
 import { useSyncPlantHealth } from "./useSyncPlantHealth";
 
+/**
+ * Orchestrates the full plant health lifecycle by combining server state,
+ * derived habit-based health, and baseline fallbacks.
+ * Determines the final displayed health value and ensures authoritative
+ * server sync with notifications for critical state changes.
+ */
 export const usePlantHealth = () => {
 	const userId = useUserIdRequired();
 

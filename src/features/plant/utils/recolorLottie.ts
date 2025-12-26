@@ -31,6 +31,11 @@ const isColorProp = (value: unknown): value is ColorValue => {
 	return true;
 };
 
+/**
+ * Recursively recolors a Lottie animation JSON structure.
+ * Maps original plant colors to target profile colors using
+ * normalized RGB matching for reliable replacements.
+ */
 export const recolorLottie = (json: LottieAnimation, profile: Record<string, string>): LottieAnimation => {
 	const originalMap: Record<string, RGBA> = {};
 	const targetMap: Record<string, RGBA> = {};

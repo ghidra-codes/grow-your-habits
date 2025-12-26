@@ -4,6 +4,11 @@ import { usePlantStateQuery } from "@/features/plant/hooks/queries/usePlantState
 import { useHabitAdherenceMap } from "@/features/habits/hooks/derived/useHabitAdherenceMap";
 import { useStatsStreakMap } from "@/features/statistics/hooks/useStatsStreakMap";
 
+/**
+ * Builds a consolidated context used for achievement evaluation.
+ * Aggregates habit metrics, adherence, streak data, and plant state
+ * into a single derived snapshot.
+ */
 export const useAchievementContext = (userId: string) => {
 	const { data: habits = [] } = useHabitsQuery(userId);
 

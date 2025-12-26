@@ -6,6 +6,11 @@ import type { HabitWithLogs } from "@/types/habit.types";
 import type { PlantHealth } from "@/types/plant.types";
 import { useMemo } from "react";
 
+/**
+ * Computes the aggregated plant health score based on all habits.
+ * Each habit contributes via recent adherence, streak strength, and trend,
+ * producing a sanitized average health value.
+ */
 export const useCalculatedPlantHealth = (habits: HabitWithLogs[], hasHabitLogs: boolean): PlantHealth => {
 	const streakMap = useStatsStreakMap(habits ?? []);
 	const recentMap = useRecentAdherenceMap(habits ?? []);

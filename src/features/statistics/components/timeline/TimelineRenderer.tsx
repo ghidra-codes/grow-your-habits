@@ -10,7 +10,11 @@ interface TimelineRendererProps {
 	habit: HabitWithLogs;
 	mode: TimelineViewMode;
 }
-
+/**
+ * Renders the appropriate timeline carousel based on habit frequency.
+ * Acts as a thin dispatcher that selects daily, weekly, or monthly
+ * timeline views without containing business logic.
+ */
 const TimelineRenderer: React.FC<TimelineRendererProps> = ({ frequency, habit, mode }) => {
 	switch (frequency) {
 		case "daily":
